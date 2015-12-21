@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2015-12-21T13:15:45.000Z</updated>
+  <updated>2015-12-21T13:21:55.000Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/"/>
     <id>http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/</id>
     <published>2015-07-21T13:13:44.000Z</published>
-    <updated>2015-12-21T13:15:45.000Z</updated>
+    <updated>2015-12-21T13:21:55.000Z</updated>
     <content type="html"><![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。</p>
 <p>首先使用 0 作为数组第一位并不一定是一个正确的做法， 事实上也有以 1 作为首位的编程语言存在（Matlab，Fortran， Lua等），在 Dijkstra 的文章里他提出的证明思路是这样的：为表示一段离散的自然数集合例如 [4, 5, 6] 可以使用的公式有四种：<br>a. 4 ≤ i &lt; 7<br>b. 3 &lt; i ≤ 6<br>c. 4 ≤ i ≤ 6<br>d. 3 &lt; i &lt; 7</p>
 <p>这四种表达方式的含义是一样的，那么他们之间是否有优劣之分？ 是有的，考虑如果数值中包含自然数的最小值，那么 bd 的表达方式中下界就要使用非自然数这样是不完美的，所以首先排除。其次考虑 ac 如果这个集合是空集，用 c 是无法表达的（右侧的值大于等于左侧），于是就得到表达集合的最佳方式 4 ≤ i &lt; 7.</p>
