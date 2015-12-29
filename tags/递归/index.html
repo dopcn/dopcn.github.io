@@ -236,8 +236,6 @@
 <p>SICP 序</p>
 <p>在这一层次的课程里，最基本的材料并不是特定的程序设计语言语法，不是有效计算某种功能的巧妙算法，也不是算法的数学分析或者计算的本质，而是一些能够用于控制大型软件系统的智力复杂性的技术</p>
 <p>SICP 前言</p>
-<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象</p>
-<p>SICP 第一章</p>
 </blockquote>
 <p>计算机程序中对象可以大体分为两类：数据和过程。数据是那些需要去操作的东西，过程则是具体操作的指令。要求解复合过程的结果需要先得到子过程的结果，求子过程的结果需要得到子过程的子过程的结果，一次类推直到某一层子过程是最基本的表达式得到求值结果，这就是递归。</p>
 <h3 id="u9012_u5F52_u7684_u7B80_u5355_u5E94_u7528_uFF0C_u6B27_u51E0_u91CC_u5F97_u7B97_u6CD5_u6C42_u6700_u5927_u516C_u7EA6_u6570"><a href="#u9012_u5F52_u7684_u7B80_u5355_u5E94_u7528_uFF0C_u6B27_u51E0_u91CC_u5F97_u7B97_u6CD5_u6C42_u6700_u5927_u516C_u7EA6_u6570" class="headerlink" title="递归的简单应用，欧几里得算法求最大公约数"></a>递归的简单应用，欧几里得算法求最大公约数</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">gcd</span><span class="params">(x x: Int, y: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> y == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> gcd(x: y, y: x%y)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

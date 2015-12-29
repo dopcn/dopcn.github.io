@@ -208,6 +208,66 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2015/11/09/procedure-abstraction/">
+                            构建过程抽象
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Mon Nov 09 2015 22:54:21 GMT+0800">
+	
+		    11月 09, 2015
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/计算机科学/">计算机科学</a>
+
+
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <blockquote>
+<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象</p>
+<p>SICP 第一章</p>
+<p>现存的许多威力强大的程序设计技术，都依赖于填平在「被动的」数据和「主动的」过程之间的传统划分</p>
+<p>SICP 第一章</p>
+</blockquote>
+<p>计算机程序是由需要被操作的「数据」和操作数据的「过程」构成。解释起来可以说是一静一动，数据所代表的静态的具体某个值，而过程则是动态的代表从一个值到另一个值的转化。和数学研究很像不光研究函数对值的作用，还研究函数本身，计算机编程过程中也不光用过程作用于数据，也可以处理过程本身就像作用于数据之上那样。</p>
+<h3 id="u8FC7_u7A0B_u4F5C_u4E3A_u53C2_u6570"><a href="#u8FC7_u7A0B_u4F5C_u4E3A_u53C2_u6570" class="headerlink" title="过程作为参数"></a>过程作为参数</h3><p>通过区间折半寻找方程的一个根</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> searchError: ErrorType &#123;</span><br><span class="line">    <span class="keyword">case</span> sameSign</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func isCloseEnough(x x: <span class="type">Double</span>, y: <span class="type">Double</span>) -&gt; Bool &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">abs</span>(x-y) &lt; <span class="number">0.001</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func search(<span class="function"><span class="keyword">function</span></span> f: (<span class="type">Double</span>)-&gt;<span class="type">Double</span>, negPoint: <span class="type">Double</span>, posPoint: <span class="type">Double</span>) -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    let midPoint = (negPoint+posPoint)/<span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> isCloseEnough(x: negPoint, y: posPoint) &#123;</span><br><span class="line">        <span class="keyword">return</span> midPoint</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> f(midPoint) &lt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: midPoint, posPoint: posPoint)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: negPoint, posPoint: midPoint)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func halfIntervalSearch(<span class="function"><span class="keyword">function</span></span> f:(<span class="type">Double</span>)-&gt;<span class="type">Double</span>, x: <span class="type">Double</span>, y: <span class="type">Double</span>) throws -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    let a = f(x), b = f(y)</span><br><span class="line">    <span class="keyword">if</span> a &gt; <span class="number">0</span> &amp;&amp; b &lt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: y, posPoint: x)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> a &lt; <span class="number">0</span> &amp;&amp; b &gt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: x, posPoint: y)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        throw searchError.sameSign</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func f(x: <span class="type">Double</span>) -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> x*x*x - <span class="number">2</span>*x - <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    let result = try halfIntervalSearch(<span class="function"><span class="keyword">function</span></span>: f, x: <span class="number">1</span>, y: <span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br><span class="line">&#125; catch &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"error"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中函数 f 作为参数可以换成其他形式</p>
+<h3 id="u8FC7_u7A0B_u4F5C_u4E3A_u8FD4_u56DE_u503C"><a href="#u8FC7_u7A0B_u4F5C_u4E3A_u8FD4_u56DE_u503C" class="headerlink" title="过程作为返回值"></a>过程作为返回值</h3><p>函数求导</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func deriv<span class="function"><span class="params">(<span class="keyword">function</span> f:(Double)-&gt;Double)</span> -&gt;</span> <span class="function"><span class="params">(Double)</span>-&gt;</span>Double &#123;</span><br><span class="line">    <span class="keyword">let</span> dx = <span class="number">0.00001</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="function"><span class="params">(x:Double)</span>-&gt;</span>Double <span class="keyword">in</span> (f(x+dx)-f(x))/dx&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func cube<span class="function"><span class="params">(x:Double)</span> -&gt;</span> Double &#123;</span><br><span class="line">    <span class="keyword">return</span> x*x*x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">deriv(<span class="attribute">function</span>: cube)(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="u8FC7_u7A0B_u7684_u5355_u4E00_u8D23_u4EFB_u539F_u5219"><a href="#u8FC7_u7A0B_u7684_u5355_u4E00_u8D23_u4EFB_u539F_u5219" class="headerlink" title="过程的单一责任原则"></a>过程的单一责任原则</h3><p>过程是可以复合定义的，良好的定义应当保持各部分的解耦，例如第一个例子中对 <code>isCloseEnough</code> 过程的调整就可以做到完全不影响其他过程。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/11/09/procedure-abstraction/#post-footer" class="postShorten-excerpt_link link">
+                                注释和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2015/11/02/recursion/">
                             递归、动态规划和迭代
                         </a>
@@ -236,8 +296,6 @@
 <p>SICP 序</p>
 <p>在这一层次的课程里，最基本的材料并不是特定的程序设计语言语法，不是有效计算某种功能的巧妙算法，也不是算法的数学分析或者计算的本质，而是一些能够用于控制大型软件系统的智力复杂性的技术</p>
 <p>SICP 前言</p>
-<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象</p>
-<p>SICP 第一章</p>
 </blockquote>
 <p>计算机程序中对象可以大体分为两类：数据和过程。数据是那些需要去操作的东西，过程则是具体操作的指令。要求解复合过程的结果需要先得到子过程的结果，求子过程的结果需要得到子过程的子过程的结果，一次类推直到某一层子过程是最基本的表达式得到求值结果，这就是递归。</p>
 <h3 id="u9012_u5F52_u7684_u7B80_u5355_u5E94_u7528_uFF0C_u6B27_u51E0_u91CC_u5F97_u7B97_u6CD5_u6C42_u6700_u5927_u516C_u7EA6_u6570"><a href="#u9012_u5F52_u7684_u7B80_u5355_u5E94_u7528_uFF0C_u6B27_u51E0_u91CC_u5F97_u7B97_u6CD5_u6C42_u6700_u5927_u516C_u7EA6_u6570" class="headerlink" title="递归的简单应用，欧几里得算法求最大公约数"></a>递归的简单应用，欧几里得算法求最大公约数</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">gcd</span><span class="params">(x x: Int, y: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> y == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> gcd(x: y, y: x%y)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
