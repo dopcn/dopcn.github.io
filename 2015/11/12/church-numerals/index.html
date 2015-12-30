@@ -23,7 +23,7 @@
 <meta property="og:description" content="复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为
 123456789101112func zero&amp;lt;T&amp;gt;(f:(T-&amp;gt;T)) -&amp;gt; T-&amp;gt;T &amp;#123;    return &amp;#">
 <meta property="og:image" content="http://blog.fengweizhou.com/1.jpg">
-<meta property="og:updated_time" content="2015-12-30T04:46:56.000Z">
+<meta property="og:updated_time" content="2015-12-30T04:47:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用过程复合数据">
 <meta name="twitter:description" content="复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为
@@ -237,8 +237,8 @@
 <p>形式上讲 church 计数的正整数可以看做应用参数函数的过程，0 是应用 0 次直接返回原值，1 是返回应用 1 次得到的返回值，以此类推。加法的定义是先应用第一个加数次，再应用第二个加数次，乘法是应用次数之积次</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func plus&lt;<span class="literal">T</span>&gt;(operand1 operand1: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>, operand2: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> operand2(f)(operand1(f)(x))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func mult&lt;<span class="literal">T</span>&gt;(operand1 operand1: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>, operand2: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> operand2(operand1(f))(x)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>减法的定义先考虑简单的情况，任意给定一个过程进行减 1，从概念上讲应该是应用给定过程的减 1 次，实现方法：</p>
-<a id="more"></a>
-<p><img src="1.jpg" alt=""> 我没想出来</p>
+<p><img src="1.jpg" alt=""> </p>
+<p>我没想出来</p>
 
             
                 
