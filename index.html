@@ -202,7 +202,7 @@
 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
@@ -229,7 +229,7 @@
             </div>
             
             
-                <div class="postShorten-content" itemprop="articleBody">
+                <div class="postShorten-excerpt" itemprop="articleBody">
                     <p>复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func zero&lt;<span class="literal">T</span>&gt;(f:(<span class="literal">T</span>-&gt;<span class="literal">T</span>)) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;x <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> x&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func add_1&lt;<span class="literal">T</span>&gt;(n:(<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> f(n(f)(x))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>0 是一个以函数为参数返回一个函数的过程，加1 运算是作用于类似 0 这样的过程之上返回一个新过程的函数，将 0 带入 加1 运算得到 1 的定义，带入 1 得到 2 的定义</p>
@@ -237,19 +237,11 @@
 <p>形式上讲 church 计数的正整数可以看做应用参数函数的过程，0 是应用 0 次直接返回原值，1 是返回应用 1 次得到的返回值，以此类推。加法的定义是先应用第一个加数次，再应用第二个加数次，乘法是应用次数之积次</p>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func plus&lt;<span class="literal">T</span>&gt;(operand1 operand1: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>, operand2: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> operand2(f)(operand1(f)(x))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func mult&lt;<span class="literal">T</span>&gt;(operand1 operand1: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>, operand2: (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> operand2(operand1(f))(x)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>减法的定义先考虑简单的情况，任意给定一个过程进行减 1，从概念上讲应该是应用给定过程的减 1 次，实现方法：</p>
-<p>&lt;– !more  –&gt;</p>
-<p><img src="1.jpg" alt=""> 我没想出来</p>
-
                     
+                        <a href="/2015/11/12/church-numerals/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2015/11/12/church-numerals/#post-footer" class="postShorten-excerpt_link link">
-                                注释和共享
-                            </a>
-                        </p>
                     
                 </div>
             
