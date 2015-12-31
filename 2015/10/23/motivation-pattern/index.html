@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="DOPCN">
-    <title>Git hooks 的几个用例 - DOPCN</title>
+    <title>我对内心动力模型的想法 - DOPCN</title>
     <meta name="author" content="Dopcn">
     
         <link rel="icon" href="/assets/images/favicon.ico">
@@ -14,25 +14,34 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。
-将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中
+    <meta name="description" content="缘起可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。
+什么是动力？首先先建立一个认识模型：
 
-从服务器 pull">
+ 一个人的精神活动由两部分组成：一是由大脑皮层控制的理性，二是由大脑内部脑干等控制的感性。
+
+简单的对这两个组成部分进行一个解释：
+理性，是一个人在后天的生活环境中通过社会环境的潜移默化和自">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Git hooks 的几个用例">
-<meta property="og:url" content="http://blog.fengweizhou.com/2015/09/22/githooks/index.html">
+<meta property="og:title" content="我对内心动力模型的想法">
+<meta property="og:url" content="http://blog.fengweizhou.com/2015/10/23/motivation-pattern/index.html">
 <meta property="og:site_name" content="DOPCN">
-<meta property="og:description" content="自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。
-将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中
+<meta property="og:description" content="缘起可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。
+什么是动力？首先先建立一个认识模型：
 
-从服务器 pull">
-<meta property="og:updated_time" content="2015-12-21T16:06:17.000Z">
+ 一个人的精神活动由两部分组成：一是由大脑皮层控制的理性，二是由大脑内部脑干等控制的感性。
+
+简单的对这两个组成部分进行一个解释：
+理性，是一个人在后天的生活环境中通过社会环境的潜移默化和自">
+<meta property="og:updated_time" content="2015-12-31T02:43:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git hooks 的几个用例">
-<meta name="twitter:description" content="自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。
-将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中
+<meta name="twitter:title" content="我对内心动力模型的想法">
+<meta name="twitter:description" content="缘起可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。
+什么是动力？首先先建立一个认识模型：
 
-从服务器 pull">
+ 一个人的精神活动由两部分组成：一是由大脑皮层控制的理性，二是由大脑内部脑干等控制的感性。
+
+简单的对这两个组成部分进行一个解释：
+理性，是一个人在后天的生活环境中通过社会环境的潜移默化和自">
 <meta name="twitter:creator" content="@dopcn">
     
     
@@ -214,19 +223,19 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            Git hooks 的几个用例
+            我对内心动力模型的想法
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Tue Sep 22 2015 00:02:37 GMT+0800">
+    <time itemprop="datePublished" content="Fri Oct 23 2015 10:41:35 GMT+0800">
 	
-		    9月 22, 2015
+		    10月 23, 2015
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/软件工程/">软件工程</a>
+    <a class="category-link" href="/categories/其他/">其他</a>
 
 
     
@@ -235,30 +244,20 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。</p>
-<p>将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中</p>
-<ol>
-<li>从服务器 pull 下来后 <code>Podfile.lock</code> 发生变化，也就是本地 pod 和服务器中的不一致，需要 <code>pod install</code></li>
-<li>从服务器 pull 下来证书发生变化，在一个开发团队里每个人有自己的证书用于真机调试，需要改为自己的证书</li>
-<li>切换分支后  <code>Podfile.lock</code> 发生变化，需要 <code>pod install</code></li>
-</ol>
-<p>githooks 本身是一个个有固定名称的脚步，相当于有固定名称的 delegate 方法，在每一次执行所绑定 git 命令时触发，例如 <code>pre-commit</code> 和  <code>post-commit</code> 分别会在 <code>git commit</code> 的前后触发，<code>githooks</code> 可以是任意系统支持运行的脚本如 Shell Perl Python Ruby。</p>
-<p><code>githooks</code> 支持绑定的类型都列在了文档里 man githooks。为了实现场景1、2的自动化需要使用的是 <code>post-merge</code> 。<code>post-merge</code> 绑定的命令是 `git merge 和 git pull，post 前缀类型的 githook 不能影响 git 命令本身的执行，pre 前缀的 hook 可以。新版本的 git 项目在初始化的时候在根目录都建有 .git/hooks/ 目录，里面存放所有 hook ，打开这个文件夹里面默认有一些sample后缀的示例文件，去掉 .sample 这些示例才能真正运行，如果已经有 post-merge 去掉 sample 后缀，如果没有新建 post-merge 文件添加可执行权限 chmod +x post-merge，添加脚本内容：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env ruby</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#1</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'xcodeproj'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2</span></span><br><span class="line">cmd = <span class="string">' changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"</span><br><span class="line">echo "$changed_files" | grep --quiet "Podfile.lock" &amp;&amp; eval "pod install"</span><br><span class="line">echo "pod installed" '</span></span><br><span class="line"></span><br><span class="line">system( cmd )</span><br><span class="line"></span><br><span class="line"><span class="comment">#3</span></span><br><span class="line">xcproj = <span class="constant">Xcodeproj::Project</span>.open(<span class="string">"DroppingBall.xcodeproj"</span>)</span><br><span class="line"></span><br><span class="line">xcproj.build_configurations.each <span class="keyword">do</span> |item|</span><br><span class="line">    item.build_settings[<span class="string">'CODE_SIGN_IDENTITY[sdk=iphoneos*]'</span>] = <span class="string">"iOS Development: Weizhou Feng (XXXXXXXXXX)"</span></span><br><span class="line">    item.build_settings[<span class="string">'PROVISIONING_PROFILE[sdk=iphoneos*]'</span>] = “xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxx<span class="string">"</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#4</span><br><span class="line">xcproj.save</span></span><br></pre></td></tr></table></figure>
-<p>第一行声明这是一个 Ruby 脚本，使用 Ruby 的原因是可以直接用 xcodeproj 这个库， cocoapods 使用这个库创建或修改xcode 的项目文件，这里需要用它修改 project.pbxproj 内容</p>
-<p>#1 引入 xcodeproj 库</p>
-<p>#2 pull 之后获取 git 状态还是 shell 命令方便不需要增加依赖，所以直接在脚本中调用 shell 命名可以分为三步：</p>
-<ol>
-<li>git diff 取得 pull 之后发生变化的所有文件名称</li>
-<li>grep 判断是否包含 Podfile.lock</li>
-<li>如果有执行 pod install<br>更新结束后在终端输出 pod installed</li>
-</ol>
-<p>#3 打开当前项目文件，DroppingBall 是这里的项目名称。读取构建模式一般有两种：Debug 和 Release，分别将其中的 build setting 选项 CODE_SIGN_IDENTITY 和 PROVISIONING_PROFILE 改为自己的，要赋的值可以现在 Xcode 中通过菜单选择正确的选项然后打开 project.pbxproj 把文本内容复制出来用</p>
-<p>#4 保存</p>
-<p>然后是情景3，切换分支需要的 hook 是 post-checkout，和上面一样保证 post-checkout 在文件夹里存在，添加内容：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh&#10;&#10;if ! diff -q &#34;Podfile.lock&#34; &#34;Pods/Manifest.lock&#34; &#62; /dev/null ; then&#10;    pod install&#10;fi</span><br></pre></td></tr></table></figure>
-<p>这次是 shell 脚本，所做的事情其实和 cocoapods 做的一样，只不过 cocoapods 的脚本会在 xcode 里生成一个 error: The sandbox is not in sync with the Podfile.lock. Run ‘pod install’ or update your CocoaPods installation. 这里则是直接执行 pod install</p>
-<p>资源：<br><a href="http://githooks.com" target="_blank" rel="external">http://githooks.com</a></p>
+            <h3 id="u7F18_u8D77"><a href="#u7F18_u8D77" class="headerlink" title="缘起"></a>缘起</h3><p>可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。</p>
+<h3 id="u4EC0_u4E48_u662F_u52A8_u529B_uFF1F"><a href="#u4EC0_u4E48_u662F_u52A8_u529B_uFF1F" class="headerlink" title="什么是动力？"></a>什么是动力？</h3><p>首先先建立一个认识模型：</p>
+<blockquote>
+<p> 一个人的精神活动由两部分组成：一是由大脑皮层控制的理性，二是由大脑内部脑干等控制的感性。</p>
+</blockquote>
+<p>简单的对这两个组成部分进行一个解释：</p>
+<p>理性，是一个人在后天的生活环境中通过社会环境的潜移默化和自己的主动学习培养起来的用于控制自己的一种能力，比如各种道德观念，有的时候可以称之为意识。</p>
+<p>感性，是一个人继承自生物本能的应对外界刺激的能力，比如情绪，也可以称之为潜意识，但我理解这里所使用的潜字并不是隐藏起来的意思，而是虽然知道他的存在却不能直接操纵的意思。</p>
+<p>理性是人可以直接操控的。例如，一个人在面领两个不同选择时会理性的选择更有利于自己的一个。而感性的控制则需要理性的间接操作。例如，你不可以直接控制自己的喜怒哀乐（情绪），但是可以通过做自己喜欢的事情激发自己的喜悦。</p>
+<p>基于这个模型，我认为<strong>一个真正能有效驱动自己的动力应该是两方面的，它即是理性上应该做的，也是感性上想要做的</strong>。应该做反映在是否有利，想要做反映在是否能够为自己带来正面的情绪。</p>
+<p>如果说动力就是一个目标或者因这个目标诞生的一个理由，那么一个动力一个大的目标就需要有两个子目标，才能构成一个完整的动力。一个目标是建立在外部标准之上的理性选择，比如说金钱、title；另一种目标是建立在自己的内部标准之上的是可以激发自己感性力量的，比如说是一件有趣的事。外部标准是明确的可以量化的，人人都看得懂理解得了，但内部标准恐怕往往会在别人眼里是觉得可笑的没有意义的。当我们在谈论一个目标的时候绝大多数情况下我们都是在谈论理性的目标，基于量化标准的成功，那么为什么激发自己感性力量是一个有效目标不可或缺的一部分？我认为这是因为两种力量对于人的控制<strong>理性胜在选择，感性胜在驱动</strong>，真正在起到驱动作用的其实是一个人感性的部分。在临近考试的时候你可以理性地选择挑灯夜战，但是这样的状态可以持续多久？而如果你是在做一件令你激动的事情（感性上的作用），比如打游戏刷剧，那么通宵达旦恐怕都在一瞬间。过度依赖理性的力量，你可以做出正确的事情，但是这个过程你很难去坚持，即使能够坚持在做这件事的过程中你也一定不爽；过度依赖感性的力量，你会沉迷，仅有情感性的刺激也同样是不能持续的。</p>
+<h3 id="u52A8_u529B_u7684_u7F3A_u5931"><a href="#u52A8_u529B_u7684_u7F3A_u5931" class="headerlink" title="动力的缺失"></a>动力的缺失</h3><p>制定一个理性的目标是非常简单的，因为理性的目标只是一个基于明确标准的选择。但是如前面所想到的理性的目标并不能构成一个有效的完整动力，纯粹理性作用的结果就往往是你知道自己应该做什么却不想去做，悬梁刺股的刻苦可以为你带来好的结局然而你是否想过这样的结果是你真的想要的吗，功不唐捐的自我安慰真的可以替代你内心的情感需要？</p>
+<p>在从小到大的受教育过程中，学到的大多是关于如何做出选择的知识，甚至学校老师在教育的过程中也在做着做出理性选择的表率，决定哪些是需要重视的主课哪些是一笔带过的副科。在初中的时候我曾经觉得一门副科很有趣，然而这种心态在老师那里只不过是参加相关竞赛的一个契机，最终不了了之。</p>
+<h3 id="u7406_u6027_u7684_u6B63_u786E_u5E94_u7528"><a href="#u7406_u6027_u7684_u6B63_u786E_u5E94_u7528" class="headerlink" title="理性的正确应用"></a>理性的正确应用</h3><p>前面说到真正起到驱动作用的是感性的力量，也就是说理性并不是全部也并非全能。但是这个地方特别需要注意的是这种理性并非全能的认识正是理性本身做出的，这种能够正视和承认自身缺陷的能力才是理性最强大的地方。</p>
 
             
                 
@@ -271,7 +270,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/git/">git</a> <a class="tag tag--primary tag--small t-link" href="/tags/自动化/">自动化</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/动力/">动力</a>
 
             </div>
         
@@ -280,7 +279,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/23/motivation-pattern/"  data-tooltip="我对内心动力模型的想法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/02/recursion/"  data-tooltip="递归、动态规划和迭代">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -288,7 +287,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/why-array-start-from-0/" data-tooltip="为什么数组下标从0开始">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/22/githooks/" data-tooltip="Git hooks 的几个用例">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -303,17 +302,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -361,7 +360,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/23/motivation-pattern/"  data-tooltip="我对内心动力模型的想法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/02/recursion/"  data-tooltip="递归、动态规划和迭代">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -369,7 +368,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/why-array-start-from-0/" data-tooltip="为什么数组下标从0开始">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/22/githooks/" data-tooltip="Git hooks 的几个用例">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -384,17 +383,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -420,17 +419,17 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="1">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/09/22/githooks/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/10/23/motivation-pattern/">
                 <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
             </a>
         </li>
@@ -487,8 +486,8 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'http://blog.fengweizhou.com/2015/09/22/githooks/';
-                 this.page.identifier = '2015/09/22/githooks/';
+                 this.page.url = 'http://blog.fengweizhou.com/2015/10/23/motivation-pattern/';
+                 this.page.identifier = '2015/10/23/motivation-pattern/';
              };
             (function() {
                 var d = document, s = d.createElement('script');
