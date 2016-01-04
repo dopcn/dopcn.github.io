@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="DOPCN">
-    <title>做产品的一年 - DOPCN</title>
+    <title>函数式编程和过程式编程的区别之一中间状态 - DOPCN</title>
     <meta name="author" content="Dopcn">
     
         <link rel="icon" href="/assets/images/favicon.ico">
@@ -14,19 +14,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：
-1. 小心在讨论中用到用户体验这个词的人在产品讨论中直接用到用户体验这个词的人是典型的一哄而上的人，就好像有人跟你说：这个问题我们可以用大">
+    <meta name="description" content="函数式编程与常见的过程式编程比较显著的区别之一是函数式编程不会在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：
+1234567891011121314151617181920212223242526272829func evenFibs1(n: Int) -&amp;gt; Array&amp;lt;Int&amp;gt; &amp;#123;    var result =">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="做产品的一年">
-<meta property="og:url" content="http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/index.html">
+<meta property="og:title" content="函数式编程和过程式编程的区别之一中间状态">
+<meta property="og:url" content="http://blog.fengweizhou.com/2015/11/14/middle-status/index.html">
 <meta property="og:site_name" content="DOPCN">
-<meta property="og:description" content="2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：
-1. 小心在讨论中用到用户体验这个词的人在产品讨论中直接用到用户体验这个词的人是典型的一哄而上的人，就好像有人跟你说：这个问题我们可以用大">
-<meta property="og:updated_time" content="2015-12-21T13:10:29.000Z">
+<meta property="og:description" content="函数式编程与常见的过程式编程比较显著的区别之一是函数式编程不会在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：
+1234567891011121314151617181920212223242526272829func evenFibs1(n: Int) -&amp;gt; Array&amp;lt;Int&amp;gt; &amp;#123;    var result =">
+<meta property="og:updated_time" content="2016-01-04T05:05:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="做产品的一年">
-<meta name="twitter:description" content="2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：
-1. 小心在讨论中用到用户体验这个词的人在产品讨论中直接用到用户体验这个词的人是典型的一哄而上的人，就好像有人跟你说：这个问题我们可以用大">
+<meta name="twitter:title" content="函数式编程和过程式编程的区别之一中间状态">
+<meta name="twitter:description" content="函数式编程与常见的过程式编程比较显著的区别之一是函数式编程不会在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：
+1234567891011121314151617181920212223242526272829func evenFibs1(n: Int) -&amp;gt; Array&amp;lt;Int&amp;gt; &amp;#123;    var result =">
 <meta name="twitter:creator" content="@dopcn">
     
     
@@ -208,19 +208,19 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            做产品的一年
+            函数式编程和过程式编程的区别之一中间状态
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Sun Dec 21 2014 21:02:34 GMT+0800">
+    <time itemprop="datePublished" content="Sat Nov 14 2015 13:03:37 GMT+0800">
 	
-		    12月 21, 2014
+		    11月 14, 2015
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/其他/">其他</a>
+    <a class="category-link" href="/categories/计算机科学/">计算机科学</a>
 
 
     
@@ -229,14 +229,10 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：</p>
-<h3 id="1-__u5C0F_u5FC3_u5728_u8BA8_u8BBA_u4E2D_u7528_u5230_u7528_u6237_u4F53_u9A8C_u8FD9_u4E2A_u8BCD_u7684_u4EBA"><a href="#1-__u5C0F_u5FC3_u5728_u8BA8_u8BBA_u4E2D_u7528_u5230_u7528_u6237_u4F53_u9A8C_u8FD9_u4E2A_u8BCD_u7684_u4EBA" class="headerlink" title="1. 小心在讨论中用到用户体验这个词的人"></a>1. 小心在讨论中用到用户体验这个词的人</h3><p>在产品讨论中直接用到用户体验这个词的人是典型的一哄而上的人，就好像有人跟你说：这个问题我们可以用大数据的方法解决一样，当他说出这种词的时候就已经暴露了他的无知，无论这种无知是有意还是无意的，小心总是没有错的。我知道这种无知再更多的场合和情景下可能是常态和客观现实，但毕竟现实是值得被讽刺得这也是客观现实。</p>
-<h3 id="2-__u6CA1_u6709_u91CF_u5316_u7684_u6807_u51C6_u65E0_u6CD5_u505A_u6709_u6548_u7684_u51B3_u5B9A"><a href="#2-__u6CA1_u6709_u91CF_u5316_u7684_u6807_u51C6_u65E0_u6CD5_u505A_u6709_u6548_u7684_u51B3_u5B9A" class="headerlink" title="2. 没有量化的标准无法做有效的决定"></a>2. 没有量化的标准无法做有效的决定</h3><p>在这一年的工作当中，在产品方面给我收获最大是参加公司里的一个新技术应用比赛，在这个比赛中我主导了一个产品从创意产生到原型上线的整个过程，我们有4个团队成员，当时的工作分别是2个产品1个技术1个测试，报名和队伍的组织者是我。按照比赛的进程说说每个阶段的收获：</p>
-<h4 id="a-__u56E2_u961F_u5185_u90E8_u786E_u5B9A_u65B9_u5411"><a href="#a-__u56E2_u961F_u5185_u90E8_u786E_u5B9A_u65B9_u5411" class="headerlink" title="a. 团队内部确定方向"></a>a. 团队内部确定方向</h4><p>团队内部的决策过程是很典型的，我不主导我不说话，所以主导确定下来方向并不难</p>
-<h4 id="b-__u539F_u578B_u5236_u4F5C"><a href="#b-__u539F_u578B_u5236_u4F5C" class="headerlink" title="b. 原型制作"></a>b. 原型制作</h4><p>这里的原型并不是指设计稿，而是一个可以真实使用的简单实现。在这个过程中作为设计需要和技术不断进行沟通，这个阶段学到的是：不要预设别人是怎么沟通的，没有应该就是怎样的事情，所有事情都应该说清楚；此外，在应该怎样设计的问题上我们经历了一次争论，问题的焦点是界面风格应该和旧的但是成功的产品保持一致，还是以创新的方式进行全新的更好看的设计，可惜任何有关偏好的问题都是没有结果的，一个问题在讨论之前需要先可以量化的标准</p>
-<h4 id="c-__u5411_u9886_u5BFC_u6C47_u62A5_u4EA7_u54C1_u601D_u8DEF"><a href="#c-__u5411_u9886_u5BFC_u6C47_u62A5_u4EA7_u54C1_u601D_u8DEF" class="headerlink" title="c. 向领导汇报产品思路"></a>c. 向领导汇报产品思路</h4><p>或许根据不同的公司环境，这个环节会有差异，因为我也是那个做汇报的人，仅从我的经历出发这个阶段我学到：你觉得对的事即使真的是对的，别人也不会觉得是对的，更别说有可能是错的</p>
-<h3 id="3-__u9700_u6C42_u4E0D_u4E00_u5B9A_u662F_u5408_u7406_u7684_uFF0C_u4F46_u4E0D_u987E_u53CA_u9700_u6C42_u4E00_u5B9A_u662F_u4E0D_u5408_u7406_u7684"><a href="#3-__u9700_u6C42_u4E0D_u4E00_u5B9A_u662F_u5408_u7406_u7684_uFF0C_u4F46_u4E0D_u987E_u53CA_u9700_u6C42_u4E00_u5B9A_u662F_u4E0D_u5408_u7406_u7684" class="headerlink" title="3. 需求不一定是合理的，但不顾及需求一定是不合理的"></a>3. 需求不一定是合理的，但不顾及需求一定是不合理的</h3><p>这一年里因为这个职位的缘故，我认识很多不同职位上的人，他们中有销售，策划，市场，社区管理，运营，技术，通过与这些人的交流在无意中帮助我得以看清整个需求传递的链条。看清楚这个过程，就会发现在这个链条中的人对于整个链条的影响是微乎其微的，链条的运作其实都取决于老板，老板在处理链条运作方面的能力决定了一切，其他人做好自己的事情就已经是最好的结局。</p>
-<h3 id="4-__u9664_u975E_u8FEB_u4E0D_u5F97_u5DF2_uFF0C_u6CA1_u6709_u4EBA_u4F1A_u770B_u6587_u6863"><a href="#4-__u9664_u975E_u8FEB_u4E0D_u5F97_u5DF2_uFF0C_u6CA1_u6709_u4EBA_u4F1A_u770B_u6587_u6863" class="headerlink" title="4. 除非迫不得已，没有人会看文档"></a>4. 除非迫不得已，没有人会看文档</h3><p>这一年里为数不多能让我津津乐道的是我用 sina app engine 做服务器用 PHP + Bootstrap 为运营写了一个简化后台操作的工具，那段时间还做了一个实时翻译的小工具，方便自己在翻译时用。在我的简易版后台操作里，即使是我认为写的清清楚楚的操作指南，作为一个互联网公司的员工依然还是不断出问题，囿于公司本身后台不稳定并没有做进一步操作流程的改善。从产品设计的角度讲这就是真实的需要产品使用指南的产品除非迫不得已，不会有人用。</p>
+            <p>函数式编程与常见的过程式编程比较显著的区别之一是函数式编程不会在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">func evenFibs1(n: <span class="type">Int</span>) -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">0</span>, y = <span class="number">1</span>, count = n</span><br><span class="line">    <span class="literal">result</span>.append(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">while</span> count &gt; <span class="number">2</span> &#123;</span><br><span class="line">        (x, y) = (y, x+y)</span><br><span class="line">        <span class="keyword">if</span> y%<span class="number">2</span> == <span class="number">0</span> &#123; <span class="literal">result</span>.append(y) &#125;</span><br><span class="line">        count--</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func evenFibs2(n: <span class="type">Int</span>) -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</span><br><span class="line">    func fib(n: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> tmpArray = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">        func fib2Inside(m: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> m &gt;= tmpArray.count &#123;</span><br><span class="line">                tmpArray.append(fib2Inside(m-<span class="number">1</span>) + fib2Inside(m-<span class="number">2</span>))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> tmpArray[m]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fib2Inside(n)</span><br><span class="line">    &#125;</span><br><span class="line">    func isEven(n: <span class="type">Int</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> n%<span class="number">2</span> == <span class="number">0</span> &#123; <span class="keyword">return</span> <span class="literal">true</span> &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">0</span>..&lt;n).map(fib).filter(isEven)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法一中使用一个局部变量作为盛放结果的容器，不断作用于这一变量之后，在方法的最后返回这个值，而方法二则是直接作用于一个数组得到结果。</p>
+<p>这两种方法对比，显然方法一的效率更好一些，方法二是在模块化的方面更显著一些，模块化意味着这个方法很容易抽象为一个对数组每个值作用然后过滤的函数，作用函数和过滤函数都可以轻易的更换，而方法一的变更就没有那么容易了。事实上方法二里面的 fib 函数是按照方法一的思路实现的。</p>
 
             
                 
@@ -249,7 +245,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/产品经理/">产品经理</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/函数式编程/">函数式编程</a>
 
             </div>
         
@@ -258,7 +254,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/why-array-start-from-0/"  data-tooltip="为什么数组下标从0开始">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -266,7 +262,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/13/solve-sudoku/" data-tooltip="复合数据分层设计求数独解的例子">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -281,17 +277,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -339,7 +335,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/07/21/why-array-start-from-0/"  data-tooltip="为什么数组下标从0开始">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -347,7 +343,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/13/solve-sudoku/" data-tooltip="复合数据分层设计求数独解的例子">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -362,17 +358,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -398,17 +394,17 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="1">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.fengweizhou.com/2015/11/14/middle-status/">
                 <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
             </a>
         </li>
@@ -465,8 +461,8 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/';
-                 this.page.identifier = '2014/12/21/one-year-as-pm/';
+                 this.page.url = 'http://blog.fengweizhou.com/2015/11/14/middle-status/';
+                 this.page.identifier = '2015/11/14/middle-status/';
              };
             (function() {
                 var d = document, s = d.createElement('script');
