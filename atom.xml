@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2016-01-12T12:38:57.000Z</updated>
+  <updated>2016-01-12T12:50:01.000Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -16,10 +16,10 @@
   
   <entry>
     <title><![CDATA[那些「绝对」的和「相对」的]]></title>
-    <link href="http://blog.fengweizhou.com/2015/11/22/absolute-vs-relativity/"/>
-    <id>http://blog.fengweizhou.com/2015/11/22/absolute-vs-relativity/</id>
-    <published>2015-11-22T03:14:46.000Z</published>
-    <updated>2016-01-12T12:38:57.000Z</updated>
+    <link href="http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/"/>
+    <id>http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/</id>
+    <published>2015-11-28T03:14:46.000Z</published>
+    <updated>2016-01-12T12:50:01.000Z</updated>
     <content type="html"><![CDATA[<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
 <footer><strong>接盘侠日记</strong></footer></blockquote>
 <h3 id="u6700_u5C4C_u6587_u4EF6_u547D_u540D"><a href="#u6700_u5C4C_u6587_u4EF6_u547D_u540D" class="headerlink" title="最屌文件命名"></a>最屌文件命名</h3><p>曾经有一个合作的设计师出了一套新版本界面设计稿，她新建了一个文件夹打包上传到内部 GitLab repo ，我 pull 下来看到这个文件夹</p>
@@ -56,10 +56,10 @@
   
   <entry>
     <title><![CDATA[一些有趣的问题在Swift中的表现]]></title>
-    <link href="http://blog.fengweizhou.com/2015/11/19/some-special-cases-in-swift/"/>
-    <id>http://blog.fengweizhou.com/2015/11/19/some-special-cases-in-swift/</id>
-    <published>2015-11-19T05:30:35.000Z</published>
-    <updated>2016-01-10T08:35:09.000Z</updated>
+    <link href="http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/"/>
+    <id>http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/</id>
+    <published>2015-11-23T05:30:35.000Z</published>
+    <updated>2016-01-12T12:49:41.000Z</updated>
     <content type="html"><![CDATA[<h3 id="1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB"><a href="#1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB" class="headerlink" title="1. 排序过的数组遍历更快"></a>1. 排序过的数组遍历更快</h3><p><strong>实验</strong></p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sorted = [<span class="literal">false</span>, <span class="literal">true</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> isSorted <span class="keyword">in</span> sorted &#123;</span><br><span class="line">    <span class="keyword">var</span> datas = Array<span class="function"><span class="params">(count: <span class="number">32768</span>, repeatedValue: <span class="number">0</span>)</span>.<span class="title">map</span> &#123; <span class="params">(n)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> n + Int(arc4random_uniform(UInt32(<span class="number">256</span>)))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> isSorted &#123;</span><br><span class="line">        datas.sortInPlace(&lt;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> start = NSDate()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0.</span>..<span class="number">100000</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> datas &#123;</span><br><span class="line">            <span class="keyword">if</span> n &gt; <span class="number">128</span> &#123;</span><br><span class="line">                sum += n</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Time elapsed when \(isSorted ? "</span>sorted<span class="string">":"</span>unsorted<span class="string">"): \(NSDate().timeIntervalSinceDate(start))"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>输出</strong></p>
@@ -96,10 +96,10 @@
   
   <entry>
     <title><![CDATA[函数式编程语言与命令式编程语言区别之一赋值行为]]></title>
-    <link href="http://blog.fengweizhou.com/2015/11/14/middle-status/"/>
-    <id>http://blog.fengweizhou.com/2015/11/14/middle-status/</id>
-    <published>2015-11-14T05:03:37.000Z</published>
-    <updated>2016-01-05T02:30:19.000Z</updated>
+    <link href="http://blog.fengweizhou.com/2015/11/18/middle-status/"/>
+    <id>http://blog.fengweizhou.com/2015/11/18/middle-status/</id>
+    <published>2015-11-18T05:03:37.000Z</published>
+    <updated>2016-01-12T12:49:18.000Z</updated>
     <content type="html"><![CDATA[<p>对于常见的命令式编程语言赋值行为和定义变量是同一种形式，都是用等号进行。对于函数式编程语言来说定义和赋值有着显著区别。</p>
 <p>由于命令式编程更”容易”进行赋值所以经常采用在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：</p>
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">func evenFibs1(n: <span class="type">Int</span>) -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">0</span>, y = <span class="number">1</span>, count = n</span><br><span class="line">    <span class="literal">result</span>.append(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">while</span> count &gt; <span class="number">2</span> &#123;</span><br><span class="line">        (x, y) = (y, x+y)</span><br><span class="line">        <span class="keyword">if</span> y%<span class="number">2</span> == <span class="number">0</span> &#123; <span class="literal">result</span>.append(y) &#125;</span><br><span class="line">        count--</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func evenFibs2(n: <span class="type">Int</span>) -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</span><br><span class="line">    func fib(n: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> tmpArray = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">        func fib2Inside(m: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> m &gt;= tmpArray.count &#123;</span><br><span class="line">                tmpArray.append(fib2Inside(m-<span class="number">1</span>) + fib2Inside(m-<span class="number">2</span>))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> tmpArray[m]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fib2Inside(n)</span><br><span class="line">    &#125;</span><br><span class="line">    func isEven(n: <span class="type">Int</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> n%<span class="number">2</span> == <span class="number">0</span> &#123; <span class="keyword">return</span> <span class="literal">true</span> &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">0</span>..&lt;n).map(fib).filter(isEven)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
