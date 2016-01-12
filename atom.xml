@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2016-01-12T12:20:21.000Z</updated>
+  <updated>2016-01-12T12:38:57.000Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -19,12 +19,11 @@
     <link href="http://blog.fengweizhou.com/2015/11/22/absolute-vs-relativity/"/>
     <id>http://blog.fengweizhou.com/2015/11/22/absolute-vs-relativity/</id>
     <published>2015-11-22T03:14:46.000Z</published>
-    <updated>2016-01-12T12:20:21.000Z</updated>
-    <content type="html"><![CDATA[<p>那些「绝对」的和「相对」的</p>
-<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
+    <updated>2016-01-12T12:38:57.000Z</updated>
+    <content type="html"><![CDATA[<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
 <footer><strong>接盘侠日记</strong></footer></blockquote>
 <h3 id="u6700_u5C4C_u6587_u4EF6_u547D_u540D"><a href="#u6700_u5C4C_u6587_u4EF6_u547D_u540D" class="headerlink" title="最屌文件命名"></a>最屌文件命名</h3><p>曾经有一个合作的设计师出了一套新版本界面设计稿，她新建了一个文件夹打包上传到内部 GitLab repo ，我 pull 下来看到这个文件夹</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt="image"></p>
 <p>这是我目前看到过最屌的命名，于是我想下一个版本的设计稿文件夹她会起什么名字：「目前最最新的稿子」？「比目前最新的稿子更新的稿子」？「未来最新的稿子」？无论选择这其中的哪一种方案都会有一个共同特点，那就是下一次的起名都必须依赖于这一次的名字，以用来表明这个文件夹更新，而这种依赖是递增不可绕过的，比如说选用第一种方案那么到下下下下个版本就是「目前最最最最最最新的稿子」，以此类推这显然是一个灾难。当然实际中我们的设计师并不会这样，更常见的情况是下一次她的命名直接进入另一个次元，「稿子新」比「目前最新的稿子」更新，这样就可以区分出哪个更新，现在的使用者是清楚了可是接盘侠呢，果然光荣与伟大并不是那么得容易担当。</p>
 <h3 id="u7EDD_u5BF9_u548C_u76F8_u5BF9"><a href="#u7EDD_u5BF9_u548C_u76F8_u5BF9" class="headerlink" title="绝对和相对"></a>绝对和相对</h3><p>当需要设定某种唯一标识的时候，绝对的概念能够更明确的定位。当需要描述一种关系的时候，相对的表述方法更加适合。</p>
 <p>相对和绝对路径是一个直观的例子。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Users/</span>fengweizhou<span class="regexp">/Documents/</span>dopcnblog<span class="regexp">/source/</span>_posts/absolute-vs-relativity.md</span><br><span class="line">source<span class="regexp">/_posts/</span>absolute-vs-relativity.md</span><br></pre></td></tr></table></figure></p>
@@ -42,10 +41,9 @@
 <p>简单地使用用户名和密码都必须大于7位做验证条件，这个验证的 true false 和按钮 enable 状态的true false 之间是一种对应关系，如果用常用的赋值方法来每次改动这个值，可以想象条件分支会非常多，相对而言会不容易维护。这里直接描述对应关系使用的是第三方库 ReactiveKit，除了这个还有其他一些可以实现类似功能的库，不过达到的效果是类似的。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>那些「绝对」的和「相对」的</p>
-<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
+    <![CDATA[<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
 <footer><strong>接盘侠日记</strong></footer></blockquote>
-<h3 id="u6700_u5C4C]]>
+<h3 id="u6700_u5C4C_u6587_u4EF6_u547D_u5]]>
     </summary>
     
       <category term="ReactiveKit" scheme="http://blog.fengweizhou.com/tags/ReactiveKit/"/>
