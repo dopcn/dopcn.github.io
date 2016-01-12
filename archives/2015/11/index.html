@@ -208,6 +208,73 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2015/11/22/absolute-vs-relativity/">
+                            那些「绝对」的和「相对」的
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Sun Nov 22 2015 11:14:46 GMT+0800">
+	
+		    11月 22, 2015
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Swift/">Swift</a>
+
+
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>那些「绝对」的和「相对」的</p>
+<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
+<footer><strong>接盘侠日记</strong></footer></blockquote>
+<h3 id="u6700_u5C4C_u6587_u4EF6_u547D_u540D"><a href="#u6700_u5C4C_u6587_u4EF6_u547D_u540D" class="headerlink" title="最屌文件命名"></a>最屌文件命名</h3><p>曾经有一个合作的设计师出了一套新版本界面设计稿，她新建了一个文件夹打包上传到内部 GitLab repo ，我 pull 下来看到这个文件夹</p>
+<p><img src="1.png" alt=""></p>
+<p>这是我目前看到过最屌的命名，于是我想下一个版本的设计稿文件夹她会起什么名字：「目前最最新的稿子」？「比目前最新的稿子更新的稿子」？「未来最新的稿子」？无论选择这其中的哪一种方案都会有一个共同特点，那就是下一次的起名都必须依赖于这一次的名字，以用来表明这个文件夹更新，而这种依赖是递增不可绕过的，比如说选用第一种方案那么到下下下下个版本就是「目前最最最最最最新的稿子」，以此类推这显然是一个灾难。当然实际中我们的设计师并不会这样，更常见的情况是下一次她的命名直接进入另一个次元，「稿子新」比「目前最新的稿子」更新，这样就可以区分出哪个更新，现在的使用者是清楚了可是接盘侠呢，果然光荣与伟大并不是那么得容易担当。</p>
+<h3 id="u7EDD_u5BF9_u548C_u76F8_u5BF9"><a href="#u7EDD_u5BF9_u548C_u76F8_u5BF9" class="headerlink" title="绝对和相对"></a>绝对和相对</h3><p>当需要设定某种唯一标识的时候，绝对的概念能够更明确的定位。当需要描述一种关系的时候，相对的表述方法更加适合。</p>
+<p>相对和绝对路径是一个直观的例子。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Users/</span>fengweizhou<span class="regexp">/Documents/</span>dopcnblog<span class="regexp">/source/</span>_posts/absolute-vs-relativity.md</span><br><span class="line">source<span class="regexp">/_posts/</span>absolute-vs-relativity.md</span><br></pre></td></tr></table></figure></p>
+<p>绝对路径则是由根目录开始一层一层明确写出到达目标文件的完整路径。相对路径可以直接用文件名引入同一个文件夹中同级的文件，用 <code>../</code> 代表上一级目录。显然两种不同用法在不同的环境中各有优势，在决定使用哪一种用法之前能够明确区分两种方法的不同很重要。</p>
+<h3 id="u5176_u4ED6_u7EDD_u5BF9_u548C_u76F8_u5BF9_u7684_u4F8B_u5B50"><a href="#u5176_u4ED6_u7EDD_u5BF9_u548C_u76F8_u5BF9_u7684_u4F8B_u5B50" class="headerlink" title="其他绝对和相对的例子"></a>其他绝对和相对的例子</h3><h4 id="u7EDD_u5BF9_u548C_u76F8_u5BF9_u7684_u754C_u9762_u6784_u5EFA"><a href="#u7EDD_u5BF9_u548C_u76F8_u5BF9_u7684_u754C_u9762_u6784_u5EFA" class="headerlink" title="绝对和相对的界面构建"></a>绝对和相对的界面构建</h4><p>界面布局的相对和绝对。在这个领域「相对」有压倒性的优势，在浏览器端响应式网页应该是如今网站建设的标配，除了流量特别大的网站可能会为了特别定制将移动端网页分出去。使用 CSS 进行网页布局可以分为三个阶段：手写 CSS -&gt; 用 Sass 写 CSS -&gt; 用 Sass 写 Flexbox。在阶段一是使用「绝对」的方式写 CSS，这样依然可以写出「相对」的布局</p>
+<iframe width="100%" height="300" src="//jsfiddle.net/wzo25cjt/3/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe><br>HTML 文档在布局时天生就是「相对」的，父元素子元素间相对，同级元素之间的相对。但是这种相对布局的规则是由开发者提前「绝对」写死的。进入阶段二，这个阶段 Sass 为 CSS 引入了编程特性，程序员可以像用编程语言一样写 CSS ，于是写 CSS 的方式变为「相对」。<br><iframe width="100%" height="300" src="//jsfiddle.net/wzo25cjt/10/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe><br>进入阶段三 Flexbox 模型将布局规则抽象为指令，开发者只要列出应该怎样布局剩下的大部分都交给了浏览器去计算，开发者写出的规则也变成「相对」的了。<br><iframe width="100%" height="300" src="//jsfiddle.net/wzo25cjt/11/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<p>iOS 设备上的界面构建技术稍落后于前端不过遵循了同样的路径。从只有一种屏幕大小的时代手写固定的 CGRect，到在 Size Class 中建立 AutoLayout 约束规则，这样编写出的约束规则依然是绝对的，最后再到使用 UIStackView 布局减少了许多需要手动设置 AutoLayout 的步骤。对比最初的手写固定 CGRect 越来越相对。</p>
+<h4 id="u9875_u9762_u8F6C_u6362_u8DEF_u5F84_u7684_u76F8_u5BF9_u7EDD_u5BF9"><a href="#u9875_u9762_u8F6C_u6362_u8DEF_u5F84_u7684_u76F8_u5BF9_u7EDD_u5BF9" class="headerlink" title="页面转换路径的相对绝对"></a>页面转换路径的相对绝对</h4><p>我之前合作的产品经理同时负责产品的网页端和客户端，所以可能就是因为这个原因在客户端的设计过程中页面转换逻辑几乎是按照网页端的来，网页端的页面转换是链接跳转，类似于利用指针访问可以任意跳转，相比之下客户端的页面转换逻辑大多时候是后进先出的栈结构。再加上以前页面转换逻辑的写法相对绝对<br><figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> vc = <span class="type">SomeViewController</span><span class="literal">()</span></span><br><span class="line">navigationController?.pushViewController(vc, animated: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure></p>
+<p>没少为设计方案来回讨论。后来为了为了尽可能适应这种网页端转换逻辑同时也扩大转换的自由度增加了URLTransformer 层，简单的原型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">protocol</span> <span class="title">URLTransFormer</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">canTransform</span><span class="params">(url: NSURL)</span></span> -&gt; <span class="type">Bool</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">transform</span><span class="params">(url: NSURL)</span></span> -&gt; <span class="type">UIViewController</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================</span></span><br><span class="line"><span class="comment">//transformer list start</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">struct</span> <span class="title">Page1Transformer</span>: <span class="title">URLTransFormer</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">canTransform</span><span class="params">(url: NSURL)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> url.scheme == <span class="string">"mydomain"</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">transform</span><span class="params">(url: NSURL)</span></span> -&gt; <span class="type">UIViewController</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">SomeViewController</span>(url: url)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//tranformer list end</span></span><br><span class="line"><span class="comment">//===================</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">URLTransformer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> transformerList = [<span class="type">Page1Transformer</span>()]</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">transform</span><span class="params">(url: NSURL)</span></span> -&gt; <span class="type">UIViewController</span>? &#123;</span><br><span class="line">        <span class="keyword">for</span> transformer <span class="keyword">in</span> transformerList &#123;</span><br><span class="line">            <span class="keyword">if</span> transformer.canTransform(url) &#123;</span><br><span class="line">                <span class="keyword">return</span> transformer.transform(url)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样页面转换逻辑就变成相对的，客户端同一个按钮可以根据服务器返回的链接形式打开不同的页面。这里服务器返回的链接一定要是绝对的完整路径，因为这个链接是在做一个唯一性的标识。</p>
+<h4 id="u63CF_u8FF0_u4E00_u79CD_u76F8_u5BF9_u7684_u5173_u7CFB"><a href="#u63CF_u8FF0_u4E00_u79CD_u76F8_u5BF9_u7684_u5173_u7CFB" class="headerlink" title="描述一种相对的关系"></a>描述一种相对的关系</h4><p>程序运行逻辑里有许多部分是要描述一种关系，例如注册页面在用户名密码通过格式验证之后提交按钮才可用</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactiveUIKit</span><br><span class="line"><span class="keyword">import</span> ReactiveKit</span><br><span class="line"></span><br><span class="line">……</span><br><span class="line"></span><br><span class="line">combineLatest(usernameField.rText, passwordField.rText).<span class="built_in">map</span> &#123; username, password <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> name = username, <span class="keyword">let</span> pass = password <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> name.characters.<span class="built_in">count</span> &gt; <span class="number">7</span> &amp;&amp; pass.characters.<span class="built_in">count</span> &gt; <span class="number">7</span></span><br><span class="line">        &#125;.bindTo(submitButton.rEnabled)</span><br><span class="line"></span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>简单地使用用户名和密码都必须大于7位做验证条件，这个验证的 true false 和按钮 enable 状态的true false 之间是一种对应关系，如果用常用的赋值方法来每次改动这个值，可以想象条件分支会非常多，相对而言会不容易维护。这里直接描述对应关系使用的是第三方库 ReactiveKit，除了这个还有其他一些可以实现类似功能的库，不过达到的效果是类似的。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/11/22/absolute-vs-relativity/#post-footer" class="postShorten-excerpt_link link">
+                                注释和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2015/11/19/some-special-cases-in-swift/">
                             一些有趣的问题在Swift中的表现
                         </a>
