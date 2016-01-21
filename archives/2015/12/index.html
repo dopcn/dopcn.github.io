@@ -208,6 +208,58 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2015/12/10/different-world/">
+                            函数式与过程式编程区别之不同的世界观
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 10 2015 00:57:24 GMT+0800">
+	
+		    12月 10, 2015
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/计算机科学/">计算机科学</a>
+
+
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>大名鼎鼎的 objc.io 有一本书叫做 Functional Swift，只看到这个名字很容易误导人以为 Swift 可以是 Functional 的，但事实上这压根不可能，那本书更准确的名称应该是 Functional part of Swift。一个过程式语言可以拥有函数式的功能，特别是一些比较新的语言 Python Ruby 就曾经因为带有这些功能让人觉得更高级，同时也会被一些人评价说他们只不过实现了一些古老语言早就有的功能。这个评价是客观事实，早期从理论研究中诞生的编程语言大多都很函数式，局部变量和赋值这种过程式的功能仅仅是他们的一小部分。大规模应用于实践之后诞生的编程语言则完全将这一局面翻转了过来，完全是建立在局部变量和赋值之上的过程式，慢慢发展之后才开始增加一些函数式的功能。</p>
+<p>函数式和过程式的不同根本在于选择不同的模型来模拟现实环境。在现实环境中状态（state）是客观存在的，过程式语言选择使用局部变量来模拟状态用赋值来模拟状态的改变，而函数式语言选择用流结构来模拟状态。</p>
+<p>用局部变量和赋值来模拟状态是很容易理解的，这种模拟方式是离散的。状态本身可以看做是一个以时间为参数的函数，局部变量的值就是这个函数在不同的时间作为参数时函数所得到的值。与此相对，流结构是连续的，函数式语言模拟状态的方式并不直接处理每个时间参数下的函数值而是直接处理函数整体，使用的手段多是高阶函数。</p>
+<p>这样就可以看出流结构是一门语言是函数式的根本，流结构的实现依赖于表达式的延时求值，没有延时求值功能的语言绝对不是函数式语言，所以 Swift 根本不是函数式语言。</p>
+<p>带有函数式功能的过程式语言和带有赋值功能的函数式语言说到底是整个世界观的不同。将延时求值和赋值带来的变动性合理的结合起来这一目标还仅仅停留在理论研究领域。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/12/10/different-world/#post-footer" class="postShorten-excerpt_link link">
+                                注释和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2015/12/05/nqueensproblem/">
                             用 Higher-order Function 解八皇后问题
                         </a>
