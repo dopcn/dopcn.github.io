@@ -73,9 +73,11 @@
     <link href="http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/"/>
     <id>http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/</id>
     <published>2015-11-28T03:14:46.000Z</published>
-    <updated>2016-01-12T12:50:01.000Z</updated>
-    <content type="html"><![CDATA[<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
-<footer><strong>接盘侠日记</strong></footer></blockquote>
+    <updated>2016-10-10T15:09:45.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的<br><strong>接盘侠日记</strong></p>
+</blockquote>
+<a id="more"></a>
 <h3 id="u6700_u5C4C_u6587_u4EF6_u547D_u540D"><a href="#u6700_u5C4C_u6587_u4EF6_u547D_u540D" class="headerlink" title="最屌文件命名"></a>最屌文件命名</h3><p>曾经有一个合作的设计师出了一套新版本界面设计稿，她新建了一个文件夹打包上传到内部 GitLab repo ，我 pull 下来看到这个文件夹</p>
 <p><img src="1.png" alt="image"></p>
 <p>这是我目前看到过最屌的命名，于是我想下一个版本的设计稿文件夹她会起什么名字：「目前最最新的稿子」？「比目前最新的稿子更新的稿子」？「未来最新的稿子」？无论选择这其中的哪一种方案都会有一个共同特点，那就是下一次的起名都必须依赖于这一次的名字，以用来表明这个文件夹更新，而这种依赖是递增不可绕过的，比如说选用第一种方案那么到下下下下个版本就是「目前最最最最最最新的稿子」，以此类推这显然是一个灾难。当然实际中我们的设计师并不会这样，更常见的情况是下一次她的命名直接进入另一个次元，「稿子新」比「目前最新的稿子」更新，这样就可以区分出哪个更新，现在的使用者是清楚了可是接盘侠呢，果然光荣与伟大并不是那么得容易担当。</p>
@@ -95,9 +97,10 @@
 <p>简单地使用用户名和密码都必须大于7位做验证条件，这个验证的 true false 和按钮 enable 状态的true false 之间是一种对应关系，如果用常用的赋值方法来每次改动这个值，可以想象条件分支会非常多，相对而言会不容易维护。这里直接描述对应关系使用的是第三方库 ReactiveKit，除了这个还有其他一些可以实现类似功能的库，不过达到的效果是类似的。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<blockquote><p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的</p>
-<footer><strong>接盘侠日记</strong></footer></blockquote>
-<h3 id="u6700_u5C4C_u6587_u4EF6_u547D_u5]]>
+    <![CDATA[<blockquote>
+<p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的<br><strong>接盘侠日记</strong></p>
+</blockquote>]]>
+    
     </summary>
     
       <category term="Swift" scheme="http://blog.fengweizhou.com/tags/Swift/"/>
@@ -205,8 +208,9 @@
     <link href="http://blog.fengweizhou.com/2015/11/12/church-numerals/"/>
     <id>http://blog.fengweizhou.com/2015/11/12/church-numerals/</id>
     <published>2015-11-12T04:34:05.000Z</published>
-    <updated>2015-12-30T04:47:39.000Z</updated>
+    <updated>2016-10-10T15:10:03.000Z</updated>
     <content type="html"><![CDATA[<p>复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为</p>
+<a id="more"></a>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">func zero&lt;<span class="literal">T</span>&gt;(f:(<span class="literal">T</span>-&gt;<span class="literal">T</span>)) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;x <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> x&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">func add_1&lt;<span class="literal">T</span>&gt;(n:(<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></div><div class="line">            <span class="keyword">return</span> f(n(f)(x))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>0 是一个以函数为参数返回一个函数的过程，加1 运算是作用于类似 0 这样的过程之上返回一个新过程的函数，将 0 带入 加1 运算得到 1 的定义，带入 1 得到 2 的定义</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">one</span>&lt;T&gt;<span class="params">(f:<span class="params">(T-&gt;T)</span></span></span>) -&gt; <span class="type">T</span>-&gt;<span class="type">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;x <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> f(x)&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">two</span>&lt;T&gt;<span class="params">(f:<span class="params">(T-&gt;T)</span></span></span>) -&gt; <span class="type">T</span>-&gt;<span class="type">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;x <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> f(f(x))</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -217,8 +221,8 @@
 <p>我没想出来</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为</p>
-<figure class]]>
+    <![CDATA[<p>复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为</p>]]>
+    
     </summary>
     
       <category term="church计数" scheme="http://blog.fengweizhou.com/tags/church%E8%AE%A1%E6%95%B0/"/>
@@ -232,13 +236,11 @@
     <link href="http://blog.fengweizhou.com/2015/11/09/procedure-abstraction/"/>
     <id>http://blog.fengweizhou.com/2015/11/09/procedure-abstraction/</id>
     <published>2015-11-09T14:54:21.000Z</published>
-    <updated>2015-12-29T14:56:11.000Z</updated>
+    <updated>2016-10-10T15:11:21.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象</p>
-<p>SICP 第一章</p>
-<p>现存的许多威力强大的程序设计技术，都依赖于填平在「被动的」数据和「主动的」过程之间的传统划分</p>
-<p>SICP 第一章</p>
+<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象<br>SICP 第一章<br>现存的许多威力强大的程序设计技术，都依赖于填平在「被动的」数据和「主动的」过程之间的传统划分<br>SICP 第一章</p>
 </blockquote>
+<a id="more"></a>
 <p>计算机程序是由需要被操作的「数据」和操作数据的「过程」构成。解释起来可以说是一静一动，数据所代表的静态的具体某个值，而过程则是动态的代表从一个值到另一个值的转化。和数学研究很像不光研究函数对值的作用，还研究函数本身，计算机编程过程中也不光用过程作用于数据，也可以处理过程本身就像作用于数据之上那样。</p>
 <h3 id="u8FC7_u7A0B_u4F5C_u4E3A_u53C2_u6570"><a href="#u8FC7_u7A0B_u4F5C_u4E3A_u53C2_u6570" class="headerlink" title="过程作为参数"></a>过程作为参数</h3><p>通过区间折半寻找方程的一个根</p>
 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">enum</span> searchError: ErrorType &#123;</div><div class="line">    <span class="keyword">case</span> sameSign</div><div class="line">&#125;</div><div class="line"></div><div class="line">func isCloseEnough(x x: <span class="keyword">Double</span>, y: <span class="keyword">Double</span>) -&gt; Bool &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">abs</span>(x-y) &lt; <span class="number">0.001</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">func search(<span class="function"><span class="keyword">function</span></span> f: (<span class="keyword">Double</span>)-&gt;<span class="keyword">Double</span>, negPoint: <span class="keyword">Double</span>, posPoint: <span class="keyword">Double</span>) -&gt; <span class="keyword">Double</span> &#123;</div><div class="line">    let midPoint = (negPoint+posPoint)/<span class="number">2</span></div><div class="line">    <span class="keyword">if</span> isCloseEnough(x: negPoint, y: posPoint) &#123;</div><div class="line">        <span class="keyword">return</span> midPoint</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">if</span> f(midPoint) &lt; <span class="number">0</span> &#123;</div><div class="line">            <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: midPoint, posPoint: posPoint)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: negPoint, posPoint: midPoint)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">func halfIntervalSearch(<span class="function"><span class="keyword">function</span></span> f:(<span class="keyword">Double</span>)-&gt;<span class="keyword">Double</span>, x: <span class="keyword">Double</span>, y: <span class="keyword">Double</span>) throws -&gt; <span class="keyword">Double</span> &#123;</div><div class="line">    let a = f(x), b = f(y)</div><div class="line">    <span class="keyword">if</span> a &gt; <span class="number">0</span> &amp;&amp; b &lt; <span class="number">0</span> &#123;</div><div class="line">        <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: y, posPoint: x)</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> a &lt; <span class="number">0</span> &amp;&amp; b &gt; <span class="number">0</span> &#123;</div><div class="line">        <span class="keyword">return</span> search(<span class="function"><span class="keyword">function</span></span>: f, negPoint: x, posPoint: y)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        throw searchError.sameSign</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">func f(x: <span class="keyword">Double</span>) -&gt; <span class="keyword">Double</span> &#123;</div><div class="line">    <span class="keyword">return</span> x*x*x - <span class="number">2</span>*x - <span class="number">3</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">    let result = try halfIntervalSearch(<span class="function"><span class="keyword">function</span></span>: f, x: <span class="number">1</span>, y: <span class="number">2</span>)</div><div class="line">    <span class="built_in">print</span>(result)</div><div class="line">&#125; catch &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"error"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -249,10 +251,9 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象</p>
-<p>SICP 第一章</p>
-<p>现存的许多威力强大的程序设计技术，都依赖于填平在「被动的」数据和「主动的」过程之间的传统划分</p>
-<p>SICP 第一章</p>]]>
+<p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象<br>SICP 第一章<br>现存的许多威力强大的程序设计技术，都依赖于填平在「被动的」数据和「主动的」过程之间的传统划分<br>SICP 第一章</p>
+</blockquote>]]>
+    
     </summary>
     
       <category term="抽象" scheme="http://blog.fengweizhou.com/tags/%E6%8A%BD%E8%B1%A1/"/>
@@ -266,13 +267,11 @@
     <link href="http://blog.fengweizhou.com/2015/11/02/recursion/"/>
     <id>http://blog.fengweizhou.com/2015/11/02/recursion/</id>
     <published>2015-11-01T16:59:06.000Z</published>
-    <updated>2016-01-04T05:06:21.000Z</updated>
+    <updated>2016-10-10T15:11:42.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>每一个计算机程序都是现实中或者精神中的某一个过程的一个模型</p>
-<p>SICP 序</p>
-<p>在这一层次的课程里，最基本的材料并不是特定的程序设计语言语法，不是有效计算某种功能的巧妙算法，也不是算法的数学分析或者计算的本质，而是一些能够用于控制大型软件系统的智力复杂性的技术</p>
-<p>SICP 前言</p>
+<p>每一个计算机程序都是现实中或者精神中的某一个过程的一个模型<br>SICP 序<br>在这一层次的课程里，最基本的材料并不是特定的程序设计语言语法，不是有效计算某种功能的巧妙算法，也不是算法的数学分析或者计算的本质，而是一些能够用于控制大型软件系统的智力复杂性的技术<br>SICP 前言</p>
 </blockquote>
+<a id="more"></a>
 <p>计算机程序中对象可以大体分为两类：数据和过程。数据是那些需要去操作的东西，过程则是具体操作的指令。要求解复合过程的结果需要先得到子过程的结果，求子过程的结果需要得到子过程的子过程的结果，一次类推直到某一层子过程是最基本的表达式得到求值结果，这就是递归。</p>
 <h3 id="u9012_u5F52_u7684_u7B80_u5355_u5E94_u7528_uFF0C_u6B27_u51E0_u91CC_u5F97_u7B97_u6CD5_u6C42_u6700_u5927_u516C_u7EA6_u6570"><a href="#u9012_u5F52_u7684_u7B80_u5355_u5E94_u7528_uFF0C_u6B27_u51E0_u91CC_u5F97_u7B97_u6CD5_u6C42_u6700_u5927_u516C_u7EA6_u6570" class="headerlink" title="递归的简单应用，欧几里得算法求最大公约数"></a>递归的简单应用，欧几里得算法求最大公约数</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">func gcd(x x: <span class="built_in">Int</span>, y: <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</div><div class="line">    <span class="keyword">if</span> y == <span class="number">0</span> &#123;</div><div class="line">        <span class="keyword">return</span> x</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> gcd(x: y, y: x%y)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="Fibonacci__u6570_u5217_u6C42_u503C"><a href="#Fibonacci__u6570_u5217_u6C42_u503C" class="headerlink" title="Fibonacci 数列求值"></a>Fibonacci 数列求值</h3><p>Fibonacci 数列的定义本身就是递归的，可以很自然的写成：</p>
@@ -293,9 +292,9 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>每一个计算机程序都是现实中或者精神中的某一个过程的一个模型</p>
-<p>SICP 序</p>
-<p>在这一层次的课程里，最基本的材料并不是特定的程序设计语言语法，不是有效计算某种功能的巧妙算法，也不是算法的数学分析或者计算的本质，而是一些能够用于]]>
+<p>每一个计算机程序都是现实中或者精神中的某一个过程的一个模型<br>SICP 序<br>在这一层次的课程里，最基本的材料并不是特定的程序设计语言语法，不是有效计算某种功能的巧妙算法，也不是算法的数学分析或者计算的本质，而是一些能够用于控制大型软件系统的智力复杂性的技术<br>SICP 前言</p>
+</blockquote>]]>
+    
     </summary>
     
       <category term="递归" scheme="http://blog.fengweizhou.com/tags/%E9%80%92%E5%BD%92/"/>
@@ -383,7 +382,7 @@
     <link href="http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/"/>
     <id>http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/</id>
     <published>2015-07-21T13:13:44.000Z</published>
-    <updated>2015-12-21T13:21:55.000Z</updated>
+    <updated>2016-10-10T15:12:04.000Z</updated>
     <content type="html"><![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。</p>
 <p>首先使用 0 作为数组第一位并不一定是一个正确的做法， 事实上也有以 1 作为首位的编程语言存在（Matlab，Fortran， Lua等），在 Dijkstra 的文章里他提出的证明思路是这样的：为表示一段离散的自然数集合例如 [4, 5, 6] 可以使用的公式有四种：<br>a. 4 ≤ i &lt; 7<br>b. 3 &lt; i ≤ 6<br>c. 4 ≤ i ≤ 6<br>d. 3 &lt; i &lt; 7</p>
 <p>这四种表达方式的含义是一样的，那么他们之间是否有优劣之分？ 是有的，考虑如果数值中包含自然数的最小值，那么 bd 的表达方式中下界就要使用非自然数这样是不完美的，所以首先排除。其次考虑 ac 如果这个集合是空集，用 c 是无法表达的（右侧的值大于等于左侧），于是就得到表达集合的最佳方式 4 ≤ i &lt; 7.</p>
