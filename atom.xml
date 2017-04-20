@@ -4,7 +4,7 @@
   <subtitle><![CDATA[你是个聪明人，所以我第一眼看到你，就已开始喜欢你]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2017-04-19T15:45:32.000Z</updated>
+  <updated>2017-04-20T17:10:45.000Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -15,11 +15,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[GCD 入门与进阶]]></title>
+    <link href="http://blog.fengweizhou.com/2017/01/21/grand-central-dispatch/"/>
+    <id>http://blog.fengweizhou.com/2017/01/21/grand-central-dispatch/</id>
+    <published>2017-01-20T17:05:02.000Z</published>
+    <updated>2017-04-20T17:10:45.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="GCD__u5165_u95E8_u4E0E_u8FDB_u9636"><a href="#GCD__u5165_u95E8_u4E0E_u8FDB_u9636" class="headerlink" title="GCD 入门与进阶"></a>GCD 入门与进阶</h1><h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的一些难题却依旧不那么容易。</p>
+<h2 id="u591A_u7EBF_u7A0B_u7EFC_u8FF0"><a href="#u591A_u7EBF_u7A0B_u7EFC_u8FF0" class="headerlink" title="多线程综述"></a>多线程综述</h2><p>从我开始做 iOS 开发以来从没有在项目中直接使用过 NSThread 对象，所以一直没有什么直观的印象，直到简单了解了 pthread 之后才清晰的认识到 NSThread 其实是对 pthread 的简单封装面向对象化，在 iOS 10 中 NSThread 新增了使用 block 直接初始化的方法，这才使得 NSThread 的使用简化了不少，而在这之前和 pthread 一样不够优雅。在 pthread 中使用 pthread_create  创建线程，要传入函数指针作为回调，早先的 NSThread 则是标准的 cocoa 风格 target selector。</p>
+<p>NSThread 对 pthread 的封装只是胶水式的薄薄封装，并没有提供其他并发相关功能。真正实现更高级封装的是 NSOperationQueue 和 GCD，NSOperationQueue 在引入 GCD 之后应该是使用 GCD 重写了，所以 iOS8 新增了 underlyingQueue 这个属性，返回一个 dispatch_queue_t。我曾经在面试里被鄙视过：GCD？GCD 能实现 NSOperation 的依赖关系吗？那个时候我没有回答上来，如果再给我一次回答的机会，我会说：可以，只是麻烦一些。这就要说到一些 GCD 的进阶功能。</p>
+<h2 id="GCD__u8FDB_u9636"><a href="#GCD__u8FDB_u9636" class="headerlink" title="GCD 进阶"></a>GCD 进阶</h2><p>面向对象是一种提高抽象能力很好的手段，已数据的形式封装掉了很多细节的逻辑。要实现 NSOperation 的依赖关系，可以使用 dispatch_group。SDK 的头文件是这样介绍的：A group of blocks submitted to queues for asynchronous invocation。将一组 block 作为一个“对象”来管理（dispatch_group_t 当然并不是一个对象，而是一个和 ObjC 对象很像的结构体，可以通过配置由 ARC 管理生命周期），常用的方法有两对 dispatch_group_wait dispatch_group_notify 和 dispatch_group_enter dispatch_group_leave。在增加依赖的时候进行 group_enter，在依赖的 block 执行完后 group_leave，这就是 swift forelimbs foundation 中的实现方式。dispatch_group 所实现的组管理，类似于 pthread_join。</p>
+<p>iOS8 之后 block 不再是简单的 block 了，可以是 dispatch_block_t。虽然看定义 typedef void (^dispatch_block_t)(void); 它只是一个空参数空返回 的 block，但是通过API dispatch_block_create 为 block 指定 flags，通过这个接口创建出来的 dispatch_block_t 还可以 dispatch_block_wait，dispatch_block_notify，dispatch_block_cancel，这样就解决了另一个问题：block 能像 NSOperation 一样取消吗？答案是可以。</p>
+<p>另一个进阶 dispatch 库成员就是 dispatch_semaphore 了。在 AFNetworking 里有一处应用，使用 dispatch_semaphore 从异步的 block 里取出值同步的返回：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSArray</span> *)tasksForKeyPath:(<span class="built_in">NSString</span> *)keyPath &#123;</div><div class="line">    __block <span class="built_in">NSArray</span> *tasks = <span class="literal">nil</span>;</div><div class="line">    dispatch_semaphore_t semaphore = dispatch_semaphore_create(<span class="number">0</span>);</div><div class="line">    [<span class="keyword">self</span>.session getTasksWithCompletionHandler:^(<span class="built_in">NSArray</span> *dataTasks, <span class="built_in">NSArray</span> *uploadTasks, <span class="built_in">NSArray</span> *downloadTasks) &#123;</div><div class="line">        <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(dataTasks))]) &#123;</div><div class="line">            tasks = dataTasks;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(uploadTasks))]) &#123;</div><div class="line">            tasks = uploadTasks;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(downloadTasks))]) &#123;</div><div class="line">            tasks = downloadTasks;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([keyPath isEqualToString:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(tasks))]) &#123;</div><div class="line">            tasks = [@[dataTasks, uploadTasks, downloadTasks] valueForKeyPath:<span class="string">@"@unionOfArrays.self"</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> tasks;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>NSURLSession 的接口全部都是异步执行回调，所以要返回异步block 的参数，就必须等异步block 执行完，知道这个大概可以吹半年。</p>
+<h2 id="u5176_u4ED6_u5E94_u7528"><a href="#u5176_u4ED6_u5E94_u7528" class="headerlink" title="其他应用"></a>其他应用</h2><p>除了这些还有一些其他少见应用：</p>
+<p>dispatch_apply 实现多线程迭代，和使用 enumerateObjectsWithOptions 时指定 NSEnumerationConcurrent 差不多，迭代过程中最好不要有共用资源。</p>
+<p>dispatch_source_timer 和 NSTimer 不同不依赖 runloop，所以不会受 runloop mode 影响。</p>
+<h2 id="u5176_u4ED6_u76F8_u5173"><a href="#u5176_u4ED6_u76F8_u5173" class="headerlink" title="其他相关"></a>其他相关</h2><p>虽然说 GCD 是真正的高级封装，但是有些地方还是可以很明显的暴露出 pthread 的特点，特别是一些命名例如：pthread_getspecific，dispatch_queue_get_specific；pthread_setspecific，dispatch_queue_set_specific。</p>
+<p>用 GCD 代替加锁实现线程安全访问，例子是 FMDatabaseQueue 的实现。其实就是 GCD 的方法中进行了加锁，不然 dispatch_sync  到当前线程为什么会死锁。但好处是抽象层级更高，不用手动处理锁相关。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="GCD__u5165_u95E8_u4E0E_u8FDB_u9636"><a href="#GCD__u5165_u95E8_u4E0E_u8FDB_u9636" class="headerlink" title="GCD 入门与进阶"></a>GCD 入门与进阶]]>
+    </summary>
+    
+      <category term="多线程" scheme="http://blog.fengweizhou.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+      <category term="GCD" scheme="http://blog.fengweizhou.com/tags/GCD/"/>
+    
+      <category term="iOS" scheme="http://blog.fengweizhou.com/categories/iOS/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Vim 日常使用初步]]></title>
-    <link href="http://blog.fengweizhou.com/2017/04/19/myvim/"/>
-    <id>http://blog.fengweizhou.com/2017/04/19/myvim/</id>
-    <published>2017-04-19T15:39:10.000Z</published>
-    <updated>2017-04-19T15:45:32.000Z</updated>
+    <link href="http://blog.fengweizhou.com/2017/01/19/myvim/"/>
+    <id>http://blog.fengweizhou.com/2017/01/19/myvim/</id>
+    <published>2017-01-19T15:39:10.000Z</published>
+    <updated>2017-04-20T17:10:43.000Z</updated>
     <content type="html"><![CDATA[<h1 id="vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65"><a href="#vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65" class="headerlink" title="vim 日常使用初步"></a>vim 日常使用初步</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
 <p>和一条普世的需求一样，80%的使用需求由20%功能实现，vim 日常使用需要掌握的功能其实并不多。</p>
 <h2 id="insert_mode_edit_mode"><a href="#insert_mode_edit_mode" class="headerlink" title="insert mode edit mode"></a>insert mode edit mode</h2><p>vim 与常见的文本输入软件最明显的区别是 insert mode 和 edit mode，这里的名字是我自己取的。正如这两个名字所透露出来的一样，在vim中输入和编辑是在两种不同的状态下进行。vim 可能真的是为程序员而成的编辑器，因为它所持的设计理念贴近编辑比输入更常用，和在开发过程中一样：维护工作要比新功能开发重要的多。所以进入vim 默认情况下是处于edit mode 此时无法进行输入，第一次打开vim 的人大概很多就在这里懵逼了。</p>
@@ -103,7 +134,7 @@
     <link href="http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/"/>
     <id>http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/</id>
     <published>2015-11-28T03:14:46.000Z</published>
-    <updated>2016-10-10T15:09:45.000Z</updated>
+    <updated>2017-04-20T17:10:46.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的<br><strong>接盘侠日记</strong></p>
 </blockquote>
@@ -137,7 +168,7 @@
     
       <category term="ReactiveKit" scheme="http://blog.fengweizhou.com/tags/ReactiveKit/"/>
     
-      <category term="Swift" scheme="http://blog.fengweizhou.com/categories/Swift/"/>
+      <category term="编程思路" scheme="http://blog.fengweizhou.com/categories/%E7%BC%96%E7%A8%8B%E6%80%9D%E8%B7%AF/"/>
     
   </entry>
   
@@ -146,7 +177,7 @@
     <link href="http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/"/>
     <id>http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/</id>
     <published>2015-11-23T05:30:35.000Z</published>
-    <updated>2016-01-12T12:49:41.000Z</updated>
+    <updated>2017-04-20T17:10:42.000Z</updated>
     <content type="html"><![CDATA[<h3 id="1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB"><a href="#1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB" class="headerlink" title="1. 排序过的数组遍历更快"></a>1. 排序过的数组遍历更快</h3><p><strong>实验</strong></p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sorted = [<span class="literal">false</span>, <span class="literal">true</span>]</div><div class="line"></div><div class="line"><span class="keyword">for</span> isSorted <span class="keyword">in</span> sorted &#123;</div><div class="line">    <span class="keyword">var</span> datas = Array<span class="function"><span class="params">(count: <span class="number">32768</span>, repeatedValue: <span class="number">0</span>)</span>.<span class="title">map</span> &#123; <span class="params">(n)</span> -&gt;</span> Int <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> n + Int(arc4random_uniform(UInt32(<span class="number">256</span>)))</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> isSorted &#123;</div><div class="line">        datas.sortInPlace(&lt;)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">let</span> start = NSDate()</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0.</span>..<span class="number">100000</span> &#123;</div><div class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> datas &#123;</div><div class="line">            <span class="keyword">if</span> n &gt; <span class="number">128</span> &#123;</div><div class="line">                sum += n</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(<span class="string">"Time elapsed when \(isSorted ? "</span>sorted<span class="string">":"</span>unsorted<span class="string">"): \(NSDate().timeIntervalSinceDate(start))"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>输出</strong></p>
@@ -175,7 +206,7 @@
     <![CDATA[<h3 id="1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB"><a href="#1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4]]>
     </summary>
     
-      <category term="swift" scheme="http://blog.fengweizhou.com/tags/swift/"/>
+      <category term="Swift" scheme="http://blog.fengweizhou.com/tags/Swift/"/>
     
       <category term="Swift" scheme="http://blog.fengweizhou.com/categories/Swift/"/>
     
@@ -369,7 +400,7 @@
     <link href="http://blog.fengweizhou.com/2015/09/22/githooks/"/>
     <id>http://blog.fengweizhou.com/2015/09/22/githooks/</id>
     <published>2015-09-21T16:02:37.000Z</published>
-    <updated>2015-12-21T16:06:17.000Z</updated>
+    <updated>2017-04-20T17:10:47.000Z</updated>
     <content type="html"><![CDATA[<p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。</p>
 <p>将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中</p>
 <ol>
@@ -403,7 +434,7 @@
     
       <category term="自动化" scheme="http://blog.fengweizhou.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
     
-      <category term="软件工程" scheme="http://blog.fengweizhou.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+      <category term="工具" scheme="http://blog.fengweizhou.com/categories/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -412,7 +443,7 @@
     <link href="http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/"/>
     <id>http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/</id>
     <published>2015-07-21T13:13:44.000Z</published>
-    <updated>2016-10-10T15:12:04.000Z</updated>
+    <updated>2017-04-20T17:10:44.000Z</updated>
     <content type="html"><![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。</p>
 <p>首先使用 0 作为数组第一位并不一定是一个正确的做法， 事实上也有以 1 作为首位的编程语言存在（Matlab，Fortran， Lua等），在 Dijkstra 的文章里他提出的证明思路是这样的：为表示一段离散的自然数集合例如 [4, 5, 6] 可以使用的公式有四种：<br>a. 4 ≤ i &lt; 7<br>b. 3 &lt; i ≤ 6<br>c. 4 ≤ i ≤ 6<br>d. 3 &lt; i &lt; 7</p>
 <p>这四种表达方式的含义是一样的，那么他们之间是否有优劣之分？ 是有的，考虑如果数值中包含自然数的最小值，那么 bd 的表达方式中下界就要使用非自然数这样是不完美的，所以首先排除。其次考虑 ac 如果这个集合是空集，用 c 是无法表达的（右侧的值大于等于左侧），于是就得到表达集合的最佳方式 4 ≤ i &lt; 7.</p>
