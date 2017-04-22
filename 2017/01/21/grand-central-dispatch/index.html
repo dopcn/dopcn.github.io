@@ -8,6 +8,7 @@
 <h2 id="u5176_u4ED6_u5E94_u7528"><a href="#u5176_u4ED6_u5E94_u7528" class="headerlink" title="其他应用"></a>其他应用</h2><p>除了这些还有一些其他少见应用：</p>
 <p>dispatch_apply 实现多线程迭代，和使用 enumerateObjectsWithOptions 时指定 NSEnumerationConcurrent 差不多，迭代过程中最好不要有共用资源。</p>
 <p>dispatch_source_timer 和 NSTimer 不同不依赖 runloop，所以不会受 runloop mode 影响。</p>
+<p>dispatch_set_target_queue 最直观的效果可以实现 queue 的合并</p>
 <h2 id="u5176_u4ED6_u76F8_u5173"><a href="#u5176_u4ED6_u76F8_u5173" class="headerlink" title="其他相关"></a>其他相关</h2><p>虽然说 GCD 是真正的高级封装，但是有些地方还是可以很明显的暴露出 pthread 的特点，特别是一些命名例如：<br>pthread_getspecific，<br>dispatch_queue_get_specific；<br>pthread_setspecific，<br>dispatch_queue_set_specific。<br>用于为 queue 做标示。为了做标示还可以通过 dispatch_queue_get_label 获取创建时的 label</p>
 <p>用 GCD 代替加锁实现线程安全访问，例子是 FMDatabaseQueue 的实现。其实就是 GCD 的方法中进行了加锁，不然 dispatch_sync  到当前线程为什么会死锁。但好处是抽象层级更高，不用手动处理锁相关。</p>
 <p>不同优先级的 queue 低优先级会等所有高优先级的 queue 已经分配资源开始执行后才会被分配。在 background priority queue 中还会有 disk IO 和 network IO throttle。</p>
