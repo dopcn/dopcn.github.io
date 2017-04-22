@@ -4,7 +4,7 @@
   <subtitle><![CDATA[你是个聪明人，所以我第一眼看到你，就已开始喜欢你]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2017-04-21T16:16:03.000Z</updated>
+  <updated>2017-04-22T01:54:21.000Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://blog.fengweizhou.com/2017/01/21/grand-central-dispatch/"/>
     <id>http://blog.fengweizhou.com/2017/01/21/grand-central-dispatch/</id>
     <published>2017-01-20T17:05:02.000Z</published>
-    <updated>2017-04-21T16:16:03.000Z</updated>
+    <updated>2017-04-22T01:54:21.000Z</updated>
     <content type="html"><![CDATA[<h1 id="GCD__u5165_u95E8_u4E0E_u8FDB_u9636"><a href="#GCD__u5165_u95E8_u4E0E_u8FDB_u9636" class="headerlink" title="GCD 入门与进阶"></a>GCD 入门与进阶</h1><h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的一些难题却依旧不那么容易。</p>
 <h2 id="u591A_u7EBF_u7A0B_u7EFC_u8FF0"><a href="#u591A_u7EBF_u7A0B_u7EFC_u8FF0" class="headerlink" title="多线程综述"></a>多线程综述</h2><p>从我开始做 iOS 开发以来从没有在项目中直接使用过 NSThread 对象，所以一直没有什么直观的印象，直到简单了解了 pthread 之后才清晰的认识到 NSThread 其实是对 pthread 的简单封装面向对象化，在 iOS 10 中 NSThread 新增了使用 block 直接初始化的方法，这才使得 NSThread 的使用简化了不少，而在这之前和 pthread 一样不够优雅。在 pthread 中使用 pthread_create  创建线程，要传入函数指针作为回调，早先的 NSThread 则是标准的 cocoa 风格 target selector。</p>
 <p>NSThread 对 pthread 的封装只是胶水式的薄薄封装，并没有提供其他并发相关功能。真正实现更高级封装的是 NSOperationQueue 和 GCD，NSOperationQueue 在引入 GCD 之后应该是使用 GCD 重写了，所以 iOS8 新增了 underlyingQueue 这个属性，返回一个 dispatch_queue_t。我曾经在面试里被鄙视过：GCD？GCD 能实现 NSOperation 的依赖关系吗？那个时候我没有回答上来，如果再给我一次回答的机会，我会说：可以，只是麻烦一些。这就要说到一些 GCD 的进阶功能。</p>
@@ -32,6 +32,7 @@
 <p>dispatch_source_timer 和 NSTimer 不同不依赖 runloop，所以不会受 runloop mode 影响。</p>
 <h2 id="u5176_u4ED6_u76F8_u5173"><a href="#u5176_u4ED6_u76F8_u5173" class="headerlink" title="其他相关"></a>其他相关</h2><p>虽然说 GCD 是真正的高级封装，但是有些地方还是可以很明显的暴露出 pthread 的特点，特别是一些命名例如：<br>pthread_getspecific，<br>dispatch_queue_get_specific；<br>pthread_setspecific，<br>dispatch_queue_set_specific。</p>
 <p>用 GCD 代替加锁实现线程安全访问，例子是 FMDatabaseQueue 的实现。其实就是 GCD 的方法中进行了加锁，不然 dispatch_sync  到当前线程为什么会死锁。但好处是抽象层级更高，不用手动处理锁相关。</p>
+<p>不同优先级的 queue 低优先级会等所有高优先级的 queue 已经分配资源开始执行后才会被分配。在 background priority queue 中还会有 disk IO 和 network IO throttle。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h1 id="GCD__u5165_u95E8_u4E0E_u8FDB_u9636"><a href="#GCD__u5165_u95E8_u4E0E_u8FDB_u9636" class="headerlink" title="GCD 入门与进阶"></a>GCD 入门与进阶]]>
