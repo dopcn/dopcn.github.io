@@ -86,7 +86,7 @@
     <link href="http://blog.fengweizhou.com/2017/01/19/myvim/"/>
     <id>http://blog.fengweizhou.com/2017/01/19/myvim/</id>
     <published>2017-01-19T15:39:10.000Z</published>
-    <updated>2017-04-20T17:10:43.000Z</updated>
+    <updated>2017-07-06T13:22:01.000Z</updated>
     <content type="html"><![CDATA[<h1 id="vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65"><a href="#vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65" class="headerlink" title="vim 日常使用初步"></a>vim 日常使用初步</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
 <p>和一条普世的需求一样，80%的使用需求由20%功能实现，vim 日常使用需要掌握的功能其实并不多。</p>
 <h2 id="insert_mode_edit_mode"><a href="#insert_mode_edit_mode" class="headerlink" title="insert mode edit mode"></a>insert mode edit mode</h2><p>vim 与常见的文本输入软件最明显的区别是 insert mode 和 edit mode，这里的名字是我自己取的。正如这两个名字所透露出来的一样，在vim中输入和编辑是在两种不同的状态下进行。vim 可能真的是为程序员而成的编辑器，因为它所持的设计理念贴近编辑比输入更常用，和在开发过程中一样：维护工作要比新功能开发重要的多。所以进入vim 默认情况下是处于edit mode 此时无法进行输入，第一次打开vim 的人大概很多就在这里懵逼了。</p>
@@ -100,6 +100,7 @@
 <h2 id="u5176_u4ED6_u7F16_u8F91_u529F_u80FD"><a href="#u5176_u4ED6_u7F16_u8F91_u529F_u80FD" class="headerlink" title="其他编辑功能"></a>其他编辑功能</h2><p>撤销上一步操作：按键 u<br>撤销撤销那步操作：ctrl + r<br>查找：edit mode 下输入 /word 查找当前位置之后的 word 单词位置，紧接着按 n 跳到下一个 word 出现的位置，N 跳到上一个出现的位置<br>指定行号间字符替换：在 edit mode 下输入:1,10s/one/two/g 回车会将第1行到第10行之间的字符 one 全部替换成 two，这个是最简单的应用，替换功能还可以增加更细致的配置<br>重复行为宏录制：按下 q+字母 开始录制，也就是开始进行任意操作，退出 insert mode 再次按下 q 结束录制，录制好之后将光标移动到合适位置，点击 @+字母 应用宏就可以将上一次的操作完成的重复一遍，要注意录制过程中的操作不要依赖于录制时的字符特点，例如字符长度，这样才更通用<br>visual mode：在 edit mode 下按下 v 会进入 visual mode，这个时候可以选择多行进行编辑，例如选择后按下 y 是复制，在任意位置按下 p 是粘贴。<br>visual block mode：在 edit mode 下按 ctrl+v 进入，这要应用是在多行的同一个位置进行插入。这个我总是记不住，步骤挺多，sof 一下就有。这是唯一一个我知道的 sublime text 的字符插入强于 vim 的地方，在 sublime text 中按着 option 外加鼠标点击可以选中多个地方同时输入，vim mode 下似乎不行。</p>
 <h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>这些就是我日常使用中会用到的全部了，我没有自定义 vimrc 配置文件，其他重要的功能大多依赖 IDE，例如文件树结构，函数跳转，文件访问历史跳转，快捷文件查找、打开。这些功能在原生 vim 里大多通过插件实现，这就是我不喜欢原生 vim 的地方，配置太多了，很多基本的功能都要插件实现，所以还是 sublime text 用的多一些。</p>
 <p>另外 vim 的源代码烂到有人写博客吐槽，有人干脆另起炉灶 neovim，也是挺有意思。</p>
+<h2 id="u8865_u5145"><a href="#u8865_u5145" class="headerlink" title="补充"></a>补充</h2><p>居然有一套强大的编辑被我忽略了，在 Vim 中可以实现一定的编辑功能，例如：在一行中任意位置删除到某一个字符 dt[被删除字符]，全程可以理解为 delete to [被删除字符]；还有直接删除一对符号之间的内容 di[符号]，一对的符号包括各种括号和引号；前一个命令中 i 代表 inside 不会包括符号本身，如果要包含符号本身可以用 a，删除包含符号的全部内容就是 da[符号]，以上几个例子中的删除也可以换成复制 y。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h1 id="vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65"><a href="#vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65" class="headerlink" title="vim 日常使用初步">]]>
