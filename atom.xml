@@ -4,7 +4,7 @@
   <subtitle><![CDATA[你是个聪明人，所以我第一眼看到你，就已开始喜欢你]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2017-07-04T12:46:45.000Z</updated>
+  <updated>2017-07-06T01:58:45.000Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -16,10 +16,10 @@
   
   <entry>
     <title><![CDATA[Mac OSX launchd 定时任务]]></title>
-    <link href="http://blog.fengweizhou.com/2017/03/04/mac-launchd/"/>
-    <id>http://blog.fengweizhou.com/2017/03/04/mac-launchd/</id>
-    <published>2017-03-04T12:44:09.000Z</published>
-    <updated>2017-07-04T12:46:45.000Z</updated>
+    <link href="http://blog.fengweizhou.com/2017/06/04/mac-launchd/"/>
+    <id>http://blog.fengweizhou.com/2017/06/04/mac-launchd/</id>
+    <published>2017-06-04T12:44:09.000Z</published>
+    <updated>2017-07-06T01:58:45.000Z</updated>
     <content type="html"><![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX launchd 定时任务"></a>Mac OSX launchd 定时任务</h1><p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
 <p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>
 <h3 id="u521B_u5EFA_u4E00_u4E2A_launchd__u4EFB_u52A1"><a href="#u521B_u5EFA_u4E00_u4E2A_launchd__u4EFB_u52A1" class="headerlink" title="创建一个 launchd 任务"></a>创建一个 launchd 任务</h3><p>创建一个任务非常简单，只要新建一个合法的 plist 文件，下面这个是为了实现上面提到的需求</p>
