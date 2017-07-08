@@ -10,8 +10,9 @@
 </ol>
 <p>运行时机可配置的选项很多，具体可以查看官方文档，这个例子中我想要在每天的早上10点半和下午5点半各运行一次我的爬虫程序。</p>
 <h3 id="u52A0_u8F7D_launchd__u4EFB_u52A1"><a href="#u52A0_u8F7D_launchd__u4EFB_u52A1" class="headerlink" title="加载 launchd 任务"></a>加载 launchd 任务</h3><p>将配置文件放入指定目录，我是放在用户目录下 <code>~/Library/LaunchAgents</code> 也可以放在系统根目录的对应文件夹下，区别就是当前用户还是全体用户。放入后运行 <code>launchctl load com.fengweizhou.scheduledJobs</code> 然后 <code>launchctl list</code> 就可以看见自己的任务了，如果要立马运行一次可以使用 <code>launchctl start</code></p>
-<h3 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h3><p>每次修改了 plist 文件都必须 <code>launchctl unload</code> 在 load 进去进行 reload</p>
-<p><a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html#//apple_ref/doc/uid/10000172i-CH1-SW2" target="_blank" rel="external">Daemons and Services Programming Guide</a></p>
+<h3 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h3><p>每次修改了 plist 文件都必须 <code>launchctl unload</code> 再 load 进去，进行手动的 reload，才有效果</p>
+<p>在文档中提到了，如果在任务设定的时间点系统是休眠的，那么任务会在休眠结束时执行一次。在我实际使用的过程观察到这个机制是有时间限制的，如果结束休眠的时间和任务设定时间相差不远会执行，但是如果相差很远就不会再执行。这和 iOS 上闹钟的行为是一摸一样的，再加上 iOS 和 OSX 系出同源，所以可以猜测 iOS 的闹钟实现是使用了 launchd，这也可以推论出另一个结果 iOS 上没法作出第三方功能强大的闹钟应用，因为沙盒限制。闹钟APP 还是安卓上的强。</p>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html#//apple_ref/doc/uid/10000172i-CH1-SW2" target="_blank" rel="external">Daemons and Services Programming Guide</a></p>
 <p><a href="http://www.launchd.info/" target="_blank" rel="external">http://www.launchd.info/</a></p>
 </div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://blog.fengweizhou.com/2017/06/04/mac-launchd/" data-id="cj4pkjpur0006xezwecpzq057" class="article-share-link">分享到</a><div class="tags"><a href="/tags/tag/">tag</a><a href="/tags/launchd/">launchd</a></div><div class="post-nav"><a href="/2017/01/21/grand-central-dispatch/" class="next">GCD 入门与进阶</a></div><div id="disqus_thread"><script>var disqus_shortname = 'dopcnsblog';
 var disqus_identifier = '2017/06/04/mac-launchd/';
