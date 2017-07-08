@@ -94,12 +94,12 @@
   </entry>
   
   <entry>
-    <title><![CDATA[Vim 日常使用初步]]></title>
+    <title><![CDATA[我的 Vim 日常使用]]></title>
     <link href="http://blog.fengweizhou.com/2017/02/19/myvim/"/>
     <id>http://blog.fengweizhou.com/2017/02/19/myvim/</id>
     <published>2017-02-19T15:39:10.000Z</published>
-    <updated>2017-07-08T03:12:28.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65"><a href="#vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65" class="headerlink" title="vim 日常使用初步"></a>vim 日常使用初步</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
+    <updated>2017-07-08T04:30:14.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"></a>我的 Vim 日常使用</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
 <p>和一条普世的需求一样，80%的使用需求由20%功能实现，vim 日常使用需要掌握的功能其实并不多。</p>
 <h2 id="insert_mode_edit_mode"><a href="#insert_mode_edit_mode" class="headerlink" title="insert mode edit mode"></a>insert mode edit mode</h2><p>vim 与常见的文本输入软件最明显的区别是 insert mode 和 edit mode，这里的名字是我自己取的。正如这两个名字所透露出来的一样，在vim中输入和编辑是在两种不同的状态下进行。vim 可能真的是为程序员而成的编辑器，因为它所持的设计理念贴近编辑比输入更常用，和在开发过程中一样：维护工作要比新功能开发重要的多。所以进入vim 默认情况下是处于edit mode 此时无法进行输入，第一次打开vim 的人大概很多就在这里懵逼了。</p>
 <h2 id="u5149_u6807_u79FB_u52A8"><a href="#u5149_u6807_u79FB_u52A8" class="headerlink" title="光标移动"></a>光标移动</h2><p>区分了这两种状态，并且明确edit mode 是默认之后，就可以开始进行其他vim操作了，首先依然从最明显的区别来，光标的上下左右移动，它们分别是</p>
@@ -115,7 +115,7 @@
 <h2 id="u8865_u5145"><a href="#u8865_u5145" class="headerlink" title="补充"></a>补充</h2><p>居然有一套强大的编辑被我忽略了，在 Vim 中可以实现一定的编辑功能，例如：在一行中任意位置删除到某一个字符 dt[被删除字符]，全程可以理解为 delete to [被删除字符]；还有直接删除一对符号之间的内容 di[符号]，一对的符号包括各种括号和引号；前一个命令中 i 代表 inside 不会包括符号本身，如果要包含符号本身可以用 a，删除包含符号的全部内容就是 da[符号]，以上几个例子中的删除也可以换成复制 y。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65"><a href="#vim__u65E5_u5E38_u4F7F_u7528_u521D_u6B65" class="headerlink" title="vim 日常使用初步">]]>
+    <![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"]]>
     </summary>
     
       <category term="vim" scheme="http://blog.fengweizhou.com/tags/vim/"/>
