@@ -4,7 +4,7 @@
   <subtitle><![CDATA[你是个聪明人，所以我第一眼看到你，就已开始喜欢你]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2017-07-08T02:23:29.000Z</updated>
+  <updated>2018-04-10T09:51:46.875Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -19,9 +19,10 @@
     <link href="http://blog.fengweizhou.com/2017/06/04/mac-launchd/"/>
     <id>http://blog.fengweizhou.com/2017/06/04/mac-launchd/</id>
     <published>2017-06-04T12:44:09.000Z</published>
-    <updated>2017-07-08T02:23:29.000Z</updated>
+    <updated>2018-04-10T09:51:46.875Z</updated>
     <content type="html"><![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX launchd 定时任务"></a>Mac OSX launchd 定时任务</h1><p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
 <p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>
+<a id="more"></a>
 <h3 id="u521B_u5EFA_u4E00_u4E2A_launchd__u4EFB_u52A1"><a href="#u521B_u5EFA_u4E00_u4E2A_launchd__u4EFB_u52A1" class="headerlink" title="创建一个 launchd 任务"></a>创建一个 launchd 任务</h3><p>创建一个任务非常简单，只要新建一个合法的 plist 文件，下面这个是为了实现上面提到的需求</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.fengweizhou.scheduledJobs<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/fengweizhou/Documents/MyProjects/scheduledJobs/.build/release/scheduledJobs<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StartCalendarInterval<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">key</span>&gt;</span>Hour<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">integer</span>&gt;</span>10<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">key</span>&gt;</span>Minute<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">integer</span>&gt;</span>30<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">key</span>&gt;</span>Hour<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">integer</span>&gt;</span>17<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">key</span>&gt;</span>Minute<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    		<span class="tag">&lt;<span class="name">integer</span>&gt;</span>30<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这个 plist 包含三个关键部分：</p>
@@ -38,7 +39,9 @@
 <p><a href="http://www.launchd.info/" target="_blank" rel="external">http://www.launchd.info/</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX laun]]>
+    <![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX launchd 定时任务"></a>Mac OSX launchd 定时任务</h1><p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
+<p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>]]>
+    
     </summary>
     
       <category term="tag" scheme="http://blog.fengweizhou.com/tags/tag/"/>
@@ -54,8 +57,9 @@
     <link href="http://blog.fengweizhou.com/2017/03/21/grand-central-dispatch/"/>
     <id>http://blog.fengweizhou.com/2017/03/21/grand-central-dispatch/</id>
     <published>2017-03-20T17:05:02.000Z</published>
-    <updated>2017-07-08T04:27:42.000Z</updated>
+    <updated>2018-04-10T09:51:47.643Z</updated>
     <content type="html"><![CDATA[<h1 id="u6211_u7684_GCD__u56DE_u987E"><a href="#u6211_u7684_GCD__u56DE_u987E" class="headerlink" title="我的 GCD 回顾"></a>我的 GCD 回顾</h1><h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>
+<a id="more"></a>
 <blockquote>
 <p>引入题外话：为什么要在主线程更新 UI？</p>
 <p>我的理解是：要在主线程更新 UI 不是一种技术限制，而更像是一种约定。系统 SDK 平台都约定好在这个环境中进行开发时应在主线程更新UI。主线程和其他线程并没有本质的区别，只是碰巧 UIApplicatin 在这个线程初始化。那么为什么要进行这种约定？我觉得最重要的原因应是性能考虑，如果要将 UIKit 全部做成线程安全，势必要增加保证线程安全的逻辑，这部分的性能再好，相对于约定只在主线程更新UI的方式，始终是额外的负担。</p>
@@ -82,7 +86,8 @@
 <p>不同优先级的 queue 低优先级会等所有高优先级的 queue 已经分配资源开始执行后才会被分配。在 background priority queue 中还会有 disk IO 和 network IO throttle。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="u6211_u7684_GCD__u56DE_u987E"><a href="#u6211_u7684_GCD__u56DE_u987E" class="headerlink" title="我的 GCD 回顾"></a>我的 GCD 回顾</h1><h2 id=]]>
+    <![CDATA[<h1 id="u6211_u7684_GCD__u56DE_u987E"><a href="#u6211_u7684_GCD__u56DE_u987E" class="headerlink" title="我的 GCD 回顾"></a>我的 GCD 回顾</h1><h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>]]>
+    
     </summary>
     
       <category term="多线程" scheme="http://blog.fengweizhou.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
@@ -98,9 +103,9 @@
     <link href="http://blog.fengweizhou.com/2017/02/19/myvim/"/>
     <id>http://blog.fengweizhou.com/2017/02/19/myvim/</id>
     <published>2017-02-19T15:39:10.000Z</published>
-    <updated>2017-07-14T02:31:16.000Z</updated>
+    <updated>2018-04-10T09:51:44.637Z</updated>
     <content type="html"><![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"></a>我的 Vim 日常使用</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
-<p>和一条普世的需求一样，80%的使用需求由20%功能实现，vim 日常使用需要掌握的功能其实并不多。</p>
+<p>和一条普世的需求一样，80%的使用需求由20%功能实现，vim 日常使用需要掌握的功能其实并不多。<br><a id="more"></a></p>
 <h2 id="insert_mode_edit_mode"><a href="#insert_mode_edit_mode" class="headerlink" title="insert mode edit mode"></a>insert mode edit mode</h2><p>vim 与常见的文本输入软件最明显的区别是 insert mode 和 edit mode，这里的名字是我自己取的。正如这两个名字所透露出来的一样，在vim中输入和编辑是在两种不同的状态下进行。vim 可能真的是为程序员而成的编辑器，因为它所持的设计理念贴近编辑比输入更常用，和在开发过程中一样：维护工作要比新功能开发重要的多。所以进入vim 默认情况下是处于edit mode 此时无法进行输入，第一次打开vim 的人大概很多就在这里懵逼了。</p>
 <h2 id="u5149_u6807_u79FB_u52A8"><a href="#u5149_u6807_u79FB_u52A8" class="headerlink" title="光标移动"></a>光标移动</h2><p>区分了这两种状态，并且明确edit mode 是默认之后，就可以开始进行其他vim操作了，首先依然从最明显的区别来，光标的上下左右移动，它们分别是</p>
 <p>h 向左<br>j 向下<br>k 向上<br>l 向右。</p>
@@ -116,7 +121,9 @@
 <h2 id="u5BC4_u5B58_u5668_u5E94_u7528"><a href="#u5BC4_u5B58_u5668_u5E94_u7528" class="headerlink" title="寄存器应用"></a>寄存器应用</h2><p>一种常用的效果是当作一个多项的剪切板。使用 “1 指明接下来复制操作进入的寄存器名称，”1yy 复制当前行到寄存器 1 中，然后 “1p 粘贴寄存器 1 中存的内容。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"]]>
+    <![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"></a>我的 Vim 日常使用</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
+<p>和一条普世的需求一样，80%的使用需求由20%功能实现，vim 日常使用需要掌握的功能其实并不多。<br>]]>
+    
     </summary>
     
       <category term="vim" scheme="http://blog.fengweizhou.com/tags/vim/"/>
@@ -130,15 +137,17 @@
     <link href="http://blog.fengweizhou.com/2015/12/10/different-world/"/>
     <id>http://blog.fengweizhou.com/2015/12/10/different-world/</id>
     <published>2015-12-09T16:57:24.000Z</published>
-    <updated>2016-01-21T16:58:54.000Z</updated>
+    <updated>2018-04-10T09:51:49.155Z</updated>
     <content type="html"><![CDATA[<p>大名鼎鼎的 objc.io 有一本书叫做 Functional Swift，只看到这个名字很容易误导人以为 Swift 可以是 Functional 的，但事实上这压根不可能，那本书更准确的名称应该是 Functional part of Swift。一个过程式语言可以拥有函数式的功能，特别是一些比较新的语言 Python Ruby 就曾经因为带有这些功能让人觉得更高级，同时也会被一些人评价说他们只不过实现了一些古老语言早就有的功能。这个评价是客观事实，早期从理论研究中诞生的编程语言大多都很函数式，局部变量和赋值这种过程式的功能仅仅是他们的一小部分。大规模应用于实践之后诞生的编程语言则完全将这一局面翻转了过来，完全是建立在局部变量和赋值之上的过程式，慢慢发展之后才开始增加一些函数式的功能。</p>
+<a id="more"></a>
 <p>函数式和过程式的不同根本在于选择不同的模型来模拟现实环境。在现实环境中状态（state）是客观存在的，过程式语言选择使用局部变量来模拟状态用赋值来模拟状态的改变，而函数式语言选择用流结构来模拟状态。</p>
 <p>用局部变量和赋值来模拟状态是很容易理解的，这种模拟方式是离散的。状态本身可以看做是一个以时间为参数的函数，局部变量的值就是这个函数在不同的时间作为参数时函数所得到的值。与此相对，流结构是连续的，函数式语言模拟状态的方式并不直接处理每个时间参数下的函数值而是直接处理函数整体，使用的手段多是高阶函数。</p>
 <p>这样就可以看出流结构是一门语言是函数式的根本，流结构的实现依赖于表达式的延时求值，没有延时求值功能的语言绝对不是函数式语言，所以 Swift 根本不是函数式语言。</p>
 <p>带有函数式功能的过程式语言和带有赋值功能的函数式语言说到底是整个世界观的不同。将延时求值和赋值带来的变动性合理的结合起来这一目标还仅仅停留在理论研究领域。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>大名鼎鼎的 objc.io 有一本书叫做 Functional Swift，只看到这个名字很容易误导人以为 Swift 可以是 Functional 的，但事实上这压根不可能，那本书更准确的名称应该是 Functional part of Swift。一个过程式语言可以拥有]]>
+    <![CDATA[<p>大名鼎鼎的 objc.io 有一本书叫做 Functional Swift，只看到这个名字很容易误导人以为 Swift 可以是 Functional 的，但事实上这压根不可能，那本书更准确的名称应该是 Functional part of Swift。一个过程式语言可以拥有函数式的功能，特别是一些比较新的语言 Python Ruby 就曾经因为带有这些功能让人觉得更高级，同时也会被一些人评价说他们只不过实现了一些古老语言早就有的功能。这个评价是客观事实，早期从理论研究中诞生的编程语言大多都很函数式，局部变量和赋值这种过程式的功能仅仅是他们的一小部分。大规模应用于实践之后诞生的编程语言则完全将这一局面翻转了过来，完全是建立在局部变量和赋值之上的过程式，慢慢发展之后才开始增加一些函数式的功能。</p>]]>
+    
     </summary>
     
       <category term="函数式编程" scheme="http://blog.fengweizhou.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
@@ -152,10 +161,10 @@
     <link href="http://blog.fengweizhou.com/2015/12/05/nqueensproblem/"/>
     <id>http://blog.fengweizhou.com/2015/12/05/nqueensproblem/</id>
     <published>2015-12-05T07:50:16.000Z</published>
-    <updated>2016-01-21T17:02:43.000Z</updated>
+    <updated>2018-04-10T09:51:43.900Z</updated>
     <content type="html"><![CDATA[<p>八皇后问题是求在八行八列的国际象棋棋盘上放置八个皇后，令她们彼此之间不能相互被吃的所有方法。国际象棋中皇后可以顺着横竖对角线方向行进任意距离。</p>
 <p>高阶函数是泛指那些以一个函数（或者称之为一个过程）作为参数的函数，这个问题里用到的标准库里自带的 map flatmap filter reduce</p>
-<p>在函数式编程思路中高阶函数在建立抽象和模块化过程中起到了很重要的作用，以 map 为例它将对一个序列的操作抽象出来，使序列本身和对序列的操作分割开来，这样做的好处是方便重用这种操作，也方便更换序列所需要进行的操作，为了实现这两点在常用的命令式写法中都是要整个操作重写才能完成。</p>
+<p>在函数式编程思路中高阶函数在建立抽象和模块化过程中起到了很重要的作用，以 map 为例它将对一个序列的操作抽象出来，使序列本身和对序列的操作分割开来，这样做的好处是方便重用这种操作，也方便更换序列所需要进行的操作，为了实现这两点在常用的命令式写法中都是要整个操作重写才能完成。<br><a id="more"></a></p>
 <p>高阶函数的组合使用可以更好的体现模块化的思想，高阶函数本身是模块与模块之间的接口，例如得到一个序列中的偶数的平方的序列：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = Array(<span class="number">0</span>...<span class="number">100</span>)</div><div class="line"><span class="keyword">let</span> b = a.filter(&#123;$0<span class="meta">%2</span> == <span class="number">0</span>&#125;).<span class="keyword">map</span>&#123;$0*$0&#125;</div></pre></td></tr></table></figure></p>
 <p>模块化的好处自然是替换模块整体结构不变，也就是维护方便。</p>
 <p>函数式编程思路解决问题的一般思路都是递归，逐步将问题分解求解。在解八皇后问题过程中递归的思路是 k-1 列已经摆放好 k-1 个皇后，通过 map 得到第 k 列的所有可能解，通过 flatmap 整理解类型，最后 filter 过滤出满足条件的那些解。</p>
@@ -168,7 +177,9 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>八皇后问题是求在八行八列的国际象棋棋盘上放置八个皇后，令她们彼此之间不能相互被吃的所有方法。国际象棋中皇后可以顺着横竖对角线方向行进任意距离。</p>
-<p>高阶函数是泛指那些以一个函数（或者称之为一个过程）作为参数的函数，这个问题里用到的标准库里自带的 map flatm]]>
+<p>高阶函数是泛指那些以一个函数（或者称之为一个过程）作为参数的函数，这个问题里用到的标准库里自带的 map flatmap filter reduce</p>
+<p>在函数式编程思路中高阶函数在建立抽象和模块化过程中起到了很重要的作用，以 map 为例它将对一个序列的操作抽象出来，使序列本身和对序列的操作分割开来，这样做的好处是方便重用这种操作，也方便更换序列所需要进行的操作，为了实现这两点在常用的命令式写法中都是要整个操作重写才能完成。<br>]]>
+    
     </summary>
     
       <category term="高阶函数" scheme="http://blog.fengweizhou.com/tags/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/"/>
@@ -267,9 +278,9 @@
     <link href="http://blog.fengweizhou.com/2015/11/18/middle-status/"/>
     <id>http://blog.fengweizhou.com/2015/11/18/middle-status/</id>
     <published>2015-11-18T05:03:37.000Z</published>
-    <updated>2016-01-21T04:10:35.000Z</updated>
+    <updated>2018-04-10T09:51:46.165Z</updated>
     <content type="html"><![CDATA[<p>对于常见的过程式编程语言赋值行为和定义变量是同一种形式，都是用等号进行。对于函数式编程语言来说定义和赋值有着显著区别。</p>
-<p>由于过程式编程更”容易”进行赋值所以经常采用在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：</p>
+<p>由于过程式编程更”容易”进行赋值所以经常采用在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：<br><a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">evenFibs1</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</div><div class="line">    <span class="keyword">var</span> result = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;()</div><div class="line">    <span class="keyword">var</span> x = <span class="number">0</span>, y = <span class="number">1</span>, <span class="built_in">count</span> = n</div><div class="line">    result.append(<span class="number">0</span>)</div><div class="line">    <span class="keyword">while</span> <span class="built_in">count</span> &gt; <span class="number">2</span> &#123;</div><div class="line">        (x, y) = (y, x+y)</div><div class="line">        <span class="keyword">if</span> y%<span class="number">2</span> == <span class="number">0</span> &#123; result.append(y) &#125;</div><div class="line">        <span class="built_in">count</span>--</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">evenFibs2</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">fib</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">var</span> tmpArray = [<span class="number">0</span>, <span class="number">1</span>]</div><div class="line">        <span class="function"><span class="keyword">func</span> <span class="title">fib2Inside</span><span class="params">(m: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">            <span class="keyword">if</span> m &gt;= tmpArray.<span class="built_in">count</span> &#123;</div><div class="line">                tmpArray.append(fib2Inside(m-<span class="number">1</span>) + fib2Inside(m-<span class="number">2</span>))</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> tmpArray[m]</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> fib2Inside(n)</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">isEven</span><span class="params">(n: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">if</span> n%<span class="number">2</span> == <span class="number">0</span> &#123; <span class="keyword">return</span> <span class="literal">true</span> &#125;</div><div class="line">        <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">0</span>..&lt;n).<span class="built_in">map</span>(fib).<span class="built_in">filter</span>(isEven)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>方法一中使用一个局部变量作为盛放结果的容器，不断将这一变量赋值为新的值，在方法的最后返回这个值，而方法二则是直接作用于一个数组得到结果。</p>
 <p>这两种方法对比，显然方法一的效率更好一些，方法二是在模块化的方面更显著一些，模块化意味着这个方法很容易抽象为一个对数组每个值作用然后过滤的函数，作用函数和过滤函数都可以轻易的更换，而方法一的变更就没有那么容易了。事实上方法二里面的 fib 函数为了求值效率是按照方法一的思路实现的。</p>
@@ -281,7 +292,8 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>对于常见的过程式编程语言赋值行为和定义变量是同一种形式，都是用等号进行。对于函数式编程语言来说定义和赋值有着显著区别。</p>
-<p>由于过程式编程更”容易”进行赋值所以经常采用在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做]]>
+<p>由于过程式编程更”容易”进行赋值所以经常采用在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：<br>]]>
+    
     </summary>
     
       <category term="函数式编程" scheme="http://blog.fengweizhou.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
@@ -295,15 +307,16 @@
     <link href="http://blog.fengweizhou.com/2015/11/13/solve-sudoku/"/>
     <id>http://blog.fengweizhou.com/2015/11/13/solve-sudoku/</id>
     <published>2015-11-13T15:26:19.000Z</published>
-    <updated>2015-12-30T15:27:56.000Z</updated>
+    <updated>2018-04-10T09:51:42.285Z</updated>
     <content type="html"><![CDATA[<p>由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。</p>
-<p>在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的  getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。</p>
+<p>在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的  getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。<br><a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">SudokuError</span>: <span class="title">ErrorType</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> initDataError</div><div class="line">    <span class="keyword">case</span> invalidSudoku</div><div class="line">    <span class="keyword">case</span> subscriptOutOfRange</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Sudoku</span>: <span class="title">CustomStringConvertible</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">var</span> data = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;()</div><div class="line">    </div><div class="line">    <span class="keyword">init</span>(array: <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;) <span class="keyword">throws</span> &#123;</div><div class="line">        <span class="keyword">guard</span> array.<span class="built_in">count</span> == <span class="number">81</span> <span class="keyword">else</span> &#123; <span class="keyword">throw</span> <span class="type">SudokuError</span>.initDataError &#125;</div><div class="line">        data = array</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">isRangeValid</span><span class="params">(row: Int, column: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span> &lt;= row &amp;&amp; row &lt; <span class="number">9</span> &amp;&amp; <span class="number">0</span> &lt;= column &amp;&amp; column &lt; <span class="number">9</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">subscript</span>(row: <span class="type">Int</span>, column: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">get</span> &#123;</div><div class="line">            <span class="keyword">return</span> data[row*<span class="number">9</span>+column]</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">set</span> &#123;</div><div class="line">            data[row*<span class="number">9</span>+column] = newValue</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">solve</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</div><div class="line">        <span class="keyword">var</span> emptyCells = <span class="type">Array</span>&lt;(<span class="type">Int</span>, <span class="type">Int</span>)&gt;()</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>...<span class="number">8</span> &#123;</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">0</span>...<span class="number">8</span> &#123;</div><div class="line">                <span class="keyword">if</span> <span class="keyword">self</span>[i, j] == <span class="number">0</span> &#123;</div><div class="line">                    emptyCells.append((i, j))</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">var</span> index = <span class="number">0</span></div><div class="line">        <span class="keyword">while</span> index &lt; emptyCells.<span class="built_in">count</span> &#123;</div><div class="line">            <span class="keyword">let</span> (a, b) = emptyCells[index]</div><div class="line">            <span class="keyword">if</span> <span class="keyword">self</span>[a, b] &lt; <span class="number">9</span> &#123;</div><div class="line">                <span class="keyword">self</span>[a, b]++</div><div class="line">                <span class="keyword">if</span> isSafe(a, y: b) &#123;</div><div class="line">                    index++</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">self</span>[a, b] = <span class="number">0</span></div><div class="line">                index--</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> index &lt; <span class="number">0</span> &#123; <span class="keyword">throw</span> <span class="type">SudokuError</span>.invalidSudoku &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">isSafe</span><span class="params">(x: Int, y: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">return</span> isRowSafe(x, y: y) &amp;&amp; isColumnSafe(x, y: y) &amp;&amp; isCellSafe(x, y: y)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">isRowSafe</span><span class="params">(x: Int, y: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>...<span class="number">8</span> &#123;</div><div class="line">            <span class="keyword">if</span> i != y &amp;&amp; <span class="keyword">self</span>[x, y] == <span class="keyword">self</span>[x, i] &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">isColumnSafe</span><span class="params">(x: Int, y: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>...<span class="number">8</span> &#123;</div><div class="line">            <span class="keyword">if</span> i != x &amp;&amp; <span class="keyword">self</span>[x, y] == <span class="keyword">self</span>[i, y] &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">isCellSafe</span><span class="params">(x: Int, y: Int)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">let</span> a = x/<span class="number">3</span>, b = y/<span class="number">3</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">3</span>*a...(<span class="number">3</span>*a+<span class="number">2</span>) &#123;</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">3</span>*b...(<span class="number">3</span>*b+<span class="number">2</span>) &#123;</div><div class="line">                <span class="keyword">if</span> i != x &amp;&amp; j != y &amp;&amp; <span class="keyword">self</span>[x, y] == <span class="keyword">self</span>[i, j] &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> description: <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">var</span> output = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>...<span class="number">8</span> &#123;</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">0</span>...<span class="number">8</span> &#123;</div><div class="line">                output.appendContentsOf(<span class="string">"<span class="subst">\(<span class="keyword">self</span>[i,j])</span> "</span>)</div><div class="line">                <span class="keyword">if</span> j == <span class="number">8</span> &#123;output.appendContentsOf(<span class="string">"\n"</span>)&#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> output</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">    <span class="keyword">let</span> data = [<span class="number">0</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0</span>,</div><div class="line">                <span class="number">0</span>,<span class="number">4</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">2</span>,</div><div class="line">                <span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">6</span>,</div><div class="line">                <span class="number">7</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</div><div class="line">                <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">6</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</div><div class="line">                <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">4</span>,</div><div class="line">                <span class="number">4</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">0</span>,</div><div class="line">                <span class="number">9</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,</div><div class="line">                <span class="number">0</span>,<span class="number">6</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">0</span>]</div><div class="line">    <span class="keyword">var</span> theSudoku = <span class="keyword">try</span> <span class="type">Sudoku</span>(array: data)</div><div class="line">    <span class="keyword">try</span> theSudoku.solve()</div><div class="line">    <span class="built_in">print</span>(theSudoku)</div><div class="line">&#125; <span class="keyword">catch</span> <span class="type">SudokuError</span>.initDataError &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"The count of init array isn't 81"</span>)</div><div class="line">&#125; <span class="keyword">catch</span> <span class="type">SudokuError</span>.invalidSudoku &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"This is not a valid sudoku"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>对比以前写过的版本，这个实现多出了 subscript 中的 getter setter 方法，增加这两个方法隔离开了解数独的过程和实现数独数据的具体细节，假如要换一种数独的实现方式，只需要修改其中的构造函数和 subscript 其他函数例如 solve() 完全不需要改动，这就是复合数据抽象的好处。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。</p>
-<p>在这个例子中，最底层使用数组作为数独数据的]]>
+<p>在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的  getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。<br>]]>
+    
     </summary>
     
       <category term="数独" scheme="http://blog.fengweizhou.com/tags/%E6%95%B0%E7%8B%AC/"/>
@@ -419,8 +432,8 @@
     <link href="http://blog.fengweizhou.com/2015/10/23/motivation-pattern/"/>
     <id>http://blog.fengweizhou.com/2015/10/23/motivation-pattern/</id>
     <published>2015-10-23T02:41:35.000Z</published>
-    <updated>2015-12-31T02:46:58.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="u7F18_u8D77"><a href="#u7F18_u8D77" class="headerlink" title="缘起"></a>缘起</h3><p>可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。</p>
+    <updated>2018-04-10T09:51:45.434Z</updated>
+    <content type="html"><![CDATA[<h3 id="u7F18_u8D77"><a href="#u7F18_u8D77" class="headerlink" title="缘起"></a>缘起</h3><p>可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。<br><a id="more"></a></p>
 <h3 id="u4EC0_u4E48_u662F_u52A8_u529B_uFF1F"><a href="#u4EC0_u4E48_u662F_u52A8_u529B_uFF1F" class="headerlink" title="什么是动力？"></a>什么是动力？</h3><p>首先先建立一个认识模型：</p>
 <blockquote>
 <p> 一个人的精神活动由两部分组成：一是由大脑皮层控制的理性，二是由大脑内部脑干等控制的感性。</p>
@@ -436,7 +449,8 @@
 <h3 id="u7406_u6027_u7684_u6B63_u786E_u5E94_u7528"><a href="#u7406_u6027_u7684_u6B63_u786E_u5E94_u7528" class="headerlink" title="理性的正确应用"></a>理性的正确应用</h3><p>前面说到真正起到驱动作用的是感性的力量，也就是说理性并不是全部也并非全能。但是这个地方特别需要注意的是这种理性并非全能的认识正是理性本身做出的，这种能够正视和承认自身缺陷的能力才是理性最强大的地方。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h3 id="u7F18_u8D77"><a href="#u7F18_u8D77" class="headerlink" title="缘起"></a>缘起</h3><p>可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想]]>
+    <![CDATA[<h3 id="u7F18_u8D77"><a href="#u7F18_u8D77" class="headerlink" title="缘起"></a>缘起</h3><p>可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。<br>]]>
+    
     </summary>
     
       <category term="动力" scheme="http://blog.fengweizhou.com/tags/%E5%8A%A8%E5%8A%9B/"/>
@@ -450,8 +464,9 @@
     <link href="http://blog.fengweizhou.com/2015/09/22/githooks/"/>
     <id>http://blog.fengweizhou.com/2015/09/22/githooks/</id>
     <published>2015-09-21T16:02:37.000Z</published>
-    <updated>2017-04-20T17:10:47.000Z</updated>
+    <updated>2018-04-10T09:51:48.393Z</updated>
     <content type="html"><![CDATA[<p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。</p>
+<a id="more"></a>
 <p>将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中</p>
 <ol>
 <li>从服务器 pull 下来后 <code>Podfile.lock</code> 发生变化，也就是本地 pod 和服务器中的不一致，需要 <code>pod install</code></li>
@@ -477,7 +492,8 @@
 <p>资源：<br><a href="http://githooks.com" target="_blank" rel="external">http://githooks.com</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 gith]]>
+    <![CDATA[<p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。</p>]]>
+    
     </summary>
     
       <category term="git" scheme="http://blog.fengweizhou.com/tags/git/"/>
@@ -493,8 +509,8 @@
     <link href="http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/"/>
     <id>http://blog.fengweizhou.com/2015/07/21/why-array-start-from-0/</id>
     <published>2015-07-21T13:13:44.000Z</published>
-    <updated>2017-04-20T17:10:44.000Z</updated>
-    <content type="html"><![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。</p>
+    <updated>2018-04-10T09:51:41.181Z</updated>
+    <content type="html"><![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。<br><a id="more"></a></p>
 <p>首先使用 0 作为数组第一位并不一定是一个正确的做法， 事实上也有以 1 作为首位的编程语言存在（Matlab，Fortran， Lua等），在 Dijkstra 的文章里他提出的证明思路是这样的：为表示一段离散的自然数集合例如 [4, 5, 6] 可以使用的公式有四种：<br>a. 4 ≤ i &lt; 7<br>b. 3 &lt; i ≤ 6<br>c. 4 ≤ i ≤ 6<br>d. 3 &lt; i &lt; 7</p>
 <p>这四种表达方式的含义是一样的，那么他们之间是否有优劣之分？ 是有的，考虑如果数值中包含自然数的最小值，那么 bd 的表达方式中下界就要使用非自然数这样是不完美的，所以首先排除。其次考虑 ac 如果这个集合是空集，用 c 是无法表达的（右侧的值大于等于左侧），于是就得到表达集合的最佳方式 4 ≤ i &lt; 7.</p>
 <p>对于包含 N 个元素的数组 array[i] 来说，对比下表的两种取值，从1开始记数是 1 ≤ i &lt; N+1, 另一种使用更多的是 0 ≤ i &lt; N, 后者看上去更 nice，并且每个元素的下标值等于在他之前元素的个数。</p>
@@ -505,8 +521,8 @@
 <p>最后，自然数里的自然是一种理论上的自然，用0个回答冰箱里能装几个大象比装不了在形式上要统一很多，并且 0 真的是一个自然数。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。</p>
-<p>首先使用 0 作为数组第一位并不一定是一个正确的做法， 事实上也有以 1 作为首位]]>
+    <![CDATA[<p>从0开始记数经常被作为一个人是一名程序员的象征，在大多数主流编程语言中数组的记数都是以0为首位，今天读了 Dijkstra 的一篇旧文结合我的理解来谈谈为什么数组记数从0开始。<br>]]>
+    
     </summary>
     
       <category term="0" scheme="http://blog.fengweizhou.com/tags/0/"/>
@@ -520,8 +536,8 @@
     <link href="http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/"/>
     <id>http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/</id>
     <published>2014-12-21T13:02:34.000Z</published>
-    <updated>2015-12-21T13:10:29.000Z</updated>
-    <content type="html"><![CDATA[<p>2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：</p>
+    <updated>2018-04-10T09:51:43.138Z</updated>
+    <content type="html"><![CDATA[<p>2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：<br><a id="more"></a></p>
 <h3 id="1-__u5C0F_u5FC3_u5728_u8BA8_u8BBA_u4E2D_u7528_u5230_u7528_u6237_u4F53_u9A8C_u8FD9_u4E2A_u8BCD_u7684_u4EBA"><a href="#1-__u5C0F_u5FC3_u5728_u8BA8_u8BBA_u4E2D_u7528_u5230_u7528_u6237_u4F53_u9A8C_u8FD9_u4E2A_u8BCD_u7684_u4EBA" class="headerlink" title="1. 小心在讨论中用到用户体验这个词的人"></a>1. 小心在讨论中用到用户体验这个词的人</h3><p>在产品讨论中直接用到用户体验这个词的人是典型的一哄而上的人，就好像有人跟你说：这个问题我们可以用大数据的方法解决一样，当他说出这种词的时候就已经暴露了他的无知，无论这种无知是有意还是无意的，小心总是没有错的。我知道这种无知再更多的场合和情景下可能是常态和客观现实，但毕竟现实是值得被讽刺得这也是客观现实。</p>
 <h3 id="2-__u6CA1_u6709_u91CF_u5316_u7684_u6807_u51C6_u65E0_u6CD5_u505A_u6709_u6548_u7684_u51B3_u5B9A"><a href="#2-__u6CA1_u6709_u91CF_u5316_u7684_u6807_u51C6_u65E0_u6CD5_u505A_u6709_u6548_u7684_u51B3_u5B9A" class="headerlink" title="2. 没有量化的标准无法做有效的决定"></a>2. 没有量化的标准无法做有效的决定</h3><p>在这一年的工作当中，在产品方面给我收获最大是参加公司里的一个新技术应用比赛，在这个比赛中我主导了一个产品从创意产生到原型上线的整个过程，我们有4个团队成员，当时的工作分别是2个产品1个技术1个测试，报名和队伍的组织者是我。按照比赛的进程说说每个阶段的收获：</p>
 <h4 id="a-__u56E2_u961F_u5185_u90E8_u786E_u5B9A_u65B9_u5411"><a href="#a-__u56E2_u961F_u5185_u90E8_u786E_u5B9A_u65B9_u5411" class="headerlink" title="a. 团队内部确定方向"></a>a. 团队内部确定方向</h4><p>团队内部的决策过程是很典型的，我不主导我不说话，所以主导确定下来方向并不难</p>
@@ -531,8 +547,8 @@
 <h3 id="4-__u9664_u975E_u8FEB_u4E0D_u5F97_u5DF2_uFF0C_u6CA1_u6709_u4EBA_u4F1A_u770B_u6587_u6863"><a href="#4-__u9664_u975E_u8FEB_u4E0D_u5F97_u5DF2_uFF0C_u6CA1_u6709_u4EBA_u4F1A_u770B_u6587_u6863" class="headerlink" title="4. 除非迫不得已，没有人会看文档"></a>4. 除非迫不得已，没有人会看文档</h3><p>这一年里为数不多能让我津津乐道的是我用 sina app engine 做服务器用 PHP + Bootstrap 为运营写了一个简化后台操作的工具，那段时间还做了一个实时翻译的小工具，方便自己在翻译时用。在我的简易版后台操作里，即使是我认为写的清清楚楚的操作指南，作为一个互联网公司的员工依然还是不断出问题，囿于公司本身后台不稳定并没有做进一步操作流程的改善。从产品设计的角度讲这就是真实的需要产品使用指南的产品除非迫不得已，不会有人用。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：</p>
-<h]]>
+    <![CDATA[<p>2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：<br>]]>
+    
     </summary>
     
       <category term="产品经理" scheme="http://blog.fengweizhou.com/tags/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86/"/>
