@@ -4,7 +4,7 @@
   <subtitle><![CDATA[你是个聪明人，所以我第一眼看到你，就已开始喜欢你]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2018-04-10T09:51:46.875Z</updated>
+  <updated>2018-05-08T10:56:34.149Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Mac OSX launchd 定时任务]]></title>
+    <title><![CDATA[在 Mac 系统使用launchd运行定时任务]]></title>
     <link href="http://blog.fengweizhou.com/2017/06/04/mac-launchd/"/>
     <id>http://blog.fengweizhou.com/2017/06/04/mac-launchd/</id>
     <published>2017-06-04T12:44:09.000Z</published>
-    <updated>2018-04-10T09:51:46.875Z</updated>
+    <updated>2018-05-08T10:56:34.149Z</updated>
     <content type="html"><![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX launchd 定时任务"></a>Mac OSX launchd 定时任务</h1><p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
 <p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>
 <a id="more"></a>
@@ -99,11 +99,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[我的 Vim 日常使用]]></title>
+    <title><![CDATA[我的 Vim 使用日常]]></title>
     <link href="http://blog.fengweizhou.com/2017/02/19/myvim/"/>
     <id>http://blog.fengweizhou.com/2017/02/19/myvim/</id>
     <published>2017-02-19T15:39:10.000Z</published>
-    <updated>2018-05-08T10:26:32.610Z</updated>
+    <updated>2018-05-08T10:57:38.578Z</updated>
     <content type="html"><![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"></a>我的 Vim 日常使用</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
 <p>和一条普世的需求一样，80% 的使用需求由 20% 功能实现，vim 日常使用需要掌握的功能其实并不多。<br><a id="more"></a></p>
 <h2 id="insert_mode_edit_mode"><a href="#insert_mode_edit_mode" class="headerlink" title="insert mode edit mode"></a>insert mode edit mode</h2><p>vim 与常见的文本输入软件最明显的区别是 insert mode 和 edit mode，这里的名字是我自己取的。正如这两个名字所透露出来的一样，在 vim 中输入和编辑是在两种不同的状态下进行。vim 可能真的是为程序员而成的编辑器，因为它所持的设计理念贴近编辑比输入更常用，和在开发过程中一样：维护工作要比新功能开发重要的多。所以进入 vim 默认情况下是处于 edit mode 此时无法进行输入，第一次打开 vim 的人大概很多就在这里懵逼了。</p>
@@ -128,7 +128,7 @@
     
       <category term="vim" scheme="http://blog.fengweizhou.com/tags/vim/"/>
     
-      <category term="工具" scheme="http://blog.fengweizhou.com/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="编程相关" scheme="http://blog.fengweizhou.com/categories/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/"/>
     
   </entry>
   
@@ -191,11 +191,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[那些「绝对」的和「相对」的]]></title>
+    <title><![CDATA[日常生活和编程中的相对关系和绝对关系]]></title>
     <link href="http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/"/>
     <id>http://blog.fengweizhou.com/2015/11/28/absolute-vs-relativity/</id>
     <published>2015-11-28T03:14:46.000Z</published>
-    <updated>2017-04-20T17:10:46.000Z</updated>
+    <updated>2018-05-08T10:55:03.265Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>这个世界上所有事物都是相对的，只有「相对」本身是绝对的<br><strong>接盘侠日记</strong></p>
 </blockquote>
@@ -229,7 +229,7 @@
     
       <category term="ReactiveKit" scheme="http://blog.fengweizhou.com/tags/ReactiveKit/"/>
     
-      <category term="编程思路" scheme="http://blog.fengweizhou.com/categories/%E7%BC%96%E7%A8%8B%E6%80%9D%E8%B7%AF/"/>
+      <category term="编程相关" scheme="http://blog.fengweizhou.com/categories/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/"/>
     
   </entry>
   
@@ -238,7 +238,7 @@
     <link href="http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/"/>
     <id>http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/</id>
     <published>2015-11-23T05:30:35.000Z</published>
-    <updated>2017-04-20T17:10:42.000Z</updated>
+    <updated>2018-05-08T10:59:23.262Z</updated>
     <content type="html"><![CDATA[<h3 id="1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB"><a href="#1-__u6392_u5E8F_u8FC7_u7684_u6570_u7EC4_u904D_u5386_u66F4_u5FEB" class="headerlink" title="1. 排序过的数组遍历更快"></a>1. 排序过的数组遍历更快</h3><p><strong>实验</strong></p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sorted = [<span class="literal">false</span>, <span class="literal">true</span>]</div><div class="line"></div><div class="line"><span class="keyword">for</span> isSorted <span class="keyword">in</span> sorted &#123;</div><div class="line">    <span class="keyword">var</span> datas = Array<span class="function"><span class="params">(count: <span class="number">32768</span>, repeatedValue: <span class="number">0</span>)</span>.<span class="title">map</span> &#123; <span class="params">(n)</span> -&gt;</span> Int <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> n + Int(arc4random_uniform(UInt32(<span class="number">256</span>)))</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> isSorted &#123;</div><div class="line">        datas.sortInPlace(&lt;)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">let</span> start = NSDate()</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0.</span>..<span class="number">100000</span> &#123;</div><div class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> datas &#123;</div><div class="line">            <span class="keyword">if</span> n &gt; <span class="number">128</span> &#123;</div><div class="line">                sum += n</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(<span class="string">"Time elapsed when \(isSorted ? "</span>sorted<span class="string">":"</span>unsorted<span class="string">"): \(NSDate().timeIntervalSinceDate(start))"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>输出</strong></p>
@@ -269,7 +269,7 @@
     
       <category term="Swift" scheme="http://blog.fengweizhou.com/tags/Swift/"/>
     
-      <category term="Swift" scheme="http://blog.fengweizhou.com/categories/Swift/"/>
+      <category term="编程相关" scheme="http://blog.fengweizhou.com/categories/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/"/>
     
   </entry>
   
@@ -328,11 +328,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[用过程复合数据]]></title>
+    <title><![CDATA[过程数据二元对立之用过程复合数据]]></title>
     <link href="http://blog.fengweizhou.com/2015/11/12/church-numerals/"/>
     <id>http://blog.fengweizhou.com/2015/11/12/church-numerals/</id>
     <published>2015-11-12T04:34:05.000Z</published>
-    <updated>2016-10-10T15:10:03.000Z</updated>
+    <updated>2018-05-08T10:55:01.916Z</updated>
     <content type="html"><![CDATA[<p>复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为</p>
 <a id="more"></a>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">func zero&lt;<span class="literal">T</span>&gt;(f:(<span class="literal">T</span>-&gt;<span class="literal">T</span>)) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;x <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> x&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">func add_1&lt;<span class="literal">T</span>&gt;(n:(<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; (<span class="literal">T</span>-&gt;<span class="literal">T</span>) -&gt; <span class="literal">T</span>-&gt;<span class="literal">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;f <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> &#123;x <span class="keyword">in</span></div><div class="line">            <span class="keyword">return</span> f(n(f)(x))</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -356,11 +356,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[构建过程抽象]]></title>
+    <title><![CDATA[数据过程二元对立之过程作为数据]]></title>
     <link href="http://blog.fengweizhou.com/2015/11/09/procedure-abstraction/"/>
     <id>http://blog.fengweizhou.com/2015/11/09/procedure-abstraction/</id>
     <published>2015-11-09T14:54:21.000Z</published>
-    <updated>2016-10-10T15:11:21.000Z</updated>
+    <updated>2018-05-08T10:58:56.738Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>3）将有关认识与那些在实际中和他同在的所有其他认识隔离开，这就是抽象<br>SICP 第一章<br>现存的许多威力强大的程序设计技术，都依赖于填平在「被动的」数据和「主动的」过程之间的传统划分<br>SICP 第一章</p>
 </blockquote>
@@ -428,11 +428,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[有关动力的模型]]></title>
+    <title><![CDATA[有关动力的思考]]></title>
     <link href="http://blog.fengweizhou.com/2015/10/23/motivation-pattern/"/>
     <id>http://blog.fengweizhou.com/2015/10/23/motivation-pattern/</id>
     <published>2015-10-23T02:41:35.000Z</published>
-    <updated>2018-04-10T09:51:45.434Z</updated>
+    <updated>2018-05-08T10:57:18.405Z</updated>
     <content type="html"><![CDATA[<h3 id="u7F18_u8D77"><a href="#u7F18_u8D77" class="headerlink" title="缘起"></a>缘起</h3><p>可能和许多人一样我也有一些曾经想要学习然而却最终没有去进行学习的目标，需要举起例子的话很容易，不过我更想弄明白的是这些例子背后共通的原因。这就引发了我对动力的思考。<br><a id="more"></a></p>
 <h3 id="u4EC0_u4E48_u662F_u52A8_u529B_uFF1F"><a href="#u4EC0_u4E48_u662F_u52A8_u529B_uFF1F" class="headerlink" title="什么是动力？"></a>什么是动力？</h3><p>首先先建立一个认识模型：</p>
 <blockquote>
@@ -464,7 +464,7 @@
     <link href="http://blog.fengweizhou.com/2015/09/22/githooks/"/>
     <id>http://blog.fengweizhou.com/2015/09/22/githooks/</id>
     <published>2015-09-21T16:02:37.000Z</published>
-    <updated>2018-04-10T09:51:48.393Z</updated>
+    <updated>2018-05-08T10:57:15.852Z</updated>
     <content type="html"><![CDATA[<p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。</p>
 <a id="more"></a>
 <p>将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中</p>
@@ -500,7 +500,7 @@
     
       <category term="自动化" scheme="http://blog.fengweizhou.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
     
-      <category term="工具" scheme="http://blog.fengweizhou.com/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="编程相关" scheme="http://blog.fengweizhou.com/categories/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/"/>
     
   </entry>
   
@@ -536,7 +536,7 @@
     <link href="http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/"/>
     <id>http://blog.fengweizhou.com/2014/12/21/one-year-as-pm/</id>
     <published>2014-12-21T13:02:34.000Z</published>
-    <updated>2018-04-10T09:51:43.138Z</updated>
+    <updated>2018-05-08T10:57:54.842Z</updated>
     <content type="html"><![CDATA[<p>2013年7月我毕业，开始从事一个叫做产品助理的工作，在一家互联网公司。2013年是产品这个概念最疯传的一年，那一年所有人都在谈论张小龙的产品理念，那一年所有人都要跟你谈用户体验。疯传的背后有产业真实的发展与前进，也有互联网时代典型的一哄而上。这一年我学到的：<br><a id="more"></a></p>
 <h3 id="1-__u5C0F_u5FC3_u5728_u8BA8_u8BBA_u4E2D_u7528_u5230_u7528_u6237_u4F53_u9A8C_u8FD9_u4E2A_u8BCD_u7684_u4EBA"><a href="#1-__u5C0F_u5FC3_u5728_u8BA8_u8BBA_u4E2D_u7528_u5230_u7528_u6237_u4F53_u9A8C_u8FD9_u4E2A_u8BCD_u7684_u4EBA" class="headerlink" title="1. 小心在讨论中用到用户体验这个词的人"></a>1. 小心在讨论中用到用户体验这个词的人</h3><p>在产品讨论中直接用到用户体验这个词的人是典型的一哄而上的人，就好像有人跟你说：这个问题我们可以用大数据的方法解决一样，当他说出这种词的时候就已经暴露了他的无知，无论这种无知是有意还是无意的，小心总是没有错的。我知道这种无知再更多的场合和情景下可能是常态和客观现实，但毕竟现实是值得被讽刺得这也是客观现实。</p>
 <h3 id="2-__u6CA1_u6709_u91CF_u5316_u7684_u6807_u51C6_u65E0_u6CD5_u505A_u6709_u6548_u7684_u51B3_u5B9A"><a href="#2-__u6CA1_u6709_u91CF_u5316_u7684_u6807_u51C6_u65E0_u6CD5_u505A_u6709_u6548_u7684_u51B3_u5B9A" class="headerlink" title="2. 没有量化的标准无法做有效的决定"></a>2. 没有量化的标准无法做有效的决定</h3><p>在这一年的工作当中，在产品方面给我收获最大是参加公司里的一个新技术应用比赛，在这个比赛中我主导了一个产品从创意产生到原型上线的整个过程，我们有4个团队成员，当时的工作分别是2个产品1个技术1个测试，报名和队伍的组织者是我。按照比赛的进程说说每个阶段的收获：</p>
@@ -553,7 +553,7 @@
     
       <category term="产品经理" scheme="http://blog.fengweizhou.com/tags/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86/"/>
     
-      <category term="其他" scheme="http://blog.fengweizhou.com/categories/%E5%85%B6%E4%BB%96/"/>
+      <category term="产品" scheme="http://blog.fengweizhou.com/categories/%E4%BA%A7%E5%93%81/"/>
     
   </entry>
   
