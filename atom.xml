@@ -4,7 +4,7 @@
   <subtitle><![CDATA[你是个聪明人，所以我第一眼看到你，就已开始喜欢你]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.fengweizhou.com/"/>
-  <updated>2018-05-08T10:56:34.149Z</updated>
+  <updated>2018-05-08T11:01:46.464Z</updated>
   <id>http://blog.fengweizhou.com/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <link href="http://blog.fengweizhou.com/2017/06/04/mac-launchd/"/>
     <id>http://blog.fengweizhou.com/2017/06/04/mac-launchd/</id>
     <published>2017-06-04T12:44:09.000Z</published>
-    <updated>2018-05-08T10:56:34.149Z</updated>
-    <content type="html"><![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX launchd 定时任务"></a>Mac OSX launchd 定时任务</h1><p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
+    <updated>2018-05-08T11:01:46.464Z</updated>
+    <content type="html"><![CDATA[<p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
 <p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>
 <a id="more"></a>
 <h3 id="u521B_u5EFA_u4E00_u4E2A_launchd__u4EFB_u52A1"><a href="#u521B_u5EFA_u4E00_u4E2A_launchd__u4EFB_u52A1" class="headerlink" title="创建一个 launchd 任务"></a>创建一个 launchd 任务</h3><p>创建一个任务非常简单，只要新建一个合法的 plist 文件，下面这个是为了实现上面提到的需求</p>
@@ -39,7 +39,7 @@
 <p><a href="http://www.launchd.info/" target="_blank" rel="external">http://www.launchd.info/</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1"><a href="#Mac_OSX_launchd__u5B9A_u65F6_u4EFB_u52A1" class="headerlink" title="Mac OSX launchd 定时任务"></a>Mac OSX launchd 定时任务</h1><p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
+    <![CDATA[<p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
 <p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>]]>
     
     </summary>
@@ -57,8 +57,8 @@
     <link href="http://blog.fengweizhou.com/2017/03/21/grand-central-dispatch/"/>
     <id>http://blog.fengweizhou.com/2017/03/21/grand-central-dispatch/</id>
     <published>2017-03-20T17:05:02.000Z</published>
-    <updated>2018-04-10T09:51:47.643Z</updated>
-    <content type="html"><![CDATA[<h1 id="u6211_u7684_GCD__u56DE_u987E"><a href="#u6211_u7684_GCD__u56DE_u987E" class="headerlink" title="我的 GCD 回顾"></a>我的 GCD 回顾</h1><h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>
+    <updated>2018-05-08T11:01:41.121Z</updated>
+    <content type="html"><![CDATA[<h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>
 <a id="more"></a>
 <blockquote>
 <p>引入题外话：为什么要在主线程更新 UI？</p>
@@ -86,7 +86,7 @@
 <p>不同优先级的 queue 低优先级会等所有高优先级的 queue 已经分配资源开始执行后才会被分配。在 background priority queue 中还会有 disk IO 和 network IO throttle。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="u6211_u7684_GCD__u56DE_u987E"><a href="#u6211_u7684_GCD__u56DE_u987E" class="headerlink" title="我的 GCD 回顾"></a>我的 GCD 回顾</h1><h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>]]>
+    <![CDATA[<h2 id="u5165_u95E8"><a href="#u5165_u95E8" class="headerlink" title="入门"></a>入门</h2><p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>]]>
     
     </summary>
     
@@ -103,8 +103,8 @@
     <link href="http://blog.fengweizhou.com/2017/02/19/myvim/"/>
     <id>http://blog.fengweizhou.com/2017/02/19/myvim/</id>
     <published>2017-02-19T15:39:10.000Z</published>
-    <updated>2018-05-08T10:57:38.578Z</updated>
-    <content type="html"><![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"></a>我的 Vim 日常使用</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
+    <updated>2018-05-08T11:01:54.144Z</updated>
+    <content type="html"><![CDATA[<p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
 <p>和一条普世的需求一样，80% 的使用需求由 20% 功能实现，vim 日常使用需要掌握的功能其实并不多。<br><a id="more"></a></p>
 <h2 id="insert_mode_edit_mode"><a href="#insert_mode_edit_mode" class="headerlink" title="insert mode edit mode"></a>insert mode edit mode</h2><p>vim 与常见的文本输入软件最明显的区别是 insert mode 和 edit mode，这里的名字是我自己取的。正如这两个名字所透露出来的一样，在 vim 中输入和编辑是在两种不同的状态下进行。vim 可能真的是为程序员而成的编辑器，因为它所持的设计理念贴近编辑比输入更常用，和在开发过程中一样：维护工作要比新功能开发重要的多。所以进入 vim 默认情况下是处于 edit mode 此时无法进行输入，第一次打开 vim 的人大概很多就在这里懵逼了。</p>
 <h2 id="u5149_u6807_u79FB_u52A8"><a href="#u5149_u6807_u79FB_u52A8" class="headerlink" title="光标移动"></a>光标移动</h2><p>区分了这两种状态，并且明确 edit mode 是默认之后，就可以开始进行其他 vim 操作了，首先依然从最明显的区别来，光标的上下左右移动，它们分别是</p>
@@ -121,7 +121,7 @@
 <h2 id="u5BC4_u5B58_u5668_u5E94_u7528"><a href="#u5BC4_u5B58_u5668_u5E94_u7528" class="headerlink" title="寄存器应用"></a>寄存器应用</h2><p>一种常用的效果是当作一个多项的剪切板。使用 “1 指明接下来复制操作进入的寄存器名称，”1yy 复制当前行到寄存器 1 中，然后 “1p 粘贴寄存器 1 中存的内容。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528"><a href="#u6211_u7684_Vim__u65E5_u5E38_u4F7F_u7528" class="headerlink" title="我的 Vim 日常使用"></a>我的 Vim 日常使用</h1><p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
+    <![CDATA[<p>原生 vim 需要的配置不少，而且想要有一些特定自动补全需要的配置步骤就更多（iOS API），所以我主要是用 vim  mode 插件。几乎主流的 IDE 应该都有 vim 插件，甚至 sublime text 都有 vim mode 可以开启。</p>
 <p>和一条普世的需求一样，80% 的使用需求由 20% 功能实现，vim 日常使用需要掌握的功能其实并不多。<br>]]>
     
     </summary>
