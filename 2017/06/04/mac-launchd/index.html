@@ -15,7 +15,7 @@
 <p>在文档中提到了，如果在任务设定的时间点系统是休眠的，那么任务会在休眠结束时执行一次。在我实际使用的过程观察到这个机制是有时间限制的，如果结束休眠的时间和任务设定时间相差不远会执行，但是如果相差很远就不会再执行。这和 iOS 上闹钟的行为是一摸一样的，再加上 iOS 和 OSX 系出同源，所以可以猜测 iOS 的闹钟实现是使用了 launchd，这也可以推论出另一个结果 iOS 上没法作出第三方功能强大的闹钟应用，因为沙盒限制。闹钟APP 还是安卓上的强。</p>
 <h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html#//apple_ref/doc/uid/10000172i-CH1-SW2" target="_blank" rel="external">Daemons and Services Programming Guide</a></p>
 <p><a href="http://www.launchd.info/" target="_blank" rel="external">http://www.launchd.info/</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/03/21/grand-central-dispatch/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'dopcnsblog';
+</div></article></div></main><footer><div class="paginator"><a href="/2018/05/24/my-ios-1/" class="prev">上一篇</a><a href="/2017/03/21/grand-central-dispatch/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'dopcnsblog';
 var disqus_identifier = '2017/06/04/mac-launchd/';
 var disqus_title = '在 Mac 系统使用launchd运行定时任务';
 var disqus_url = 'http://blog.fengweizhou.com/2017/06/04/mac-launchd/';
