@@ -21,7 +21,7 @@
 <figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Time</span> elapsed: <span class="number">1.00041896104813</span></div><div class="line"><span class="keyword">Time</span> elapsed: <span class="number">4.22464299201965</span></div></pre></td></tr></table></figure>
 <p>从这个结果来看可以初步推测 Swift 和 C 一样是 row-major order，也就是二维数组中同一行的数据顺序存储，这种存储形式在按列读写数据的时候会出现很多处理器的 cache misses 从而相对增加了操作需要的时间。</p>
 <p><strong>问题来源</strong><br><a href="http://stackoverflow.com/questions/9936132/why-does-the-order-of-the-loops-affect-performance-when-iterating-over-a-2d-arra" target="_blank" rel="external">http://stackoverflow.com/questions/9936132/why-does-the-order-of-the-loops-affect-performance-when-iterating-over-a-2d-arra</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2015/11/28/absolute-vs-relativity/" class="prev">上一篇</a><a href="/2015/11/18/middle-status/" class="next">下一篇</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'dopcnsblog';
+</div></article></div></main><footer><div class="paginator"><a href="/2015/11/28/absolute-vs-relativity/" class="prev">PREV</a><a href="/2015/11/18/middle-status/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'dopcnsblog';
 var disqus_identifier = '2015/11/23/some-special-cases-in-swift/';
 var disqus_title = '一些有趣的问题在Swift中的表现';
 var disqus_url = 'http://blog.fengweizhou.com/2015/11/23/some-special-cases-in-swift/';
