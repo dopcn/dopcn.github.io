@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>复合数据分层设计求数独解的例子 - Dopcn&#39;s Blog</title><link rel="icon" type="image/png" href=favicon.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="复合数据分层设计求数独解的例子" />
+<meta property="og:description" content="由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。
+在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的 getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。
+enum SudokuError: ErrorType { case initDataError case invalidSudoku case subscriptOutOfRange } struct Sudoku: CustomStringConvertible { private var data = Array&lt;Int&gt;() init(array: Array&lt;Int&gt;) throws { guard array." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.fengweizhou.com/posts/solve-sudoku/" />
+<meta property="article:published_time" content="2015-11-13T23:26:19+00:00" />
+<meta property="article:modified_time" content="2015-11-13T23:26:19+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="复合数据分层设计求数独解的例子"/>
+<meta name="twitter:description" content="由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。
+在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的 getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。
+enum SudokuError: ErrorType { case initDataError case invalidSudoku case subscriptOutOfRange } struct Sudoku: CustomStringConvertible { private var data = Array&lt;Int&gt;() init(array: Array&lt;Int&gt;) throws { guard array."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/main.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://blog.fengweizhou.com/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://blog.fengweizhou.com/">Dopcn&#39;s Blog</a></h1>
+	<div class="site-description"><h2>life and work</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/dopcn" title="Github"><i data-feather="github"></i></a><a href="https://weibo.com/fengweizhou" title="Weibo"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">复合数据分层设计求数独解的例子</h1>
+			<div class="meta">Posted at &mdash; Nov 13, 2015</div>
+		</div>
+
+		<div class="markdown">
+			<p>由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。</p>
+<p>在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的  getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">enum SudokuError: ErrorType {
+    case initDataError
+    case invalidSudoku
+    case subscriptOutOfRange
+}
+
+struct Sudoku: CustomStringConvertible {
+    
+    private var data = Array&lt;Int&gt;()
+    
+    init(array: Array&lt;Int&gt;) throws {
+        guard array.count == 81 else { throw SudokuError.initDataError }
+        data = array
+    }
+    
+    func isRangeValid(row: Int, column: Int) -&gt; Bool {
+        return 0 &lt;= row &amp;&amp; row &lt; 9 &amp;&amp; 0 &lt;= column &amp;&amp; column &lt; 9
+    }
+    
+    subscript(row: Int, column: Int) -&gt; Int {
+        get {
+            return data[row*9+column]
+        }
+        set {
+            data[row*9+column] = newValue
+        }
+    }
+    
+    mutating func solve() throws {
+        var emptyCells = Array&lt;(Int, Int)&gt;()
+        for i in 0...8 {
+            for j in 0...8 {
+                if self[i, j] == 0 {
+                    emptyCells.append((i, j))
+                }
+            }
+        }
+        
+        var index = 0
+        while index &lt; emptyCells.count {
+            let (a, b) = emptyCells[index]
+            if self[a, b] &lt; 9 {
+                self[a, b]++
+                if isSafe(a, y: b) {
+                    index++
+                }
+            } else {
+                self[a, b] = 0
+                index--
+            }
+            if index &lt; 0 { throw SudokuError.invalidSudoku }
+        }
+    }
+    
+    func isSafe(x: Int, y: Int) -&gt; Bool {
+        return isRowSafe(x, y: y) &amp;&amp; isColumnSafe(x, y: y) &amp;&amp; isCellSafe(x, y: y)
+    }
+    
+    private func isRowSafe(x: Int, y: Int) -&gt; Bool {
+        for i in 0...8 {
+            if i != y &amp;&amp; self[x, y] == self[x, i] { return false }
+        }
+        return true
+    }
+    
+    private func isColumnSafe(x: Int, y: Int) -&gt; Bool {
+        for i in 0...8 {
+            if i != x &amp;&amp; self[x, y] == self[i, y] { return false }
+        }
+        return true
+    }
+    
+    private func isCellSafe(x: Int, y: Int) -&gt; Bool {
+        let a = x/3, b = y/3
+        for i in 3*a...(3*a+2) {
+            for j in 3*b...(3*b+2) {
+                if i != x &amp;&amp; j != y &amp;&amp; self[x, y] == self[i, j] { return false }
+            }
+        }
+        return true
+    }
+    
+    var description: String {
+        var output = &#34;&#34;
+        for i in 0...8 {
+            for j in 0...8 {
+                output.appendContentsOf(&#34;\(self[i,j]) &#34;)
+                if j == 8 {output.appendContentsOf(&#34;\n&#34;)}
+            }
+        }
+        return output
+    }
+}
+
+do {
+    let data = [0,9,0,4,2,0,0,7,0,
+                0,4,0,0,0,7,0,0,2,
+                0,0,7,0,0,0,1,0,6,
+                7,0,0,0,0,2,0,0,0,
+                0,0,0,6,0,5,0,0,0,
+                0,0,0,3,0,0,0,0,4,
+                4,0,1,0,0,0,5,0,0,
+                9,0,0,2,0,0,0,1,0,
+                0,6,0,0,3,9,0,2,0]
+    var theSudoku = try Sudoku(array: data)
+    try theSudoku.solve()
+    print(theSudoku)
+} catch SudokuError.initDataError {
+    print(&#34;The count of init array isn&#39;t 81&#34;)
+} catch SudokuError.invalidSudoku {
+    print(&#34;This is not a valid sudoku&#34;)
+}
+</code></pre></div><p>对比以前写过的版本，这个实现多出了 subscript 中的 getter setter 方法，增加这两个方法隔离开了解数独的过程和实现数独数据的具体细节，假如要换一种数独的实现方式，只需要修改其中的构造函数和 subscript 其他函数例如 solve() 完全不需要改动，这就是复合数据抽象的好处。</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright dopcn |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-158584000-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>feather.replace()</script>
+</body>
+</html>

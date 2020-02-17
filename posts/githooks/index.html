@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Git hooks 的几个用例 - Dopcn&#39;s Blog</title><link rel="icon" type="image/png" href=favicon.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="Git hooks 的几个用例" />
+<meta property="og:description" content="自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。
+将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.fengweizhou.com/posts/githooks/" />
+<meta property="article:published_time" content="2015-09-22T00:02:37+00:00" />
+<meta property="article:modified_time" content="2015-09-22T00:02:37+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git hooks 的几个用例"/>
+<meta name="twitter:description" content="自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。
+将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/main.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://blog.fengweizhou.com/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://blog.fengweizhou.com/">Dopcn&#39;s Blog</a></h1>
+	<div class="site-description"><h2>life and work</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/dopcn" title="Github"><i data-feather="github"></i></a><a href="https://weibo.com/fengweizhou" title="Weibo"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">Git hooks 的几个用例</h1>
+			<div class="meta">Posted at &mdash; Sep 22, 2015</div>
+		</div>
+
+		<div class="markdown">
+			<p>自动化是提高开发效率的有效手段之一。在源码管理过程中要实现自动化，必须能够知道源码管理工具内部的事件进行状态，显然对于这些独立工具是没办法像在同一个程序中一样进行类似 KVO 式的外部监听，好在 Git 就像一个设计完备的库一样提供了部分关键流程的调用接口，也就是 githooks。</p>
+<p>将要处理的情景是在使用 Git 做版本管理，用 Cocoapods 进行第三方库管理的项目中</p>
+<ol>
+<li>从服务器 pull 下来后 <code>Podfile.lock</code> 发生变化，也就是本地 pod 和服务器中的不一致，需要 <code>pod install</code></li>
+<li>从服务器 pull 下来证书发生变化，在一个开发团队里每个人有自己的证书用于真机调试，需要改为自己的证书</li>
+<li>切换分支后  <code>Podfile.lock</code> 发生变化，需要 <code>pod install</code></li>
+</ol>
+<p>githooks 本身是一个个有固定名称的脚步，相当于有固定名称的 delegate 方法，在每一次执行所绑定 git 命令时触发，例如 <code>pre-commit</code> 和  <code>post-commit</code> 分别会在 <code>git commit</code> 的前后触发，<code>githooks</code> 可以是任意系统支持运行的脚本如 Shell Perl Python Ruby。</p>
+<p><code>githooks</code> 支持绑定的类型都列在了文档里 man githooks。为了实现场景1、2的自动化需要使用的是 <code>post-merge</code> 。<code>post-merge</code> 绑定的命令是 `git merge 和 git pull，post 前缀类型的 githook 不能影响 git 命令本身的执行，pre 前缀的 hook 可以。新版本的 git 项目在初始化的时候在根目录都建有 .git/hooks/ 目录，里面存放所有 hook ，打开这个文件夹里面默认有一些sample后缀的示例文件，去掉 .sample 这些示例才能真正运行，如果已经有 post-merge 去掉 sample 后缀，如果没有新建 post-merge 文件添加可执行权限 chmod +x post-merge，添加脚本内容：</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75">#!/usr/bin/env ruby</span>
+
+<span style="color:#586e75">#1</span>
+<span style="color:#b58900">require</span> <span style="color:#2aa198">&#39;xcodeproj&#39;</span>
+
+<span style="color:#586e75">#2</span>
+cmd <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39; changed_files=&#34;$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)&#34;
+</span><span style="color:#2aa198">echo &#34;$changed_files&#34; | grep --quiet &#34;Podfile.lock&#34; &amp;&amp; eval &#34;pod install&#34;
+</span><span style="color:#2aa198">echo &#34;pod installed&#34; &#39;</span>
+
+<span style="color:#b58900">system</span>( cmd )
+
+<span style="color:#586e75">#3</span>
+xcproj <span style="color:#719e07">=</span> <span style="color:#cb4b16">Xcodeproj</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Project</span><span style="color:#719e07">.</span>open(<span style="color:#2aa198">&#34;</span><span style="color:#2aa198">DroppingBall.xcodeproj</span><span style="color:#2aa198">&#34;</span>)
+
+xcproj<span style="color:#719e07">.</span>build_configurations<span style="color:#719e07">.</span>each <span style="color:#719e07">do</span> <span style="color:#719e07">|</span>item<span style="color:#719e07">|</span>
+    item<span style="color:#719e07">.</span>build_settings<span style="color:#719e07">[</span><span style="color:#2aa198">&#39;CODE_SIGN_IDENTITY[sdk=iphoneos*]&#39;</span><span style="color:#719e07">]</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;</span><span style="color:#2aa198">iOS Development: Weizhou Feng (XXXXXXXXXX)</span><span style="color:#2aa198">&#34;</span>
+    item<span style="color:#719e07">.</span>build_settings<span style="color:#719e07">[</span><span style="color:#2aa198">&#39;PROVISIONING_PROFILE[sdk=iphoneos*]&#39;</span><span style="color:#719e07">]</span> <span style="color:#719e07">=</span> “xxxxxxx<span style="color:#719e07">-</span>xxxx<span style="color:#719e07">-</span>xxxx<span style="color:#719e07">-</span>xxxx<span style="color:#719e07">-</span>xxxxxxxxxx<span style="color:#2aa198">&#34;</span><span style="color:#2aa198">
+</span><span style="color:#2aa198">end
+</span><span style="color:#2aa198">
+</span><span style="color:#2aa198"></span><span style="color:#2aa198">#</span><span style="color:#2aa198">4
+</span><span style="color:#2aa198">xcproj.save
+</span><span style="color:#2aa198">
+</span></code></pre></div><p>第一行声明这是一个 Ruby 脚本，使用 Ruby 的原因是可以直接用 xcodeproj 这个库， cocoapods 使用这个库创建或修改xcode 的项目文件，这里需要用它修改 project.pbxproj 内容</p>
+<p>#1 引入 xcodeproj 库
+#2 pull 之后获取 git 状态还是 shell 命令方便不需要增加依赖，所以直接在脚本中调用 shell 命名可以分为三步：</p>
+<ol>
+<li>git diff 取得 pull 之后发生变化的所有文件名称</li>
+<li>grep 判断是否包含 Podfile.lock</li>
+<li>如果有执行 pod install
+更新结束后在终端输出 pod installed</li>
+</ol>
+<p>#3 打开当前项目文件，DroppingBall 是这里的项目名称。读取构建模式一般有两种：Debug 和 Release，分别将其中的 build setting 选项 CODE_SIGN_IDENTITY 和 PROVISIONING_PROFILE 改为自己的，要赋的值可以现在 Xcode 中通过菜单选择正确的选项然后打开 project.pbxproj 把文本内容复制出来用
+#4 保存</p>
+<p>然后是情景3，切换分支需要的 hook 是 post-checkout，和上面一样保证 post-checkout 在文件夹里存在，添加内容：</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#719e07">#!/bin/sh
+</span><span style="color:#719e07"></span>
+<span style="color:#719e07">if</span> ! diff -q <span style="color:#2aa198">&#34;Podfile.lock&#34;</span> <span style="color:#2aa198">&#34;Pods/Manifest.lock&#34;</span> &gt; /dev/null ; <span style="color:#719e07">then</span>
+    pod install
+<span style="color:#719e07">fi</span>
+
+</code></pre></div><p>这次是 shell 脚本，所做的事情其实和 cocoapods 做的一样，只不过 cocoapods 的脚本会在 xcode 里生成一个 error: The sandbox is not in sync with the Podfile.lock. Run &lsquo;pod install&rsquo; or update your CocoaPods installation. 这里则是直接执行 pod install</p>
+<p>资源：
+<a href="http://githooks.com">http://githooks.com</a></p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright dopcn |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-158584000-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>feather.replace()</script>
+</body>
+</html>

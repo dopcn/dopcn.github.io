@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>我的 GCD 回顾 - Dopcn&#39;s Blog</title><link rel="icon" type="image/png" href=favicon.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="我的 GCD 回顾" />
+<meta property="og:description" content="入门 GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.fengweizhou.com/posts/grand-central-dispatch/" />
+<meta property="article:published_time" content="2017-03-21T01:05:02+00:00" />
+<meta property="article:modified_time" content="2017-03-21T01:05:02+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="我的 GCD 回顾"/>
+<meta name="twitter:description" content="入门 GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。"/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/main.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://blog.fengweizhou.com/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://blog.fengweizhou.com/">Dopcn&#39;s Blog</a></h1>
+	<div class="site-description"><h2>life and work</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/dopcn" title="Github"><i data-feather="github"></i></a><a href="https://weibo.com/fengweizhou" title="Weibo"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">我的 GCD 回顾</h1>
+			<div class="meta">Posted at &mdash; Mar 21, 2017</div>
+		</div>
+
+		<div class="markdown">
+			<h2 id="入门">入门</h2>
+<p>GCD 对我来说是初入门 iOS 开发的记忆，那个时候还不知道 UIKit 中的类应该在主线程调用，所以异步获取了数据之后虽然调用了 reloadData，但是界面怎么都不刷新，心慌慌查了好久才解决这个问题，现在回想起来也是蛮有趣。这可以说明 GCD 的引入，真的大大降低了进行多线程操作的门槛，然而要解决多线程带来的难题却依旧不那么容易。</p>
+<blockquote>
+<p>引入题外话：为什么要在主线程更新 UI？</p>
+</blockquote>
+<blockquote>
+<p>我的理解是：要在主线程更新 UI 不是一种技术限制，而更像是一种约定。系统 SDK 平台都约定好在这个环境中进行开发时应在主线程更新UI。主线程和其他线程并没有本质的区别，只是碰巧 UIApplicatin 在这个线程初始化。那么为什么要进行这种约定？我觉得最重要的原因应是性能考虑，如果要将 UIKit 全部做成线程安全，势必要增加保证线程安全的逻辑，这部分的性能再好，相对于约定只在主线程更新UI的方式，始终是额外的负担。</p>
+</blockquote>
+<h2 id="gcd-入门">GCD 入门</h2>
+<p>从我开始做 iOS 开发以来从没有在项目中直接使用过 NSThread 对象，所以一直没有什么直观的印象，直到简单了解了 pthread 之后才清晰的认识到 NSThread 其实是对 pthread 的简单封装面向对象化，在 iOS 10 中 NSThread 新增了使用 block 直接初始化的方法，这才使得 NSThread 的使用简化了不少，而在这之前和 pthread 一样不够优雅。在 pthread 中使用 pthread_create  创建线程，要传入函数指针作为回调，早先的 NSThread 则是标准的 cocoa 风格 target selector。</p>
+<h4 id="pthread">pthread</h4>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#dc322f">void</span> <span style="color:#719e07">*</span><span style="color:#268bd2">PrintHello</span>(<span style="color:#dc322f">void</span> <span style="color:#719e07">*</span>threadid)
+{
+    <span style="color:#dc322f">long</span> tid;
+    tid <span style="color:#719e07">=</span> (<span style="color:#dc322f">long</span>)threadid;
+    printf(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">Hello pthread #%ld!</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>, tid);
+    pthread_exit(<span style="color:#b58900">NULL</span>);
+}
+
+<span style="color:#dc322f">int</span> <span style="color:#268bd2">main</span>(<span style="color:#dc322f">int</span> argc, <span style="color:#719e07">const</span> <span style="color:#dc322f">char</span> <span style="color:#719e07">*</span> argv[]) {
+    @autoreleasepool {
+        pthread_t threads[<span style="color:#2aa198">5</span>];
+        <span style="color:#dc322f">int</span> rc;
+        <span style="color:#dc322f">long</span> t;
+        <span style="color:#719e07">for</span> (t<span style="color:#719e07">=</span><span style="color:#2aa198">0</span>; t<span style="color:#719e07">&lt;</span><span style="color:#2aa198">5</span>; t<span style="color:#719e07">+</span><span style="color:#719e07">+</span>){
+            rc <span style="color:#719e07">=</span> pthread_create(<span style="color:#719e07">&amp;</span>threads[t], <span style="color:#b58900">NULL</span>, PrintHello, (<span style="color:#dc322f">void</span> <span style="color:#719e07">*</span>)t);
+        }
+    }
+    <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+}
+</code></pre></div><h4 id="nsthread">NSThread</h4>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#dc322f">int</span> <span style="color:#268bd2">main</span>(<span style="color:#dc322f">int</span> argc, <span style="color:#719e07">const</span> <span style="color:#dc322f">char</span> <span style="color:#719e07">*</span> argv[]) {
+    <span style="color:#719e07">@autoreleasepool</span> {
+        ThreadTarget <span style="color:#719e07">*</span>target <span style="color:#719e07">=</span> [ThreadTarget new];
+        <span style="color:#dc322f">long</span> t;
+        <span style="color:#719e07">for</span> (t<span style="color:#719e07">=</span><span style="color:#2aa198">0</span>; t<span style="color:#719e07">&lt;</span><span style="color:#2aa198">5</span>; t<span style="color:#719e07">+</span><span style="color:#719e07">+</span>) {
+            [NSThread detachNewThreadSelector:<span style="color:#719e07">@selector</span>(hello:) toTarget:target withObject:@(t)];
+        }
+        
+        sleep(<span style="color:#2aa198">3</span>);
+    }
+    <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+}
+</code></pre></div><h4 id="gcd">GCD</h4>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#dc322f">int</span> <span style="color:#268bd2">main</span>(<span style="color:#dc322f">int</span> argc, <span style="color:#719e07">const</span> <span style="color:#dc322f">char</span> <span style="color:#719e07">*</span> argv[]) {
+    <span style="color:#719e07">@autoreleasepool</span> {
+        <span style="color:#dc322f">long</span> t;
+        <span style="color:#719e07">for</span> (t<span style="color:#719e07">=</span><span style="color:#2aa198">0</span>; t<span style="color:#719e07">&lt;</span><span style="color:#2aa198">5</span>; t<span style="color:#719e07">+</span><span style="color:#719e07">+</span>) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span style="color:#2aa198">0</span>), <span style="color:#719e07">^</span>{
+                printf(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">Hello pthread #%ld!</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>, t);
+            });
+        }
+        
+        sleep(<span style="color:#2aa198">3</span>);
+    }
+    <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+}
+</code></pre></div><p>NSThread 和 GCD 版本为了能打印出来，需要让 main 函数等一等。可以看出来 GCD 的使用毫无疑问是最方便的。</p>
+<p>NSThread 对 pthread 的封装只是胶水式的薄薄封装，并没有提供其他并发相关功能。真正实现更高级封装的是 NSOperationQueue 和 GCD，NSOperationQueue 在引入 GCD 之后应该是使用 GCD 重写了，所以 iOS8 新增了 underlyingQueue 这个属性，返回一个 dispatch_queue_t。我曾经在面试里被鄙视过：GCD？GCD 能实现 NSOperation 的依赖关系吗？那个时候我没有回答上来，如果再给我一次回答的机会，我会说：可以，只是麻烦一些。这就要说到一些 GCD 的进阶功能。</p>
+<h2 id="gcd-进阶">GCD 进阶</h2>
+<p>面向对象是一种提高抽象能力很好的手段，以数据的形式封装掉了很多细节的逻辑。要实现 NSOperation 的依赖关系，可以使用 dispatch_group。SDK 的头文件是这样介绍的：A group of blocks submitted to queues for asynchronous invocation。将一组 block 作为一个“对象”来管理（dispatch_group_t 当然并不是一个对象，而是一个和 ObjC 对象很像的结构体，可以通过配置由 ARC 管理生命周期），常用的方法有两对 dispatch_group_wait dispatch_group_notify 和 dispatch_group_enter dispatch_group_leave。在增加依赖的时候进行 group_enter，在依赖的 block 执行完后 group_leave，这就是 swift forelimbs foundation 中的实现方式。dispatch_group 所实现的组管理，类似于 pthread_join。</p>
+<h4 id="pthread_join">pthread_join</h4>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#dc322f">void</span> <span style="color:#719e07">*</span><span style="color:#268bd2">BusyWork</span>(<span style="color:#dc322f">void</span> <span style="color:#719e07">*</span>t)
+{
+    sleep(<span style="color:#2aa198">3</span>);
+    printf(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">Hello pthread #%ld!</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>, (<span style="color:#dc322f">long</span>)t);
+    pthread_exit((<span style="color:#dc322f">void</span><span style="color:#719e07">*</span>) t);
+}
+
+<span style="color:#dc322f">int</span> <span style="color:#268bd2">main</span>(<span style="color:#dc322f">int</span> argc, <span style="color:#719e07">const</span> <span style="color:#dc322f">char</span> <span style="color:#719e07">*</span> argv[]) {
+    <span style="color:#719e07">@autoreleasepool</span> {        
+        pthread_t <span style="color:#268bd2">thread</span>[<span style="color:#2aa198">10</span>];
+        pthread_attr_t attr;
+        <span style="color:#dc322f">int</span> rc;
+        <span style="color:#dc322f">long</span> t;
+        <span style="color:#dc322f">void</span> <span style="color:#719e07">*</span>status;
+        
+        pthread_attr_init(<span style="color:#719e07">&amp;</span>attr);
+        pthread_attr_setdetachstate(<span style="color:#719e07">&amp;</span>attr, PTHREAD_CREATE_JOINABLE);
+        
+        <span style="color:#719e07">for</span>(t<span style="color:#719e07">=</span><span style="color:#2aa198">0</span>; t<span style="color:#719e07">&lt;</span><span style="color:#2aa198">10</span>; t<span style="color:#719e07">+</span><span style="color:#719e07">+</span>) {
+            rc <span style="color:#719e07">=</span> pthread_create(<span style="color:#719e07">&amp;</span><span style="color:#268bd2">thread</span>[t], <span style="color:#719e07">&amp;</span>attr, BusyWork, (<span style="color:#dc322f">void</span> <span style="color:#719e07">*</span>)t);
+        }
+        
+        pthread_attr_destroy(<span style="color:#719e07">&amp;</span>attr);
+        <span style="color:#719e07">for</span>(t<span style="color:#719e07">=</span><span style="color:#2aa198">0</span>; t<span style="color:#719e07">&lt;</span><span style="color:#2aa198">10</span>; t<span style="color:#719e07">+</span><span style="color:#719e07">+</span>) {
+            rc <span style="color:#719e07">=</span> pthread_join(<span style="color:#268bd2">thread</span>[t], <span style="color:#719e07">&amp;</span>status);
+        }
+        
+        printf(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">finally</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>);
+    }
+ 
+</code></pre></div><h4 id="dispatch_group">dispatch_group</h4>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#dc322f">int</span> <span style="color:#268bd2">main</span>(<span style="color:#dc322f">int</span> argc, <span style="color:#719e07">const</span> <span style="color:#dc322f">char</span> <span style="color:#719e07">*</span> argv[]) {
+    <span style="color:#719e07">@autoreleasepool</span> {
+        dispatch_group_t group <span style="color:#719e07">=</span> dispatch_group_create();
+        dispatch_queue_t queue <span style="color:#719e07">=</span> dispatch_queue_create(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">com.fengweizhou.queue</span><span style="color:#2aa198">&#34;</span>, DISPATCH_QUEUE_CONCURRENT);
+        <span style="color:#719e07">for</span> (<span style="color:#dc322f">int</span> t <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; t<span style="color:#719e07">&lt;</span><span style="color:#2aa198">10</span>; t<span style="color:#719e07">+</span><span style="color:#719e07">+</span>) {
+            dispatch_group_async(group, queue, <span style="color:#719e07">^</span>{
+                printf(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">Hello gcd #%d!</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>, t);
+            });
+        }
+        
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+        printf(<span style="color:#2aa198"></span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">finally</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>);
+    }
+    <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>;
+}
+</code></pre></div><p>iOS8 之后 block 不再是简单的 block 了，可以是 dispatch_block_t。虽然看定义 typedef void (^dispatch_block_t)(void); 它只是一个空参数空返回 的 block，但是通过API dispatch_block_create 为 block 指定 flags，通过这个接口创建出来的 dispatch_block_t 还可以 dispatch_block_wait，dispatch_block_notify，dispatch_block_cancel，这样就解决了另一个问题：block 能像 NSOperation 一样取消吗？答案是可以。</p>
+<p>另一个进阶 dispatch 库成员就是 dispatch_semaphore 了。在 AFNetworking 里有一处应用，使用 dispatch_semaphore 从异步的 block 里取出值同步的返回：</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc">- (NSArray <span style="color:#719e07">*</span>)<span style="color:#268bd2">tasksForKeyPath:</span>(NSString <span style="color:#719e07">*</span>)<span style="color:#268bd2">keyPath</span> {
+    <span style="color:#719e07">__block</span> NSArray <span style="color:#719e07">*</span>tasks <span style="color:#719e07">=</span> <span style="color:#b58900">nil</span>;
+    dispatch_semaphore_t semaphore <span style="color:#719e07">=</span> dispatch_semaphore_create(<span style="color:#2aa198">0</span>);
+    [<span style="color:#b58900">self</span>.session getTasksWithCompletionHandler:<span style="color:#719e07">^</span>(NSArray <span style="color:#719e07">*</span>dataTasks, NSArray <span style="color:#719e07">*</span>uploadTasks, NSArray <span style="color:#719e07">*</span>downloadTasks) {
+        <span style="color:#719e07">if</span> ([keyPath isEqualToString:NSStringFromSelector(<span style="color:#719e07">@selector</span>(dataTasks))]) {
+            tasks <span style="color:#719e07">=</span> dataTasks;
+        } <span style="color:#719e07">else</span> <span style="color:#719e07">if</span> ([keyPath isEqualToString:NSStringFromSelector(<span style="color:#719e07">@selector</span>(uploadTasks))]) {
+            tasks <span style="color:#719e07">=</span> uploadTasks;
+        } <span style="color:#719e07">else</span> <span style="color:#719e07">if</span> ([keyPath isEqualToString:NSStringFromSelector(<span style="color:#719e07">@selector</span>(downloadTasks))]) {
+            tasks <span style="color:#719e07">=</span> downloadTasks;
+        } <span style="color:#719e07">else</span> <span style="color:#719e07">if</span> ([keyPath isEqualToString:NSStringFromSelector(<span style="color:#719e07">@selector</span>(tasks))]) {
+            tasks <span style="color:#719e07">=</span> [@[dataTasks, uploadTasks, downloadTasks] valueForKeyPath:<span style="color:#2aa198">@&#34;</span><span style="color:#2aa198">@unionOfArrays.self</span><span style="color:#2aa198">&#34;</span>];
+        }
+
+        dispatch_semaphore_signal(semaphore);
+    }];
+
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
+    <span style="color:#719e07">return</span> tasks;
+}
+</code></pre></div><p>NSURLSession 的接口全部都是异步执行回调，所以要返回异步block 的参数，就必须等异步block 执行完。这个应该也是对系统 <code>#include &lt;semaphore.h&gt;</code> 的封装</p>
+<h2 id="其他应用">其他应用</h2>
+<p>除了这些还有一些其他少见应用：</p>
+<p>dispatch_apply 实现多线程迭代，和使用 enumerateObjectsWithOptions 时指定 NSEnumerationConcurrent 差不多，迭代过程中最好不要有共用资源。</p>
+<p>dispatch_source_timer 和 NSTimer 不同不依赖 runloop，所以不会受 runloop mode 影响。</p>
+<p>dispatch_set_target_queue target_queue 可以影响新创建 queue 的优先级；多个串行 queue 同一个串行 target_queue 可以实现 queue 间任务串行</p>
+<h2 id="其他相关">其他相关</h2>
+<p>虽然说 GCD 是真正的高级封装，但是有些地方还是可以很明显的暴露出 pthread 的特点，特别是一些命名例如：
+pthread_getspecific，
+dispatch_queue_get_specific；
+pthread_setspecific，
+dispatch_queue_set_specific。
+用于为 queue 做标示。为了做标示还可以通过 dispatch_queue_get_label 获取创建时的 label</p>
+<p>用 GCD 代替加锁实现线程安全访问，例子是 FMDatabaseQueue 的实现。其实就是 GCD 的方法中进行了加锁，不然 dispatch_sync  到当前线程为什么会死锁。但好处是抽象层级更高，不用手动处理锁相关。</p>
+<p>不同优先级的 queue 低优先级会等所有高优先级的 queue 已经分配资源开始执行后才会被分配。在 background priority queue 中还会有 disk IO 和 network IO throttle。</p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright dopcn |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-158584000-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>feather.replace()</script>
+</body>
+</html>

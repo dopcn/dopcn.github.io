@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>一些有趣的问题在Swift中的表现 - Dopcn&#39;s Blog</title><link rel="icon" type="image/png" href=favicon.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="一些有趣的问题在Swift中的表现" />
+<meta property="og:description" content="1. 排序过的数组遍历更快 实验
+let sorted = [false, true] for isSorted in sorted { var datas = Array(count: 32768, repeatedValue: 0)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.fengweizhou.com/posts/some-special-cases-in-swift/" />
+<meta property="article:published_time" content="2015-11-23T13:30:35+00:00" />
+<meta property="article:modified_time" content="2015-11-23T13:30:35+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一些有趣的问题在Swift中的表现"/>
+<meta name="twitter:description" content="1. 排序过的数组遍历更快 实验
+let sorted = [false, true] for isSorted in sorted { var datas = Array(count: 32768, repeatedValue: 0)."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/main.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://blog.fengweizhou.com/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://blog.fengweizhou.com/">Dopcn&#39;s Blog</a></h1>
+	<div class="site-description"><h2>life and work</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/dopcn" title="Github"><i data-feather="github"></i></a><a href="https://weibo.com/fengweizhou" title="Weibo"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">一些有趣的问题在Swift中的表现</h1>
+			<div class="meta">Posted at &mdash; Nov 23, 2015</div>
+		</div>
+
+		<div class="markdown">
+			<h3 id="1-排序过的数组遍历更快">1. 排序过的数组遍历更快</h3>
+<p><strong>实验</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let sorted = [false, true]
+
+for isSorted in sorted {
+    var datas = Array(count: 32768, repeatedValue: 0).map { (n) -&gt; Int in
+        return n + Int(arc4random_uniform(UInt32(256)))
+    }
+    if isSorted {
+        datas.sortInPlace(&lt;)
+    }
+    let start = NSDate()
+    
+    var sum = 0
+    for _ in 0...100000 {
+        for n in datas {
+            if n &gt; 128 {
+                sum += n
+            }
+        }
+    }
+
+    print(&#34;Time elapsed when \(isSorted ? &#34;sorted&#34;:&#34;unsorted&#34;): \(NSDate().timeIntervalSinceDate(start))&#34;)
+}
+</code></pre></div><p><strong>输出</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Time elapsed when unsorted: 14.1824740171432
+Time elapsed when sorted: 2.9244259595871
+</code></pre></div><p>重复运行几次之后可以稳定重现这个时间差，所以这个现象存在，只是差距没有问题来源中的例子里那么大，问题来源中除了被标记为接受的答案之外还有许多高票回答，是我在SOF见过的有最多多个高票答案的问题。简单的解释造成这个问题的原因，是因为现代处理器在处理循环内的 if 判断的时候不是等待上一个 if 结束才进行下一个 if 条件判断，而是预先做判断回过头来如果错了再重来，如果对了就继续。这个例子中数组中的数据值刚好是以 if 条件划分为两部分，如果经过了排序那么预测的正确率就会大大提升，因为用前面的判断结果做为预测，而如果未经排序预测的结果几乎有一半都是错的自然大大降低运行速度。</p>
+<p>这个问题有一个很有趣的变形，用三元运算符替换 if 分支，这样 for 循环内部变成这样</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">for _ in 0...100000 {
+        for n in datas {
+            sum += n&gt;128 ? n : 0
+        }
+    }
+</code></pre></div><p>数据保持同样，运行输出</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Time elapsed when unsorted: 3.60081201791763
+Time elapsed when sorted: 3.55997401475906
+</code></pre></div><p>在面对分支做预测的过程中如果预测错会有很大的延迟，如果一直预测正确则运行过程可以类似并行一般快速运行。三元运算符转化为操作介于两者之间他会每次等一小下，这样不会有大的延迟发生但是比始终预测正确要慢。这或许是许多语言中包含这个唯一的三元运算符的原因之一。</p>
+<p><strong>问题来源</strong>
+<a href="http://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-an-unsorted-array">http://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-an-unsorted-array</a></p>
+<h3 id="2--denormal-number">2.  Denormal number</h3>
+<p><strong>实验</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let floating = [false, true]
+
+for isFloat in floating {
+    let x = [1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6]
+    
+    let z = [1.123,1.234,1.345,156.467,1.578,1.689,1.790,1.812,1.923,2.034,2.145,2.256,2.367,2.478,2.589,2.690]
+    
+    var y = Array(count: 16, repeatedValue: 0.0)
+    
+    for (index, n) in x.enumerate() {
+        y[index] = n
+    }
+    
+    let start = NSDate()
+    for j in 0...9000000 {
+        for i in 0...15 {
+            y[i]*=x[i]
+            y[i]/=z[i]
+            if isFloat {
+                y[i]=y[i]+0.1
+                y[i]=y[i]-0.1
+            } else {
+                y[i]=y[i]+0
+                y[i]=y[i]-0
+            }
+            if j == 100000 {
+                print(&#34;\(y[i])  &#34;)
+            }
+        }
+    }
+    print(&#34;Time elapsed when \(isFloat ? &#34;floating&#34;:&#34;unfloating&#34;): \(NSDate().timeIntervalSinceDate(start))&#34;)
+}
+</code></pre></div><p><strong>输出</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">……
+9.38724727098368e-323  
+7.90505033345994e-323  
+Time elapsed when unfloating: 15.5163140296936
+……
+1.94289029309402e-16  
+1.94289029309402e-16  
+Time elapsed when floating: 0.695216000080109
+</code></pre></div><p>这个例子里面造成时间差异的是 <a href="https://en.wikipedia.org/wiki/Denormal_number">Denormal number</a> ，Double 类型数据的范围大约是1.79769e+308 ~ 2.22507e-308，在上面的输出里如果加减 0 后面得到的数据在计算机里的表示9.38724727098368e-323是在这个类型的范围之外的，这种数据就是 Denormal number，在实际使用的过程中这种数据出现的可能很小，所以处理器对这种数据的处理会比较慢。</p>
+<p><strong>问题来源</strong>
+<a href="http://stackoverflow.com/questions/9314534/why-does-changing-0-1f-to-0-slow-down-performance-by-10x">http://stackoverflow.com/questions/9314534/why-does-changing-0-1f-to-0-slow-down-performance-by-10x</a></p>
+<h3 id="3-loop-interchange">3. Loop interchange</h3>
+<p><strong>实验</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var data1 = Array(count: 10000, repeatedValue: Array(count: 10000, repeatedValue: 0))
+let start1 = NSDate()
+for i in 0..&lt;10000 {
+    for j in 0..&lt;10000 {
+        data1[i][j] = i+j
+    }
+}
+print(&#34;Time elapsed: \(NSDate().timeIntervalSinceDate(start1))&#34;)
+var data2 = Array(count: 10000, repeatedValue: Array(count: 10000, repeatedValue: 0))
+let start2 = NSDate()
+for j in 0..&lt;10000 {
+    for i in 0..&lt;10000 {
+        data2[i][j] = i+j
+    }
+}
+print(&#34;Time elapsed: \(NSDate().timeIntervalSinceDate(start2))&#34;)
+</code></pre></div><p><strong>输出</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Time elapsed: 1.00041896104813
+Time elapsed: 4.22464299201965
+</code></pre></div><p>从这个结果来看可以初步推测 Swift 和 C 一样是 row-major order，也就是二维数组中同一行的数据顺序存储，这种存储形式在按列读写数据的时候会出现很多处理器的 cache misses 从而相对增加了操作需要的时间。</p>
+<p><strong>问题来源</strong>
+<a href="http://stackoverflow.com/questions/9936132/why-does-the-order-of-the-loops-affect-performance-when-iterating-over-a-2d-arra">http://stackoverflow.com/questions/9936132/why-does-the-order-of-the-loops-affect-performance-when-iterating-over-a-2d-arra</a></p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright dopcn |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-158584000-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>feather.replace()</script>
+</body>
+</html>

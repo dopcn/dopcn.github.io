@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>在 Mac 系统使用launchd运行定时任务 - Dopcn&#39;s Blog</title><link rel="icon" type="image/png" href=favicon.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="在 Mac 系统使用launchd运行定时任务" />
+<meta property="og:description" content="除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。
+在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 launchctl list 查看，大部分是以 com." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.fengweizhou.com/posts/mac-launchd/" />
+<meta property="article:published_time" content="2017-06-04T20:44:09+00:00" />
+<meta property="article:modified_time" content="2017-06-04T20:44:09+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在 Mac 系统使用launchd运行定时任务"/>
+<meta name="twitter:description" content="除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。
+在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 launchctl list 查看，大部分是以 com."/>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://blog.fengweizhou.com/css/main.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script src="https://blog.fengweizhou.com/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"><a href="https://blog.fengweizhou.com/">Dopcn&#39;s Blog</a></h1>
+	<div class="site-description"><h2>life and work</h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/dopcn" title="Github"><i data-feather="github"></i></a><a href="https://weibo.com/fengweizhou" title="Weibo"><i data-feather="twitter"></i></a><a href="/index.xml" title="RSS"><i data-feather="rss"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">Home</a>
+			</li>
+			
+			<li>
+				<a href="/posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="/about">About</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h1 class="title">在 Mac 系统使用launchd运行定时任务</h1>
+			<div class="meta">Posted at &mdash; Jun 4, 2017</div>
+		</div>
+
+		<div class="markdown">
+			<p>除了工作里，生活中也有很多重复的任务。比如说定期查询户口办理状态，尽可能第一时间去办理下一步。所以需要有一种方法可以定时跑一个脚本去爬取查询网站，解析结果最后通知自己。在 Mac 上可以用 launchd。</p>
+<p>在操作系统中除了我们手动打开关闭的应用程序，还有一类后台常驻的进程，叫做 service 或者 daemon，大部分系统服务都是常驻的，在命令行中通过 <code>launchctl list</code> 查看，大部分是以 com.apple 开头。我们自己也可以创建一个常驻任务加载到 launchd 中。例如 cleanmymac 就加在了一个定时启动的任务在我的系统里。可以说 launchd 是管理这些后台进程的后台进程。</p>
+<h3 id="创建一个-launchd-任务">创建一个 launchd 任务</h3>
+<p>创建一个任务非常简单，只要新建一个合法的 plist 文件，下面这个是为了实现上面提到的需求</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;
+&lt;plist version=&#34;1.0&#34;&gt;
+&lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;com.fengweizhou.scheduledJobs&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+    	&lt;string&gt;/Users/fengweizhou/Documents/MyProjects/scheduledJobs/.build/release/scheduledJobs&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;StartCalendarInterval&lt;/key&gt;
+    &lt;array&gt;
+    	&lt;dict&gt;
+    		&lt;key&gt;Hour&lt;/key&gt;
+    		&lt;integer&gt;10&lt;/integer&gt;
+    		&lt;key&gt;Minute&lt;/key&gt;
+    		&lt;integer&gt;30&lt;/integer&gt;
+    	&lt;/dict&gt;
+    	&lt;dict&gt;
+    		&lt;key&gt;Hour&lt;/key&gt;
+    		&lt;integer&gt;17&lt;/integer&gt;
+    		&lt;key&gt;Minute&lt;/key&gt;
+    		&lt;integer&gt;30&lt;/integer&gt;
+    	&lt;/dict&gt;
+    &lt;/array&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></div><p>这个 plist 包含三个关键部分：</p>
+<ol>
+<li>唯一标示 Label；// 也是 plist 文件名</li>
+<li>运行的命令； // 上面这个例子中是我自己写的程序</li>
+<li>运行时机；</li>
+</ol>
+<p>运行时机可配置的选项很多，具体可以查看官方文档，这个例子中我想要在每天的早上10点半和下午5点半各运行一次我的爬虫程序。</p>
+<h3 id="加载-launchd-任务">加载 launchd 任务</h3>
+<p>将配置文件放入指定目录，我是放在用户目录下 <code>~/Library/LaunchAgents</code> 也可以放在系统根目录的对应文件夹下，区别就是当前用户还是全体用户。放入后运行 <code>launchctl load com.fengweizhou.scheduledJobs</code> 然后 <code>launchctl list</code> 就可以看见自己的任务了，如果要立马运行一次可以使用 <code>launchctl start</code></p>
+<h3 id="其他">其他</h3>
+<p>每次修改了 plist 文件都必须 <code>launchctl unload</code> 再 load 进去，进行手动的 reload，才有效果</p>
+<p>在文档中提到了，如果在任务设定的时间点系统是休眠的，那么任务会在休眠结束时执行一次。在我实际使用的过程观察到这个机制是有时间限制的，如果结束休眠的时间和任务设定时间相差不远会执行，但是如果相差很远就不会再执行。这和 iOS 上闹钟的行为是一摸一样的，再加上 iOS 和 OSX 系出同源，所以可以猜测 iOS 的闹钟实现是使用了 launchd，这也可以推论出另一个结果 iOS 上没法作出第三方功能强大的闹钟应用，因为沙盒限制。闹钟APP 还是安卓上的强。</p>
+<h3 id="参考">参考</h3>
+<p><a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html#//apple_ref/doc/uid/10000172i-CH1-SW2">Daemons and Services Programming Guide</a></p>
+<p><a href="http://www.launchd.info/">http://www.launchd.info/</a></p>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+			
+		</div>
+		</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div> © Copyright dopcn |  <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-158584000-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>feather.replace()</script>
+</body>
+</html>
