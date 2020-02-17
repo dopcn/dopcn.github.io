@@ -9,7 +9,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://blog.fengweizhou.com/" />
-<meta property="og:updated_time" content="2020-02-17T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-02-17T19:06:41+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Dopcn&#39;s Blog"/>
 <meta name="twitter:description" content=""/>
@@ -58,6 +58,18 @@
 			<div class="posts">
 				
 				
+				
+				<div class="post">
+					<div class="meta">Nov 13, 2015</div>
+					<a class="title" href="/posts/solve-sudoku/">复合数据分层设计求数独解的例子</a> &mdash;
+					<span class="description">
+						
+						由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。
+在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的 getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。
+enum SudokuError: ErrorType { case initDataError case invalidSudoku case subscriptOutOfRange } struct Sudoku: CustomStringConvertible { private var data = Array&lt;Int&gt;() init(array: Array&lt;Int&gt;) throws { guard array.&hellip;
+						
+					</span>
+				</div>
 				
 				<div class="post">
 					<div class="meta">Nov 12, 2015</div>
