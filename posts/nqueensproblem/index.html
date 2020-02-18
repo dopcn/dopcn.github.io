@@ -66,57 +66,57 @@
 <p>高阶函数是泛指那些以一个函数（或者称之为一个过程）作为参数的函数，这个问题里用到的标准库里自带的 map flatmap filter reduce</p>
 <p>在函数式编程思路中高阶函数在建立抽象和模块化过程中起到了很重要的作用，以 map 为例它将对一个序列的操作抽象出来，使序列本身和对序列的操作分割开来，这样做的好处是方便重用这种操作，也方便更换序列所需要进行的操作，为了实现这两点在常用的命令式写法中都是要整个操作重写才能完成。</p>
 <p>高阶函数的组合使用可以更好的体现模块化的思想，高阶函数本身是模块与模块之间的接口，例如得到一个序列中的偶数的平方的序列：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let a = Array(0...100)
-let b = a.filter({$0%2 == 0}).map{$0*$0}
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">let</span> <span style="color:#268bd2">a</span> = <span style="color:#b58900">Array</span>(<span style="color:#2aa198">0.</span>..<span style="color:#2aa198">100</span>)
+<span style="color:#268bd2">let</span> <span style="color:#268bd2">b</span> = a.<span style="color:#268bd2">filter</span>({<span style="color:#268bd2">$0</span><span style="color:#719e07">%</span><span style="color:#2aa198">2</span> == <span style="color:#2aa198">0</span>}).<span style="color:#268bd2">map</span>{<span style="color:#268bd2">$0</span><span style="color:#719e07">*</span><span style="color:#268bd2">$0</span>}
 </code></pre></div><p>模块化的好处自然是替换模块整体结构不变，也就是维护方便。</p>
 <p>函数式编程思路解决问题的一般思路都是递归，逐步将问题分解求解。在解八皇后问题过程中递归的思路是 k-1 列已经摆放好 k-1 个皇后，通过 map 得到第 k 列的所有可能解，通过 flatmap 整理解类型，最后 filter 过滤出满足条件的那些解。</p>
 <p>reduce 函数用在 filter 的判断是否满足条件的模块中，这个例子里似乎很好的体现了在某些情况中命令式写法可以更高效</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">struct NQueensProblem {
-    private let size: Int
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">struct</span> <span style="color:#268bd2">NQueensProblem</span> {
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">let</span> <span style="color:#268bd2">size</span>: <span style="color:#b58900">Int</span>
     
-    init(boardSize: Int) {
-        //size start from 1
-        size = boardSize&gt;0 ? boardSize : 1
+    <span style="color:#268bd2">init</span>(boardSize: <span style="color:#b58900">Int</span>) {
+        <span style="color:#586e75">//</span><span style="color:#586e75">s</span><span style="color:#586e75">i</span><span style="color:#586e75">z</span><span style="color:#586e75">e</span><span style="color:#586e75"> </span><span style="color:#586e75">s</span><span style="color:#586e75">t</span><span style="color:#586e75">a</span><span style="color:#586e75">r</span><span style="color:#586e75">t</span><span style="color:#586e75"> </span><span style="color:#586e75">f</span><span style="color:#586e75">r</span><span style="color:#586e75">o</span><span style="color:#586e75">m</span><span style="color:#586e75"> </span><span style="color:#586e75">1</span>
+        size = boardSize&gt;<span style="color:#2aa198">0</span> ? boardSize : <span style="color:#2aa198">1</span>
     }
     
-    func solutions() -&gt; [[(Int, Int)]] {
-        func isSafe(solution: [(Int, Int)], atColumn column: Int) -&gt; Bool {
-            let (colX, colY) = solution[column]
-            return solution.reduce(true, combine: { (isSafe, location) -&gt; Bool in
-                let (locX, locY) = location
-                if locX == colX &amp;&amp; locY == colY {
-                    return isSafe
-                } else {
-                    return isSafe &amp;&amp;
-                        !(locX == colX || locY == colY || (locX+locY) == (colX+colY) || (locX-locY) == (colX-colY))
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">solutions</span>() -&gt; [[(<span style="color:#b58900">Int</span>, <span style="color:#b58900">Int</span>)]] {
+        <span style="color:#268bd2">func</span> <span style="color:#268bd2">isSafe</span>(solution: [(<span style="color:#b58900">Int</span>, <span style="color:#b58900">Int</span>)], atColumn column: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+            <span style="color:#268bd2">let</span> (colX, colY) = solution[column]
+            <span style="color:#719e07">return</span> solution.<span style="color:#268bd2">reduce</span>(<span style="color:#cb4b16">true</span>, combine: { (isSafe, location) -&gt; <span style="color:#b58900">Bool</span> <span style="color:#719e07">in</span>
+                <span style="color:#268bd2">let</span> (locX, locY) = location
+                <span style="color:#719e07">if</span> locX == colX <span style="color:#719e07">&amp;&amp;</span> locY == colY {
+                    <span style="color:#719e07">return</span> isSafe
+                } <span style="color:#719e07">else</span> {
+                    <span style="color:#719e07">return</span> isSafe <span style="color:#719e07">&amp;&amp;</span>
+                        <span style="color:#719e07">!</span>(locX == colX <span style="color:#719e07">||</span> locY == colY <span style="color:#719e07">||</span> (locX<span style="color:#719e07">+</span>locY) == (colX<span style="color:#719e07">+</span>colY) <span style="color:#719e07">||</span> (locX<span style="color:#719e07">-</span>locY) == (colX<span style="color:#719e07">-</span>colY))
                 }
             })
         }
         
-        //column start from 0
-        func queenCols(column: Int) -&gt; [[(Int, Int)]] {
-            if column == 0 {
-                return Array(0..&lt;size).map{ [(0, $0)] }
-            } else {
-                return queenCols(column-1).map({ (partSolution) -&gt; [[(Int, Int)]] in
-                    return Array(0..&lt;size).map { partSolution + [(column, $0)] }
-                }).flatMap({ $0 }).filter{ isSafe($0, atColumn: column) }
+        <span style="color:#586e75">//</span><span style="color:#586e75">c</span><span style="color:#586e75">o</span><span style="color:#586e75">l</span><span style="color:#586e75">u</span><span style="color:#586e75">m</span><span style="color:#586e75">n</span><span style="color:#586e75"> </span><span style="color:#586e75">s</span><span style="color:#586e75">t</span><span style="color:#586e75">a</span><span style="color:#586e75">r</span><span style="color:#586e75">t</span><span style="color:#586e75"> </span><span style="color:#586e75">f</span><span style="color:#586e75">r</span><span style="color:#586e75">o</span><span style="color:#586e75">m</span><span style="color:#586e75"> </span><span style="color:#586e75">0</span>
+        <span style="color:#268bd2">func</span> <span style="color:#268bd2">queenCols</span>(column: <span style="color:#b58900">Int</span>) -&gt; [[(<span style="color:#b58900">Int</span>, <span style="color:#b58900">Int</span>)]] {
+            <span style="color:#719e07">if</span> column == <span style="color:#2aa198">0</span> {
+                <span style="color:#719e07">return</span> <span style="color:#b58900">Array</span>(<span style="color:#2aa198">0.</span>.&lt;size).<span style="color:#268bd2">map</span>{ [(<span style="color:#2aa198">0</span>, <span style="color:#268bd2">$0</span>)] }
+            } <span style="color:#719e07">else</span> {
+                <span style="color:#719e07">return</span> queenCols(column<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>).<span style="color:#268bd2">map</span>({ (partSolution) -&gt; [[(<span style="color:#b58900">Int</span>, <span style="color:#b58900">Int</span>)]] <span style="color:#719e07">in</span>
+                    <span style="color:#719e07">return</span> <span style="color:#b58900">Array</span>(<span style="color:#2aa198">0.</span>.&lt;size).<span style="color:#268bd2">map</span> { partSolution <span style="color:#719e07">+</span> [(column, <span style="color:#268bd2">$0</span>)] }
+                }).flatMap({ <span style="color:#268bd2">$0</span> }).<span style="color:#268bd2">filter</span>{ isSafe(<span style="color:#268bd2">$0</span>, atColumn: column) }
             }
         }
         
-        return queenCols(size-1)
+        <span style="color:#719e07">return</span> queenCols(size<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>)
     }
 }
 
-var queen = NQueensProblem(boardSize: 8)
-print(queen.solutions())
+<span style="color:#268bd2">var</span> <span style="color:#268bd2">queen</span> = NQueensProblem(boardSize: <span style="color:#2aa198">8</span>)
+<span style="color:#268bd2">print</span>(queen.solutions())
 
 </code></pre></div><p>最后当n等于8时一共有92个解法</p>
 <p>最后的最后，在 Swift 2.0 之后 flatmap 有了一个特殊用途：过滤nil</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let optionalInts: [Int?] = [1, 2, nil, 4, nil, 5]
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">let</span> <span style="color:#268bd2">optionalInts</span>: [<span style="color:#b58900">Int</span>?] = [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#cb4b16">nil</span>, <span style="color:#2aa198">4</span>, <span style="color:#cb4b16">nil</span>, <span style="color:#2aa198">5</span>]
  
-let ints = optionalInts.flatMap { $0 }
-ints // [1, 2, 4, 5]
+<span style="color:#268bd2">let</span> <span style="color:#268bd2">ints</span> = optionalInts.flatMap { <span style="color:#268bd2">$0</span> }
+ints <span style="color:#586e75">//</span><span style="color:#586e75"> </span><span style="color:#586e75">[</span><span style="color:#586e75">1</span><span style="color:#586e75">,</span><span style="color:#586e75"> </span><span style="color:#586e75">2</span><span style="color:#586e75">,</span><span style="color:#586e75"> </span><span style="color:#586e75">4</span><span style="color:#586e75">,</span><span style="color:#586e75"> </span><span style="color:#586e75">5</span><span style="color:#586e75">]</span>
 
 </code></pre></div><p>reference: <a href="https://www.natashatherobot.com/swift-2-flatmap/">https://www.natashatherobot.com/swift-2-flatmap/</a></p>
 

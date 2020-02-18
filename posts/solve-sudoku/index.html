@@ -62,117 +62,117 @@ enum SudokuError: ErrorType { case initDataError case invalidSudoku case subscri
 		<div class="markdown">
 			<p>由编程语言自带的数据结构种类有限，在解决实际问题中设计适和的复合数据类型更有利于程序的组织和迭代。复合数据的分层设计一般可以分为三层：最底层是复合数据的实现，上层是复合数据的使用方法，最上层是复合数据使用方法的应用。</p>
 <p>在这个例子中，最底层使用数组作为数独数据的实现，在上层使用 struct 的初始化函数、subscript 中的  getter 和 setter，最后基于getter和setter实现数独求解的各个步骤。</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">enum SudokuError: ErrorType {
-    case initDataError
-    case invalidSudoku
-    case subscriptOutOfRange
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">enum</span> <span style="color:#268bd2">SudokuError</span>: ErrorType {
+    <span style="color:#719e07">case</span> initDataError
+    <span style="color:#719e07">case</span> invalidSudoku
+    <span style="color:#719e07">case</span> subscriptOutOfRange
 }
 
-struct Sudoku: CustomStringConvertible {
+<span style="color:#268bd2">struct</span> <span style="color:#268bd2">Sudoku</span>: CustomStringConvertible {
     
-    private var data = Array&lt;Int&gt;()
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">var</span> <span style="color:#268bd2">data</span> = <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;()
     
-    init(array: Array&lt;Int&gt;) throws {
-        guard array.count == 81 else { throw SudokuError.initDataError }
+    <span style="color:#268bd2">init</span>(array: <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;) <span style="color:#268bd2">throws</span> {
+        <span style="color:#719e07">guard</span> array.<span style="color:#268bd2">count</span> == <span style="color:#2aa198">81</span> <span style="color:#719e07">else</span> { <span style="color:#719e07">throw</span> SudokuError.initDataError }
         data = array
     }
     
-    func isRangeValid(row: Int, column: Int) -&gt; Bool {
-        return 0 &lt;= row &amp;&amp; row &lt; 9 &amp;&amp; 0 &lt;= column &amp;&amp; column &lt; 9
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">isRangeValid</span>(row: <span style="color:#b58900">Int</span>, column: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">&lt;=</span> row <span style="color:#719e07">&amp;&amp;</span> row <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">9</span> <span style="color:#719e07">&amp;&amp;</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">&lt;=</span> column <span style="color:#719e07">&amp;&amp;</span> column <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">9</span>
     }
     
-    subscript(row: Int, column: Int) -&gt; Int {
-        get {
-            return data[row*9+column]
+    <span style="color:#268bd2">subscript</span>(row: <span style="color:#b58900">Int</span>, column: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+        <span style="color:#268bd2">get</span> {
+            <span style="color:#719e07">return</span> data[row<span style="color:#719e07">*</span><span style="color:#2aa198">9</span><span style="color:#719e07">+</span>column]
         }
-        set {
-            data[row*9+column] = newValue
+        <span style="color:#268bd2">set</span> {
+            data[row<span style="color:#719e07">*</span><span style="color:#2aa198">9</span><span style="color:#719e07">+</span>column] = newValue
         }
     }
     
-    mutating func solve() throws {
-        var emptyCells = Array&lt;(Int, Int)&gt;()
-        for i in 0...8 {
-            for j in 0...8 {
-                if self[i, j] == 0 {
+    <span style="color:#268bd2">mutating</span> <span style="color:#268bd2">func</span> <span style="color:#268bd2">solve</span>() <span style="color:#268bd2">throws</span> {
+        <span style="color:#268bd2">var</span> <span style="color:#268bd2">emptyCells</span> = <span style="color:#b58900">Array</span><span style="color:#719e07">&lt;</span>(<span style="color:#b58900">Int</span>, <span style="color:#b58900">Int</span>)<span style="color:#719e07">&gt;</span>()
+        <span style="color:#719e07">for</span> i <span style="color:#719e07">in</span> <span style="color:#2aa198">0.</span>..<span style="color:#2aa198">8</span> {
+            <span style="color:#719e07">for</span> j <span style="color:#719e07">in</span> <span style="color:#2aa198">0.</span>..<span style="color:#2aa198">8</span> {
+                <span style="color:#719e07">if</span> <span style="color:#cb4b16">self</span>[i, j] == <span style="color:#2aa198">0</span> {
                     emptyCells.append((i, j))
                 }
             }
         }
         
-        var index = 0
-        while index &lt; emptyCells.count {
-            let (a, b) = emptyCells[index]
-            if self[a, b] &lt; 9 {
-                self[a, b]++
-                if isSafe(a, y: b) {
-                    index++
+        <span style="color:#268bd2">var</span> <span style="color:#268bd2">index</span> = <span style="color:#2aa198">0</span>
+        <span style="color:#719e07">while</span> index <span style="color:#719e07">&lt;</span> emptyCells.<span style="color:#268bd2">count</span> {
+            <span style="color:#268bd2">let</span> (a, b) = emptyCells[index]
+            <span style="color:#719e07">if</span> <span style="color:#cb4b16">self</span>[a, b] <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">9</span> {
+                <span style="color:#cb4b16">self</span>[a, b]<span style="color:#719e07">++</span>
+                <span style="color:#719e07">if</span> isSafe(a, y: b) {
+                    index<span style="color:#719e07">++</span>
                 }
-            } else {
-                self[a, b] = 0
-                index--
+            } <span style="color:#719e07">else</span> {
+                <span style="color:#cb4b16">self</span>[a, b] = <span style="color:#2aa198">0</span>
+                index<span style="color:#719e07">--</span>
             }
-            if index &lt; 0 { throw SudokuError.invalidSudoku }
+            <span style="color:#719e07">if</span> index <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0</span> { <span style="color:#719e07">throw</span> SudokuError.invalidSudoku }
         }
     }
     
-    func isSafe(x: Int, y: Int) -&gt; Bool {
-        return isRowSafe(x, y: y) &amp;&amp; isColumnSafe(x, y: y) &amp;&amp; isCellSafe(x, y: y)
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">isSafe</span>(x: <span style="color:#b58900">Int</span>, y: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#719e07">return</span> isRowSafe(x, y: y) <span style="color:#719e07">&amp;&amp;</span> isColumnSafe(x, y: y) <span style="color:#719e07">&amp;&amp;</span> isCellSafe(x, y: y)
     }
     
-    private func isRowSafe(x: Int, y: Int) -&gt; Bool {
-        for i in 0...8 {
-            if i != y &amp;&amp; self[x, y] == self[x, i] { return false }
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">func</span> <span style="color:#268bd2">isRowSafe</span>(x: <span style="color:#b58900">Int</span>, y: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#719e07">for</span> i <span style="color:#719e07">in</span> <span style="color:#2aa198">0.</span>..<span style="color:#2aa198">8</span> {
+            <span style="color:#719e07">if</span> i <span style="color:#719e07">!=</span> y <span style="color:#719e07">&amp;&amp;</span> <span style="color:#cb4b16">self</span>[x, y] == <span style="color:#cb4b16">self</span>[x, i] { <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span> }
         }
-        return true
+        <span style="color:#719e07">return</span> <span style="color:#cb4b16">true</span>
     }
     
-    private func isColumnSafe(x: Int, y: Int) -&gt; Bool {
-        for i in 0...8 {
-            if i != x &amp;&amp; self[x, y] == self[i, y] { return false }
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">func</span> <span style="color:#268bd2">isColumnSafe</span>(x: <span style="color:#b58900">Int</span>, y: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#719e07">for</span> i <span style="color:#719e07">in</span> <span style="color:#2aa198">0.</span>..<span style="color:#2aa198">8</span> {
+            <span style="color:#719e07">if</span> i <span style="color:#719e07">!=</span> x <span style="color:#719e07">&amp;&amp;</span> <span style="color:#cb4b16">self</span>[x, y] == <span style="color:#cb4b16">self</span>[i, y] { <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span> }
         }
-        return true
+        <span style="color:#719e07">return</span> <span style="color:#cb4b16">true</span>
     }
     
-    private func isCellSafe(x: Int, y: Int) -&gt; Bool {
-        let a = x/3, b = y/3
-        for i in 3*a...(3*a+2) {
-            for j in 3*b...(3*b+2) {
-                if i != x &amp;&amp; j != y &amp;&amp; self[x, y] == self[i, j] { return false }
-            }
-        }
-        return true
-    }
-    
-    var description: String {
-        var output = &#34;&#34;
-        for i in 0...8 {
-            for j in 0...8 {
-                output.appendContentsOf(&#34;\(self[i,j]) &#34;)
-                if j == 8 {output.appendContentsOf(&#34;\n&#34;)}
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">func</span> <span style="color:#268bd2">isCellSafe</span>(x: <span style="color:#b58900">Int</span>, y: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#268bd2">let</span> <span style="color:#268bd2">a</span> = x<span style="color:#719e07">/</span><span style="color:#2aa198">3</span>, b = y<span style="color:#719e07">/</span><span style="color:#2aa198">3</span>
+        <span style="color:#719e07">for</span> i <span style="color:#719e07">in</span> <span style="color:#2aa198">3</span><span style="color:#719e07">*</span>a...(<span style="color:#2aa198">3</span><span style="color:#719e07">*</span>a<span style="color:#719e07">+</span><span style="color:#2aa198">2</span>) {
+            <span style="color:#719e07">for</span> j <span style="color:#719e07">in</span> <span style="color:#2aa198">3</span><span style="color:#719e07">*</span>b...(<span style="color:#2aa198">3</span><span style="color:#719e07">*</span>b<span style="color:#719e07">+</span><span style="color:#2aa198">2</span>) {
+                <span style="color:#719e07">if</span> i <span style="color:#719e07">!=</span> x <span style="color:#719e07">&amp;&amp;</span> j <span style="color:#719e07">!=</span> y <span style="color:#719e07">&amp;&amp;</span> <span style="color:#cb4b16">self</span>[x, y] == <span style="color:#cb4b16">self</span>[i, j] { <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span> }
             }
         }
-        return output
+        <span style="color:#719e07">return</span> <span style="color:#cb4b16">true</span>
+    }
+    
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">description</span>: <span style="color:#b58900">String</span> {
+        <span style="color:#268bd2">var</span> <span style="color:#268bd2">output</span> = <span style="color:#2aa198">&#34;</span><span style="color:#2aa198">&#34;</span>
+        <span style="color:#719e07">for</span> i <span style="color:#719e07">in</span> <span style="color:#2aa198">0.</span>..<span style="color:#2aa198">8</span> {
+            <span style="color:#719e07">for</span> j <span style="color:#719e07">in</span> <span style="color:#2aa198">0.</span>..<span style="color:#2aa198">8</span> {
+                output.appendContentsOf(<span style="color:#2aa198">&#34;</span><span style="color:#2aa198">\(</span><span style="color:#cb4b16">self</span>[i,j]<span style="color:#2aa198">)</span><span style="color:#2aa198"> </span><span style="color:#2aa198">&#34;</span>)
+                <span style="color:#719e07">if</span> j == <span style="color:#2aa198">8</span> {output.appendContentsOf(<span style="color:#2aa198">&#34;</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>)}
+            }
+        }
+        <span style="color:#719e07">return</span> output
     }
 }
 
-do {
-    let data = [0,9,0,4,2,0,0,7,0,
-                0,4,0,0,0,7,0,0,2,
-                0,0,7,0,0,0,1,0,6,
-                7,0,0,0,0,2,0,0,0,
-                0,0,0,6,0,5,0,0,0,
-                0,0,0,3,0,0,0,0,4,
-                4,0,1,0,0,0,5,0,0,
-                9,0,0,2,0,0,0,1,0,
-                0,6,0,0,3,9,0,2,0]
-    var theSudoku = try Sudoku(array: data)
-    try theSudoku.solve()
-    print(theSudoku)
-} catch SudokuError.initDataError {
-    print(&#34;The count of init array isn&#39;t 81&#34;)
-} catch SudokuError.invalidSudoku {
-    print(&#34;This is not a valid sudoku&#34;)
+<span style="color:#719e07">do</span> {
+    <span style="color:#268bd2">let</span> <span style="color:#268bd2">data</span> = [<span style="color:#2aa198">0</span>,<span style="color:#2aa198">9</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">4</span>,<span style="color:#2aa198">2</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">7</span>,<span style="color:#2aa198">0</span>,
+                <span style="color:#2aa198">0</span>,<span style="color:#2aa198">4</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">7</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">2</span>,
+                <span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">7</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">1</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">6</span>,
+                <span style="color:#2aa198">7</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">2</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,
+                <span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">6</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">5</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,
+                <span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">3</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">4</span>,
+                <span style="color:#2aa198">4</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">1</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">5</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,
+                <span style="color:#2aa198">9</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">2</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">1</span>,<span style="color:#2aa198">0</span>,
+                <span style="color:#2aa198">0</span>,<span style="color:#2aa198">6</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">3</span>,<span style="color:#2aa198">9</span>,<span style="color:#2aa198">0</span>,<span style="color:#2aa198">2</span>,<span style="color:#2aa198">0</span>]
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">theSudoku</span> = <span style="color:#719e07">try</span> Sudoku(array: data)
+    <span style="color:#719e07">try</span> theSudoku.solve()
+    <span style="color:#268bd2">print</span>(theSudoku)
+} <span style="color:#719e07">catch</span> SudokuError.initDataError {
+    <span style="color:#268bd2">print</span>(<span style="color:#2aa198">&#34;</span><span style="color:#2aa198">The count of init array isn&#39;t 81</span><span style="color:#2aa198">&#34;</span>)
+} <span style="color:#719e07">catch</span> SudokuError.invalidSudoku {
+    <span style="color:#268bd2">print</span>(<span style="color:#2aa198">&#34;</span><span style="color:#2aa198">This is not a valid sudoku</span><span style="color:#2aa198">&#34;</span>)
 }
 </code></pre></div><p>对比以前写过的版本，这个实现多出了 subscript 中的 getter setter 方法，增加这两个方法隔离开了解数独的过程和实现数独数据的具体细节，假如要换一种数独的实现方式，只需要修改其中的构造函数和 subscript 其他函数例如 solve() 完全不需要改动，这就是复合数据抽象的好处。</p>
 

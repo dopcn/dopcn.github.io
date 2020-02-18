@@ -69,63 +69,63 @@ SICP 第一章</p>
 <p>计算机程序是由需要被操作的「数据」和操作数据的「过程」构成。解释起来可以说是一静一动，数据所代表的静态的具体某个值，而过程则是动态的代表从一个值到另一个值的转化。和数学研究很像不光研究函数对值的作用，还研究函数本身，计算机编程过程中也不光用过程作用于数据，也可以处理过程本身就像作用于数据之上那样。</p>
 <h3 id="过程作为参数">过程作为参数</h3>
 <p>通过区间折半寻找方程的一个根</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">enum searchError: ErrorType {
-    case sameSign
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">enum</span> <span style="color:#268bd2">searchError</span>: ErrorType {
+    <span style="color:#719e07">case</span> sameSign
 }
 
-func isCloseEnough(x x: Double, y: Double) -&gt; Bool {
-    return abs(x-y) &lt; 0.001
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">isCloseEnough</span>(x x: <span style="color:#b58900">Double</span>, y: <span style="color:#b58900">Double</span>) -&gt; <span style="color:#b58900">Bool</span> {
+    <span style="color:#719e07">return</span> <span style="color:#268bd2">abs</span>(x<span style="color:#719e07">-</span>y) <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0.001</span>
 }
 
-func search(function f: (Double)-&gt;Double, negPoint: Double, posPoint: Double) -&gt; Double {
-    let midPoint = (negPoint+posPoint)/2
-    if isCloseEnough(x: negPoint, y: posPoint) {
-        return midPoint
-    } else {
-        if f(midPoint) &lt; 0 {
-            return search(function: f, negPoint: midPoint, posPoint: posPoint)
-        } else {
-            return search(function: f, negPoint: negPoint, posPoint: midPoint)
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">search</span>(function f: (<span style="color:#b58900">Double</span>)-&gt;<span style="color:#b58900">Double</span>, negPoint: <span style="color:#b58900">Double</span>, posPoint: <span style="color:#b58900">Double</span>) -&gt; <span style="color:#b58900">Double</span> {
+    <span style="color:#268bd2">let</span> <span style="color:#268bd2">midPoint</span> = (negPoint<span style="color:#719e07">+</span>posPoint)<span style="color:#719e07">/</span><span style="color:#2aa198">2</span>
+    <span style="color:#719e07">if</span> isCloseEnough(x: negPoint, y: posPoint) {
+        <span style="color:#719e07">return</span> midPoint
+    } <span style="color:#719e07">else</span> {
+        <span style="color:#719e07">if</span> f(midPoint) <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0</span> {
+            <span style="color:#719e07">return</span> search(function: f, negPoint: midPoint, posPoint: posPoint)
+        } <span style="color:#719e07">else</span> {
+            <span style="color:#719e07">return</span> search(function: f, negPoint: negPoint, posPoint: midPoint)
         }
     }
 }
 
-func halfIntervalSearch(function f:(Double)-&gt;Double, x: Double, y: Double) throws -&gt; Double {
-    let a = f(x), b = f(y)
-    if a &gt; 0 &amp;&amp; b &lt; 0 {
-        return search(function: f, negPoint: y, posPoint: x)
-    } else if a &lt; 0 &amp;&amp; b &gt; 0 {
-        return search(function: f, negPoint: x, posPoint: y)
-    } else {
-        throw searchError.sameSign
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">halfIntervalSearch</span>(function f:(<span style="color:#b58900">Double</span>)-&gt;<span style="color:#b58900">Double</span>, x: <span style="color:#b58900">Double</span>, y: <span style="color:#b58900">Double</span>) <span style="color:#268bd2">throws</span> -&gt; <span style="color:#b58900">Double</span> {
+    <span style="color:#268bd2">let</span> <span style="color:#268bd2">a</span> = f(x), b = f(y)
+    <span style="color:#719e07">if</span> a <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">&amp;&amp;</span> b <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0</span> {
+        <span style="color:#719e07">return</span> search(function: f, negPoint: y, posPoint: x)
+    } <span style="color:#719e07">else</span> <span style="color:#719e07">if</span> a <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">&amp;&amp;</span> b <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">0</span> {
+        <span style="color:#719e07">return</span> search(function: f, negPoint: x, posPoint: y)
+    } <span style="color:#719e07">else</span> {
+        <span style="color:#719e07">throw</span> searchError.sameSign
     }
 }
 
-func f(x: Double) -&gt; Double {
-    return x*x*x - 2*x - 3
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">f</span>(x: <span style="color:#b58900">Double</span>) -&gt; <span style="color:#b58900">Double</span> {
+    <span style="color:#719e07">return</span> x<span style="color:#719e07">*</span>x<span style="color:#719e07">*</span>x <span style="color:#719e07">-</span> <span style="color:#2aa198">2</span><span style="color:#719e07">*</span>x <span style="color:#719e07">-</span> <span style="color:#2aa198">3</span>
 }
 
 
 
-do {
-    let result = try halfIntervalSearch(function: f, x: 1, y: 2)
-    print(result)
-} catch {
-    print(&#34;error&#34;)
+<span style="color:#719e07">do</span> {
+    <span style="color:#268bd2">let</span> <span style="color:#268bd2">result</span> = <span style="color:#719e07">try</span> halfIntervalSearch(function: f, x: <span style="color:#2aa198">1</span>, y: <span style="color:#2aa198">2</span>)
+    <span style="color:#268bd2">print</span>(result)
+} <span style="color:#719e07">catch</span> {
+    <span style="color:#268bd2">print</span>(<span style="color:#2aa198">&#34;</span><span style="color:#2aa198">error</span><span style="color:#2aa198">&#34;</span>)
 }
 </code></pre></div><p>其中函数 f 作为参数可以换成其他形式</p>
 <h3 id="过程作为返回值">过程作为返回值</h3>
 <p>函数求导</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func deriv(function f:(Double)-&gt;Double) -&gt; (Double)-&gt;Double {
-    let dx = 0.00001
-    return {(x:Double)-&gt;Double in (f(x+dx)-f(x))/dx}
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">deriv</span>(function f:(<span style="color:#b58900">Double</span>)-&gt;<span style="color:#b58900">Double</span>) -&gt; (<span style="color:#b58900">Double</span>)-&gt;<span style="color:#b58900">Double</span> {
+    <span style="color:#268bd2">let</span> <span style="color:#268bd2">dx</span> = <span style="color:#2aa198">0.00001</span>
+    <span style="color:#719e07">return</span> {(x:<span style="color:#b58900">Double</span>)-&gt;<span style="color:#b58900">Double</span> <span style="color:#719e07">in</span> (f(x<span style="color:#719e07">+</span>dx)<span style="color:#719e07">-</span>f(x))<span style="color:#719e07">/</span>dx}
 }
 
-func cube(x:Double) -&gt; Double {
-    return x*x*x
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">cube</span>(x:<span style="color:#b58900">Double</span>) -&gt; <span style="color:#b58900">Double</span> {
+    <span style="color:#719e07">return</span> x<span style="color:#719e07">*</span>x<span style="color:#719e07">*</span>x
 }
 
-deriv(function: cube)(2)
+deriv(function: cube)(<span style="color:#2aa198">2</span>)
 </code></pre></div><h3 id="过程的单一责任原则">过程的单一责任原则</h3>
 <p>过程是可以复合定义的，良好的定义应当保持各部分的解耦，例如第一个例子中对 <code>isCloseEnough</code> 过程的调整就可以做到完全不影响其他过程。</p>
 

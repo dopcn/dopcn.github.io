@@ -68,117 +68,117 @@ SICP 前言</p>
 </blockquote>
 <p>计算机程序中对象可以大体分为两类：数据和过程。数据是那些需要去操作的东西，过程则是具体操作的指令。要求解复合过程的结果需要先得到子过程的结果，求子过程的结果需要得到子过程的子过程的结果，一次类推直到某一层子过程是最基本的表达式得到求值结果，这就是递归。</p>
 <h3 id="递归的简单应用欧几里得算法求最大公约数">递归的简单应用，欧几里得算法求最大公约数</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func gcd(x x: Int, y: Int) -&gt; Int {
-    if y == 0 {
-        return x
-    } else {
-        return gcd(x: y, y: x%y)
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">gcd</span>(x x: <span style="color:#b58900">Int</span>, y: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#719e07">if</span> y == <span style="color:#2aa198">0</span> {
+        <span style="color:#719e07">return</span> x
+    } <span style="color:#719e07">else</span> {
+        <span style="color:#719e07">return</span> gcd(x: y, y: x<span style="color:#719e07">%</span>y)
     }
 }
 </code></pre></div><h3 id="fibonacci-数列求值">Fibonacci 数列求值</h3>
 <p>Fibonacci 数列的定义本身就是递归的，可以很自然的写成：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func fib1(n: Int) -&gt; Int {
-    switch n {
-    case 0: return 0
-    case 1: return 1
-    default: return fib1(n-1) + fib1(n-2)
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">fib1</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#719e07">switch</span> n {
+    <span style="color:#719e07">case</span> <span style="color:#2aa198">0</span>: <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>
+    <span style="color:#719e07">case</span> <span style="color:#2aa198">1</span>: <span style="color:#719e07">return</span> <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">default</span>: <span style="color:#719e07">return</span> fib1(n<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>) <span style="color:#719e07">+</span> fib1(n<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>)
     }
 }
 </code></pre></div><p>这个方法在求解的过程中所需的步数随着n的增加增长阶是O(2^n)，仔细观察递归过程中同样的值重复计算了很多次，于是可以优化在计算过程中把结果保留下来，这种做法被归类为 Dynamic Programming 方法，没想到的是中文翻译居然是动态规划</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func fib2(n: Int) -&gt; Int {
-    var tmpArray = [0, 1]
-    func fib2Inside(m: Int) -&gt; Int {
-        if m &gt;= tmpArray.count {
-            tmpArray.append(fib2Inside(m-1) + fib2Inside(m-2))
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">fib2</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">tmpArray</span> = [<span style="color:#2aa198">0</span>, <span style="color:#2aa198">1</span>]
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">fib2Inside</span>(m: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+        <span style="color:#719e07">if</span> m <span style="color:#719e07">&gt;=</span> tmpArray.<span style="color:#268bd2">count</span> {
+            tmpArray.append(fib2Inside(m<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>) <span style="color:#719e07">+</span> fib2Inside(m<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>))
         }
-        return tmpArray[m]
+        <span style="color:#719e07">return</span> tmpArray[m]
     }
-    return fib2Inside(n)
+    <span style="color:#719e07">return</span> fib2Inside(n)
 }
 </code></pre></div><p>在递归中有一类尾递归，可能也可以叫伪递归，是在递归的过程中保留全部状态，其实就是一种迭代，这种计算方式要快于一般的递归。如果递归解决的思路是从后往前的，那么迭代刚好相反是从前往后</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func fib3(n: Int) -&gt; Int {
-    func fibIter(a: Int, b: Int, count: Int) -&gt; Int {
-        if count == 0 {
-            return b
-        } else {
-            return fibIter(a+b, b: a, count: count-1)
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">fib3</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">fibIter</span>(a: <span style="color:#b58900">Int</span>, b: <span style="color:#b58900">Int</span>, <span style="color:#268bd2">count</span>: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+        <span style="color:#719e07">if</span> <span style="color:#268bd2">count</span> == <span style="color:#2aa198">0</span> {
+            <span style="color:#719e07">return</span> b
+        } <span style="color:#719e07">else</span> {
+            <span style="color:#719e07">return</span> fibIter(a<span style="color:#719e07">+</span>b, b: a, <span style="color:#268bd2">count</span>: <span style="color:#268bd2">count</span><span style="color:#719e07">-</span><span style="color:#2aa198">1</span>)
         }
     }
-    return fibIter(1, b: 0, count: n)
+    <span style="color:#719e07">return</span> fibIter(<span style="color:#2aa198">1</span>, b: <span style="color:#2aa198">0</span>, <span style="color:#268bd2">count</span>: n)
 }
 
-func fib4(n: Int) -&gt; Int {
-    guard n &gt; 1 else {
-        return n
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">fib4</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#719e07">guard</span> n <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">1</span> <span style="color:#719e07">else</span> {
+        <span style="color:#719e07">return</span> n
     }
-    var count = n, x = 0, y = 1
-    repeat {
-        (x, y) = (y, x+y)
-        count--
-    } while count &gt; 1
-    return y
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">count</span> = n, x = <span style="color:#2aa198">0</span>, y = <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">repeat</span> {
+        (x, y) = (y, x<span style="color:#719e07">+</span>y)
+        <span style="color:#268bd2">count</span><span style="color:#719e07">--</span>
+    } <span style="color:#719e07">while</span> <span style="color:#268bd2">count</span> <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">return</span> y
 }
 </code></pre></div><p>使用迭代的方式计算，计算步数相对于n的增长阶是O(n)，如果要继续精简这个计算过程发现每次迭代的变化都是一样的，那么将两次迭代的过程合为一次，那么所需步骤数就可以减半，最后得到时间复杂度为 O(logn) 的方法。</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func fib5(n: Int) -&gt; Int {
-    guard n &gt; 1 else {
-        return n
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">fib5</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#719e07">guard</span> n <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">1</span> <span style="color:#719e07">else</span> {
+        <span style="color:#719e07">return</span> n
     }
-    var count = n+1, x = 0 , y = 1
-    if count % 2 != 0 {
-        (x, y) = (y, x+y)
-        count--
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">count</span> = n<span style="color:#719e07">+</span><span style="color:#2aa198">1</span>, x = <span style="color:#2aa198">0</span> , y = <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">if</span> <span style="color:#268bd2">count</span> <span style="color:#719e07">%</span> <span style="color:#2aa198">2</span> <span style="color:#719e07">!=</span> <span style="color:#2aa198">0</span> {
+        (x, y) = (y, x<span style="color:#719e07">+</span>y)
+        <span style="color:#268bd2">count</span><span style="color:#719e07">--</span>
     }
-    var countHalf = count/2
-    repeat {
-        (x, y) = (x+y, x+2*y)
-        countHalf--
-    } while countHalf &gt; 1
-    return y
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">countHalf</span> = <span style="color:#268bd2">count</span><span style="color:#719e07">/</span><span style="color:#2aa198">2</span>
+    <span style="color:#719e07">repeat</span> {
+        (x, y) = (x<span style="color:#719e07">+</span>y, x<span style="color:#719e07">+</span><span style="color:#2aa198">2</span><span style="color:#719e07">*</span>y)
+        countHalf<span style="color:#719e07">--</span>
+    } <span style="color:#719e07">while</span> countHalf <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">return</span> y
 }
 </code></pre></div><h3 id="零钱组合问题">零钱组合问题</h3>
 <p>给定一个金额 N，计算有多少种不同的零钱组合方式。这个问题应用递归就没有上一个那么直观，但只需要找出分解问题并且子问题和问题本身是同一类问题的方式。将换算组合个数分为两部分，没有一种面值的组合个数加上至少有一张这种面值的组合个数</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func cc1(amount: Int, denomination: Array&lt;Int&gt;) -&gt; Int {
-    if amount &lt; 0 || denomination.count == 0 { return 0 }
-    if amount == 0 { return 1 }
-    var deno = denomination
-    deno.removeLast()
-    return cc1(amount - denomination[denomination.count-1], denomination: denomination) + cc1(amount, denomination: deno)
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">cc1</span>(amount: <span style="color:#b58900">Int</span>, denomination: <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#719e07">if</span> amount <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">||</span> denomination.<span style="color:#268bd2">count</span> == <span style="color:#2aa198">0</span> { <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span> }
+    <span style="color:#719e07">if</span> amount == <span style="color:#2aa198">0</span> { <span style="color:#719e07">return</span> <span style="color:#2aa198">1</span> }
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">deno</span> = denomination
+    deno.<span style="color:#268bd2">removeLast</span>()
+    <span style="color:#719e07">return</span> cc1(amount <span style="color:#719e07">-</span> denomination[denomination.<span style="color:#268bd2">count</span><span style="color:#719e07">-</span><span style="color:#2aa198">1</span>], denomination: denomination) <span style="color:#719e07">+</span> cc1(amount, denomination: deno)
 }
 </code></pre></div><p>在 Dynamic Programming 的思想下优化，用一个表的行列代表金额数和不同面值个数，在表中存储计算过的个数</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func cc2(amount: Int, denomination: Array&lt;Int&gt;) -&gt; Int {
-    var table = Array(count: amount+1, repeatedValue: Array(count: denomination.count+1, repeatedValue: -1))
-    var i = 0, j = 0
-    while j &lt; denomination.count+1 {
-        table[0][j] = 1
-        j++
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">cc2</span>(amount: <span style="color:#b58900">Int</span>, denomination: <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">table</span> = <span style="color:#b58900">Array</span>(<span style="color:#268bd2">count</span>: amount<span style="color:#719e07">+</span><span style="color:#2aa198">1</span>, repeatedValue: <span style="color:#b58900">Array</span>(<span style="color:#268bd2">count</span>: denomination.<span style="color:#268bd2">count</span><span style="color:#719e07">+</span><span style="color:#2aa198">1</span>, repeatedValue: <span style="color:#719e07">-</span><span style="color:#2aa198">1</span>))
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">i</span> = <span style="color:#2aa198">0</span>, j = <span style="color:#2aa198">0</span>
+    <span style="color:#719e07">while</span> j <span style="color:#719e07">&lt;</span> denomination.<span style="color:#268bd2">count</span><span style="color:#719e07">+</span><span style="color:#2aa198">1</span> {
+        table[<span style="color:#2aa198">0</span>][j] = <span style="color:#2aa198">1</span>
+        j<span style="color:#719e07">++</span>
     }
-    while i &lt; amount+1 {
-        table[i][0] = 0
-        i++
+    <span style="color:#719e07">while</span> i <span style="color:#719e07">&lt;</span> amount<span style="color:#719e07">+</span><span style="color:#2aa198">1</span> {
+        table[i][<span style="color:#2aa198">0</span>] = <span style="color:#2aa198">0</span>
+        i<span style="color:#719e07">++</span>
     }
-    func cc2Inside(amount2: Int, denomination2: Array&lt;Int&gt;) -&gt; Int {
-        if amount2 &lt; 0 {
-            return 0
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">cc2Inside</span>(amount2: <span style="color:#b58900">Int</span>, denomination2: <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;) -&gt; <span style="color:#b58900">Int</span> {
+        <span style="color:#719e07">if</span> amount2 <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">0</span> {
+            <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>
         }
-        if table[amount2][denomination2.count] == -1 {
-            var deno = denomination2
-            deno.removeLast()
-            table[amount2][denomination2.count] = cc2Inside(amount2-denomination2[denomination2.count-1], denomination2: denomination2) + cc2Inside(amount2, denomination2: deno)
+        <span style="color:#719e07">if</span> table[amount2][denomination2.<span style="color:#268bd2">count</span>] == <span style="color:#719e07">-</span><span style="color:#2aa198">1</span> {
+            <span style="color:#268bd2">var</span> <span style="color:#268bd2">deno</span> = denomination2
+            deno.<span style="color:#268bd2">removeLast</span>()
+            table[amount2][denomination2.<span style="color:#268bd2">count</span>] = cc2Inside(amount2<span style="color:#719e07">-</span>denomination2[denomination2.<span style="color:#268bd2">count</span><span style="color:#719e07">-</span><span style="color:#2aa198">1</span>], denomination2: denomination2) <span style="color:#719e07">+</span> cc2Inside(amount2, denomination2: deno)
         }
-        return table[amount2][denomination2.count]
+        <span style="color:#719e07">return</span> table[amount2][denomination2.<span style="color:#268bd2">count</span>]
     }
-    return cc2Inside(amount, denomination2: denomination)
+    <span style="color:#719e07">return</span> cc2Inside(amount, denomination2: denomination)
 }
 </code></pre></div><p>这个问题也可以迭代，但是我是没能想出来，搜到的一种做法是</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func cc3(amount: Int, denomination: Array&lt;Int&gt;) -&gt; Int {
-    var table = Array(count: amount+1, repeatedValue: 0)
-    table[0] = 1
-    for(var i=0; i&lt;denomination.count; i++) {
-        for(var j=denomination[i]; j&lt;=amount; j++) {
-            table[j] += table[j-denomination[i]]
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">cc3</span>(amount: <span style="color:#b58900">Int</span>, denomination: <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">table</span> = <span style="color:#b58900">Array</span>(<span style="color:#268bd2">count</span>: amount<span style="color:#719e07">+</span><span style="color:#2aa198">1</span>, repeatedValue: <span style="color:#2aa198">0</span>)
+    table[<span style="color:#2aa198">0</span>] = <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">for</span>(<span style="color:#268bd2">var</span> <span style="color:#268bd2">i</span>=<span style="color:#2aa198">0</span>; i&lt;denomination.<span style="color:#268bd2">count</span>; i<span style="color:#719e07">++</span>) {
+        <span style="color:#719e07">for</span>(<span style="color:#268bd2">var</span> <span style="color:#268bd2">j</span>=denomination[i]; j<span style="color:#719e07">&lt;=</span>amount; j<span style="color:#719e07">++</span>) {
+            table[j] <span style="color:#719e07">+=</span> table[j<span style="color:#719e07">-</span>denomination[i]]
         }
     }
-    return table[amount]
+    <span style="color:#719e07">return</span> table[amount]
 }
 </code></pre></div><p>显然相比之下递归的代码更容易读懂</p>
 

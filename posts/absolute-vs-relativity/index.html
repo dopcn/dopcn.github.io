@@ -82,53 +82,53 @@ source/_posts/absolute-vs-relativity.md
 <div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let vc = SomeViewController()
 navigationController?.pushViewController(vc, animated: true)
 </code></pre></div><p>没少为设计方案来回讨论。后来为了为了尽可能适应这种网页端转换逻辑同时也扩大转换的自由度增加了URLTransformer 层，简单的原型：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">private protocol URLTransFormer {
-    func canTransform(url: NSURL) -&gt; Bool
-    func transform(url: NSURL) -&gt; UIViewController
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">private</span> <span style="color:#268bd2">protocol</span> <span style="color:#268bd2">URLTransFormer</span> {
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">canTransform</span>(url: NSURL) -&gt; <span style="color:#b58900">Bool</span>
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">transform</span>(url: NSURL) -&gt; UIViewController
 }
 
-//======================
-//transformer list start
+<span style="color:#586e75">//</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span>
+<span style="color:#586e75">//</span><span style="color:#586e75">t</span><span style="color:#586e75">r</span><span style="color:#586e75">a</span><span style="color:#586e75">n</span><span style="color:#586e75">s</span><span style="color:#586e75">f</span><span style="color:#586e75">o</span><span style="color:#586e75">r</span><span style="color:#586e75">m</span><span style="color:#586e75">e</span><span style="color:#586e75">r</span><span style="color:#586e75"> </span><span style="color:#586e75">l</span><span style="color:#586e75">i</span><span style="color:#586e75">s</span><span style="color:#586e75">t</span><span style="color:#586e75"> </span><span style="color:#586e75">s</span><span style="color:#586e75">t</span><span style="color:#586e75">a</span><span style="color:#586e75">r</span><span style="color:#586e75">t</span>
 
-private struct Page1Transformer: URLTransFormer {
-    func canTransform(url: NSURL) -&gt; Bool {
-        if url.scheme == &#34;mydomain&#34; {
-            return true
+<span style="color:#268bd2">private</span> <span style="color:#268bd2">struct</span> <span style="color:#268bd2">Page1Transformer</span>: URLTransFormer {
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">canTransform</span>(url: NSURL) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#719e07">if</span> url.scheme == <span style="color:#2aa198">&#34;</span><span style="color:#2aa198">mydomain</span><span style="color:#2aa198">&#34;</span> {
+            <span style="color:#719e07">return</span> <span style="color:#cb4b16">true</span>
         }
-        return false
+        <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span>
     }
-    func transform(url: NSURL) -&gt; UIViewController {
-        return SomeViewController(url: url)
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">transform</span>(url: NSURL) -&gt; UIViewController {
+        <span style="color:#719e07">return</span> SomeViewController(url: url)
     }
 }
 
-//tranformer list end
-//===================
+<span style="color:#586e75">//</span><span style="color:#586e75">t</span><span style="color:#586e75">r</span><span style="color:#586e75">a</span><span style="color:#586e75">n</span><span style="color:#586e75">f</span><span style="color:#586e75">o</span><span style="color:#586e75">r</span><span style="color:#586e75">m</span><span style="color:#586e75">e</span><span style="color:#586e75">r</span><span style="color:#586e75"> </span><span style="color:#586e75">l</span><span style="color:#586e75">i</span><span style="color:#586e75">s</span><span style="color:#586e75">t</span><span style="color:#586e75"> </span><span style="color:#586e75">e</span><span style="color:#586e75">n</span><span style="color:#586e75">d</span>
+<span style="color:#586e75">//</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span><span style="color:#586e75">=</span>
 
-struct URLTransformer {
-    private let transformerList = [Page1Transformer()]
-    func transform(url: NSURL) -&gt; UIViewController? {
-        for transformer in transformerList {
-            if transformer.canTransform(url) {
-                return transformer.transform(url)
+<span style="color:#268bd2">struct</span> <span style="color:#268bd2">URLTransformer</span> {
+    <span style="color:#268bd2">private</span> <span style="color:#268bd2">let</span> <span style="color:#268bd2">transformerList</span> = [Page1Transformer()]
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">transform</span>(url: NSURL) -&gt; UIViewController? {
+        <span style="color:#719e07">for</span> transformer <span style="color:#719e07">in</span> transformerList {
+            <span style="color:#719e07">if</span> transformer.canTransform(url) {
+                <span style="color:#719e07">return</span> transformer.transform(url)
             }
         }
-        return nil
+        <span style="color:#719e07">return</span> <span style="color:#cb4b16">nil</span>
     }
 }
 </code></pre></div><p>这样页面转换逻辑就变成相对的，客户端同一个按钮可以根据服务器返回的链接形式打开不同的页面。这里服务器返回的链接一定要是绝对的完整路径，因为这个链接是在做一个唯一性的标识。</p>
 <h4 id="描述一种相对的关系">描述一种相对的关系</h4>
 <p>程序运行逻辑里有许多部分是要描述一种关系，例如注册页面在用户名密码通过格式验证之后提交按钮才可用</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import ReactiveUIKit
-import ReactiveKit
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">import</span> <span style="color:#268bd2">ReactiveUIKit</span>
+<span style="color:#268bd2">import</span> <span style="color:#268bd2">ReactiveKit</span>
 
 ……
 
-combineLatest(usernameField.rText, passwordField.rText).map { username, password in
-            guard let name = username, let pass = password else {
-                return false
+combineLatest(usernameField.rText, passwordField.rText).<span style="color:#268bd2">map</span> { username, password <span style="color:#719e07">in</span>
+            <span style="color:#719e07">guard</span> <span style="color:#268bd2">let</span> <span style="color:#268bd2">name</span> = username, <span style="color:#268bd2">let</span> <span style="color:#268bd2">pass</span> = password <span style="color:#719e07">else</span> {
+                <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span>
             }
-            return name.characters.count &gt; 7 &amp;&amp; pass.characters.count &gt; 7
+            <span style="color:#719e07">return</span> name.characters.<span style="color:#268bd2">count</span> <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">7</span> <span style="color:#719e07">&amp;&amp;</span> pass.characters.<span style="color:#268bd2">count</span> <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">7</span>
         }.bindTo(submitButton.rEnabled)
 
 ……

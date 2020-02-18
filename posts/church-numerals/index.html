@@ -59,42 +59,42 @@ func zero&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T { return {x in return x} } func ad
 
 		<div class="markdown">
 			<p>复合数据只要拥有满足一定条件的构造函数、选择函数和约束规则，甚至不需要是由基本数据复合，church 计数是一个以 lambda 表达式为唯一元素，构建数值、数值运算等编程要素的系统，在church 计数中 0 和 加1 运算分别被定义为</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func zero&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T {
-    return {x in
-        return x}
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">zero</span>&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T {
+    <span style="color:#719e07">return</span> {x <span style="color:#719e07">in</span>
+        <span style="color:#719e07">return</span> x}
 }
 
-func add_1&lt;T&gt;(n:(T-&gt;T) -&gt; T-&gt;T) -&gt; (T-&gt;T) -&gt; T-&gt;T {
-    return {f in
-        return {x in
-            return f(n(f)(x))
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">add_1</span>&lt;T&gt;(n:(T-&gt;T) -&gt; T-&gt;T) -&gt; (T-&gt;T) -&gt; T-&gt;T {
+    <span style="color:#719e07">return</span> {f <span style="color:#719e07">in</span>
+        <span style="color:#719e07">return</span> {x <span style="color:#719e07">in</span>
+            <span style="color:#719e07">return</span> f(n(f)(x))
         }
     }
 }
 </code></pre></div><p>0 是一个以函数为参数返回一个函数的过程，加1 运算是作用于类似 0 这样的过程之上返回一个新过程的函数，将 0 带入 加1 运算得到 1 的定义，带入 1 得到 2 的定义</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func one&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T {
-    return {x in
-        return f(x)}
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">one</span>&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T {
+    <span style="color:#719e07">return</span> {x <span style="color:#719e07">in</span>
+        <span style="color:#719e07">return</span> f(x)}
 }
 
-func two&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T {
-    return {x in
-        return f(f(x))
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">two</span>&lt;T&gt;(f:(T-&gt;T)) -&gt; T-&gt;T {
+    <span style="color:#719e07">return</span> {x <span style="color:#719e07">in</span>
+        <span style="color:#719e07">return</span> f(f(x))
     }
 }
 </code></pre></div><p>形式上讲 church 计数的正整数可以看做应用参数函数的过程，0 是应用 0 次直接返回原值，1 是返回应用 1 次得到的返回值，以此类推。加法的定义是先应用第一个加数次，再应用第二个加数次，乘法是应用次数之积次</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func plus&lt;T&gt;(operand1 operand1: (T-&gt;T) -&gt; T-&gt;T, operand2: (T-&gt;T) -&gt; T-&gt;T) -&gt; (T-&gt;T) -&gt; T-&gt;T {
-    return {f in
-        return {x in
-            return operand2(f)(operand1(f)(x))
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">plus</span>&lt;T&gt;(operand1 operand1: (T-&gt;T) -&gt; T-&gt;T, operand2: (T-&gt;T) -&gt; T-&gt;T) -&gt; (T-&gt;T) -&gt; T-&gt;T {
+    <span style="color:#719e07">return</span> {f <span style="color:#719e07">in</span>
+        <span style="color:#719e07">return</span> {x <span style="color:#719e07">in</span>
+            <span style="color:#719e07">return</span> operand2(f)(operand1(f)(x))
         }
     }
 }
 
-func mult&lt;T&gt;(operand1 operand1: (T-&gt;T) -&gt; T-&gt;T, operand2: (T-&gt;T) -&gt; T-&gt;T) -&gt; (T-&gt;T) -&gt; T-&gt;T {
-    return {f in
-        return {x in
-            return operand2(operand1(f))(x)
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">mult</span>&lt;T&gt;(operand1 operand1: (T-&gt;T) -&gt; T-&gt;T, operand2: (T-&gt;T) -&gt; T-&gt;T) -&gt; (T-&gt;T) -&gt; T-&gt;T {
+    <span style="color:#719e07">return</span> {f <span style="color:#719e07">in</span>
+        <span style="color:#719e07">return</span> {x <span style="color:#719e07">in</span>
+            <span style="color:#719e07">return</span> operand2(operand1(f))(x)
         }
     }
 }

@@ -62,57 +62,57 @@ func evenFibs1(n: Int) -&gt; Array&lt;Int&gt; { var result = Array&lt;Int&gt;() 
 		<div class="markdown">
 			<p>对于常见的过程式编程语言赋值行为和定义变量是同一种形式，都是用等号进行。对于函数式编程语言来说定义和赋值有着显著区别。</p>
 <p>由于过程式编程更”容易”进行赋值所以经常采用在整个作用过程中使用起记录作用的状态变量，用一个获取 Fibonacci 前N 项中偶数的函数做示例：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func evenFibs1(n: Int) -&gt; Array&lt;Int&gt; {
-    var result = Array&lt;Int&gt;()
-    var x = 0, y = 1, count = n
-    result.append(0)
-    while count &gt; 2 {
-        (x, y) = (y, x+y)
-        if y%2 == 0 { result.append(y) }
-        count--
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">evenFibs1</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt; {
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">result</span> = <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;()
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">x</span> = <span style="color:#2aa198">0</span>, y = <span style="color:#2aa198">1</span>, <span style="color:#268bd2">count</span> = n
+    result.append(<span style="color:#2aa198">0</span>)
+    <span style="color:#719e07">while</span> <span style="color:#268bd2">count</span> <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">2</span> {
+        (x, y) = (y, x<span style="color:#719e07">+</span>y)
+        <span style="color:#719e07">if</span> y<span style="color:#719e07">%</span><span style="color:#2aa198">2</span> == <span style="color:#2aa198">0</span> { result.append(y) }
+        <span style="color:#268bd2">count</span><span style="color:#719e07">--</span>
     }
-    return result
+    <span style="color:#719e07">return</span> result
 }
 
-func evenFibs2(n: Int) -&gt; Array&lt;Int&gt; {
-    func fib(n: Int) -&gt; Int {
-        var tmpArray = [0, 1]
-        func fib2Inside(m: Int) -&gt; Int {
-            if m &gt;= tmpArray.count {
-                tmpArray.append(fib2Inside(m-1) + fib2Inside(m-2))
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">evenFibs2</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt; {
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">fib</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+        <span style="color:#268bd2">var</span> <span style="color:#268bd2">tmpArray</span> = [<span style="color:#2aa198">0</span>, <span style="color:#2aa198">1</span>]
+        <span style="color:#268bd2">func</span> <span style="color:#268bd2">fib2Inside</span>(m: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+            <span style="color:#719e07">if</span> m <span style="color:#719e07">&gt;=</span> tmpArray.<span style="color:#268bd2">count</span> {
+                tmpArray.append(fib2Inside(m<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>) <span style="color:#719e07">+</span> fib2Inside(m<span style="color:#719e07">-</span><span style="color:#2aa198">2</span>))
             }
-            return tmpArray[m]
+            <span style="color:#719e07">return</span> tmpArray[m]
         }
-        return fib2Inside(n)
+        <span style="color:#719e07">return</span> fib2Inside(n)
     }
-    func isEven(n: Int) -&gt; Bool {
-        if n%2 == 0 { return true }
-        else { return false }
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">isEven</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Bool</span> {
+        <span style="color:#719e07">if</span> n<span style="color:#719e07">%</span><span style="color:#2aa198">2</span> == <span style="color:#2aa198">0</span> { <span style="color:#719e07">return</span> <span style="color:#cb4b16">true</span> }
+        <span style="color:#719e07">else</span> { <span style="color:#719e07">return</span> <span style="color:#cb4b16">false</span> }
     }
-    return Array&lt;Int&gt;(0..&lt;n).map(fib).filter(isEven)
+    <span style="color:#719e07">return</span> <span style="color:#b58900">Array</span>&lt;<span style="color:#b58900">Int</span>&gt;(<span style="color:#2aa198">0.</span>.&lt;n).<span style="color:#268bd2">map</span>(fib).<span style="color:#268bd2">filter</span>(isEven)
 }
 
 </code></pre></div><p>方法一中使用一个局部变量作为盛放结果的容器，不断将这一变量赋值为新的值，在方法的最后返回这个值，而方法二则是直接作用于一个数组得到结果。</p>
 <p>这两种方法对比，显然方法一的效率更好一些，方法二是在模块化的方面更显著一些，模块化意味着这个方法很容易抽象为一个对数组每个值作用然后过滤的函数，作用函数和过滤函数都可以轻易的更换，而方法一的变更就没有那么容易了。事实上方法二里面的 fib 函数为了求值效率是按照方法一的思路实现的。</p>
 <p>因为使用赋值带来的另一个区别是，过程式编程语言中不同语句之间的顺序对于程序正确运行来说很重要，对比求阶乘的两种写法：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func factorial1(n: Int) -&gt; Int {
-    var product = 1, counter = 1
-    while counter &lt;= n {
-        product = counter*product
-        counter+=1
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#268bd2">func</span> <span style="color:#268bd2">factorial1</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#268bd2">var</span> <span style="color:#268bd2">product</span> = <span style="color:#2aa198">1</span>, counter = <span style="color:#2aa198">1</span>
+    <span style="color:#719e07">while</span> counter <span style="color:#719e07">&lt;=</span> n {
+        product = counter<span style="color:#719e07">*</span>product
+        counter<span style="color:#719e07">+=</span><span style="color:#2aa198">1</span>
     }
-    return product
+    <span style="color:#719e07">return</span> product
 }
 
-func factorial2(n: Int) -&gt; Int {
-    func iter(product product: Int, counter: Int) -&gt; Int {
-        if counter &gt; n {
-            return product
-        } else {
-            return iter(product: counter*product, counter: counter+1)
+<span style="color:#268bd2">func</span> <span style="color:#268bd2">factorial2</span>(n: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+    <span style="color:#268bd2">func</span> <span style="color:#268bd2">iter</span>(product product: <span style="color:#b58900">Int</span>, counter: <span style="color:#b58900">Int</span>) -&gt; <span style="color:#b58900">Int</span> {
+        <span style="color:#719e07">if</span> counter <span style="color:#719e07">&gt;</span> n {
+            <span style="color:#719e07">return</span> product
+        } <span style="color:#719e07">else</span> {
+            <span style="color:#719e07">return</span> iter(product: counter<span style="color:#719e07">*</span>product, counter: counter<span style="color:#719e07">+</span><span style="color:#2aa198">1</span>)
         }
     }
-    return iter(product: 1, counter: 1)
+    <span style="color:#719e07">return</span> iter(product: <span style="color:#2aa198">1</span>, counter: <span style="color:#2aa198">1</span>)
 }
 </code></pre></div><p>方法一中while循环里的语句是绝对不能调换位置的。说明这个问题的一个更好的例子是，下面这两种定义 x y 的方法</p>
 <div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"> y = x * 2
